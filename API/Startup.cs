@@ -1,22 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using API.Models;
+using API.Data;
+using API.Repositories;
+using API.Token;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using API.Extensions;
 
 namespace API
 {
     public class Startup
     {
-        private readonly IConfiguration _config; 
+        private readonly IConfiguration _config;
 
         public Startup(IConfiguration config)
         {
@@ -28,12 +30,17 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options =>
-            {
-                
-            })
+            services.AddApplicationServices(_config);
+
+            services.AddCors();
+
+            services.AddIdentityServices(_config);
 
             services.AddControllers();
+
+            services.AddScoped<IDataContext>(provider => provider.GetService<DataContext>());
+
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +54,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 
             app.UseAuthorization();
 
