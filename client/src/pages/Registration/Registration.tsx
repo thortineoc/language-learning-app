@@ -1,15 +1,14 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from "react";
+import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
 
-interface Props {
-    
-}
+interface Props {}
 
 function Registration({}: Props): ReactElement {
-    return (
-        <div>
-            Register
-        </div>
-    )
+  return (
+    <div>
+      <RegistrationForm />
+    </div>
+  );
 }
 
-export default Registration
+export default Registration;
