@@ -44,8 +44,7 @@ namespace API.Repositories
             var itemToUpdate = await _context.Users.FindAsync(user.Id);
             if (itemToUpdate == null)
                 throw new NullReferenceException();
-            if (user.Name != null) itemToUpdate.Name = user.Name;
-            if (user.Surname != null) itemToUpdate.Surname = user.Surname;
+            if (user.UserName != null) itemToUpdate.UserName = user.UserName;
             if (user.PasswordHash != null) itemToUpdate.PasswordHash = user.PasswordHash;
             if (user.PasswordSalt != null) itemToUpdate.PasswordSalt = user.PasswordSalt;
             await _context.SaveChangesAsync();

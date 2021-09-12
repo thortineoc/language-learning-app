@@ -24,28 +24,29 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<AppUserDto>> Register(RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.Email)) return BadRequest("Email is already taken");
+            if (await EmailExists(registerDto.Email)) return BadRequest("Email is already taken");
+            if (await UserNameExists(registerDto.UserName)) return BadRequest("Username is already taken");
 
             using var hmac = new HMACSHA512();
 
             var user = new AppUser
             {
+                UserName = registerDto.UserName.ToLower(),
                 Email = registerDto.Email.ToLower(),
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                 PasswordSalt = hmac.Key,
-                Name = registerDto.Name,
-                Surname = registerDto.Surname,
-                Role = registerDto.Role
+                Role = "user"
             };
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return new UserDto
+            return new AppUserDto
             {
                 Id = user.Id,
+                UserName = user.UserName,
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user),
                 Role = user.Role
@@ -53,7 +54,7 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult<AppUserDto>> Login(LoginDto loginDto)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == loginDto.Email);
 
@@ -68,18 +69,24 @@ namespace API.Controllers
                 if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
             }
 
-            return new UserDto
+            return new AppUserDto
             {
                 Id = user.Id,
+                UserName = user.UserName,
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user),
                 Role = user.Role
             };
         }
 
-        private async Task<bool> UserExists(string email)
+        private async Task<bool> EmailExists(string email)
         {
             return await _context.Users.AnyAsync(x => x.Email == email.ToLower());
+        }
+
+        private async Task<bool> UserNameExists(string username)
+        {
+            return await _context.Users.AnyAsync(x => x.UserName == username.ToLower());
         }
     }
 }

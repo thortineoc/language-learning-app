@@ -7,15 +7,13 @@ import "./RegistrationForm.css";
 import axios from "axios";
 
 const initialValues = {
-  name: "",
-  surname: "",
+  username: "",
   email: "",
   password: "",
 };
 
 const validationSchema = Yup.object({
-  name: Yup.string().required("Required"),
-  surname: Yup.string().required("Required"),
+  username: Yup.string().required("Required"),
   email: Yup.string().email("Invalid format").required("Required"),
   password: Yup.string().required("Required"),
 });
@@ -53,10 +51,9 @@ function RegistrationForm(): ReactElement {
             <Form>
               <h3>Register</h3>
               <div className="CreateForm">
-                <TextFieldWrapper label="Name *" name="name" type="text" />
                 <TextFieldWrapper
-                  label="Surname *"
-                  name="surname"
+                  label="Username *"
+                  name="username"
                   type="text"
                 />
                 <TextFieldWrapper label="E-mail *" name="email" type="email" />

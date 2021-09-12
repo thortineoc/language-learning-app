@@ -44,8 +44,7 @@ namespace API.Controllers
             AppUser user = new()
             {
                 Id = id,
-                Name = userDTO.Name,
-                Surname = userDTO.Surname,
+                UserName = userDTO.UserName,
                 Email = userDTO.Email,
                 Role = userDTO.Role
             };
@@ -57,7 +56,7 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(long id)
         {
-            await _userRepository.Delete((long)id);
+            await _userRepository.Delete(id);
             return Ok();
         }
     }
