@@ -4,6 +4,7 @@ import React, { ReactElement } from "react";
 import * as Yup from "yup";
 import TextFieldWrapper from "../../../../shared/TextFieldWrapper/TextFieldWrapper";
 import "./RegistrationForm.css";
+import axios from "axios";
 
 const initialValues = {
   name: "",
@@ -19,8 +20,23 @@ const validationSchema = Yup.object({
   password: Yup.string().required("Required"),
 });
 
-const onSubmit = () => {
-  console.log("yes");
+const onSubmit = (
+  values: any,
+  { setSubmitting, resetForm, setErrors, setStatus }: any
+) => {
+  console.log(JSON.stringify(values));
+  axios
+    .post("https://localhost:5001/api/account/register", values)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      setStatus({ success: false });
+      setSubmitting(false);
+      setErrors({ submit: "Cannot create this user" });
+      console.log(error);
+    });
+  resetForm();
 };
 
 function RegistrationForm(): ReactElement {

@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using API.Token;
 
-namespace backend.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

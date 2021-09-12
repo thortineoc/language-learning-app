@@ -7,8 +7,6 @@ function Homepage({}: Props): ReactElement {
   return (
     <div>
       <p>Hello</p>
-      <Link to="/login">Login</Link>
-      <Link to="/register">Register</Link>
     </div>
   );
 }
