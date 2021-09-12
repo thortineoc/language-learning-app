@@ -1,15 +1,14 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from "react";
+import LoginForm from "./components/LoginForm/LoginForm";
 
-interface Props {
-    
-}
+interface Props {}
 
 function Login({}: Props): ReactElement {
-    return (
-        <div>
-            Login
-        </div>
-    )
+  return (
+    <div>
+      <LoginForm />
+    </div>
+  );
 }
 
-export default Login
+export default Login;
