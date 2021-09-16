@@ -8,9 +8,8 @@
   z-index: 100;
   width: 100%;
   top: 0;
-  background-color: rgb(31, 31, 31);
-  box-shadow: 0 0 5px 1px rgb(239, 243, 9),
-    0 0 20px 5px rgba(255, 217, 0, 0.466);
+  background-color: rgb(141, 141, 141);
+  /*box-shadow: 0 0 5px 1px rgb(9, 227, 243), 0 0 20px 5px rgba(0, 89, 255, 0.466);*/
   margin-bottom: 3rem;
   color: #fff;
 }
