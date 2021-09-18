@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { Switch, Route } from "react-router-dom";
+import CoursesCreator from "../pages/CoursesCreator/CoursesCreator";
 import CoursesDisplay from "../pages/CoursesDisplay/CoursesDisplay";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Homepage from "../pages/Homepage/Homepage";
@@ -21,7 +22,12 @@ function MainRouter(): ReactElement {
       <Route path="/register">
         <Registration />
       </Route>
-      <GuardedRoute component={UserAccount} path="/account" auth={user} />
+      <Route path="/account">
+        <UserAccount />
+      </Route>
+      <Route path="/creator">
+        <CoursesCreator />
+      </Route>
       <Route path="/">{user ? <CoursesDisplay /> : <Homepage />}</Route>
     </Switch>
   );
