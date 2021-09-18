@@ -1,5 +1,5 @@
 .navbar {
-  min-height: 2rem;
+  height: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8,8 +8,26 @@
   z-index: 100;
   width: 100%;
   top: 0;
-  background-color: rgb(141, 141, 141);
-  /*box-shadow: 0 0 5px 1px rgb(9, 227, 243), 0 0 20px 5px rgba(0, 89, 255, 0.466);*/
+  background-color: rgb(255, 208, 0);
+  box-shadow: 0 0 5px 1px rgba(255, 251, 0, 0.699),
+    0 0 20px 5px rgba(255, 208, 0, 0.288);
   margin-bottom: 3rem;
   color: #fff;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  padding: 15px;
+}
+
+.navbar-link {
+  text-decoration: none;
+}
+
+.navbar-title {
+  font-weight: 600;
+  margin-left: 5px;
 }

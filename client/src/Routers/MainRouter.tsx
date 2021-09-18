@@ -6,6 +6,7 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Homepage from "../pages/Homepage/Homepage";
 import Login from "../pages/Login/Login";
 import Registration from "../pages/Registration/Registration";
+import UserAccount from "../pages/UserAccount/UserAccount";
 import GuardedRoute from "../shared/GuardedRoute/GuardedRoute";
 import { selectUser } from "../slices/UserSlice";
 
@@ -14,19 +15,14 @@ function MainRouter(): ReactElement {
   console.log(user);
   return (
     <Switch>
-      <Route exact path="/login">
+      <Route path="/login">
         <Login />
       </Route>
-      <Route exact path="/register">
+      <Route path="/register">
         <Registration />
       </Route>
-      <GuardedRoute component={CoursesDisplay} path="/courses" auth={user} />
-      <Route exact path="/">
-        <Homepage />
-      </Route>
-      <Route path="/">
-        <ErrorPage />
-      </Route>
+      <GuardedRoute component={UserAccount} path="/account" auth={user} />
+      <Route path="/">{user ? <CoursesDisplay /> : <Homepage />}</Route>
     </Switch>
   );
 }

@@ -39,7 +39,7 @@ const onSubmit = (
 
 function RegistrationForm(): ReactElement {
   return (
-    <div className="RegistrationForm">
+    <>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -49,8 +49,9 @@ function RegistrationForm(): ReactElement {
         {(formik) => {
           return (
             <Form>
-              <h3>Register</h3>
-              <div className="CreateForm">
+              <div className="RegistrationForm">
+                <h3 className="RegistrationForm-title">Register</h3>
+
                 <TextFieldWrapper
                   label="Username *"
                   name="username"
@@ -70,7 +71,7 @@ function RegistrationForm(): ReactElement {
           );
         }}
       </Formik>
-    </div>
+    </>
   );
 }
 

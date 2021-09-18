@@ -3,6 +3,7 @@ import axios from "axios";
 import { Formik, Form } from "formik";
 import React, { ReactElement } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import * as Yup from "yup";
 import TextFieldWrapper from "../../../../shared/TextFieldWrapper/TextFieldWrapper";
 import { login } from "../../../../slices/UserSlice";
@@ -20,8 +21,9 @@ const validationSchema = Yup.object({
 
 function LoginForm(): ReactElement {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const onSubmit = (
+  const onSubmit: any = (
     values: any,
     { setSubmitting, resetForm, setErrors, setStatus }: any
   ) => {
@@ -30,12 +32,12 @@ function LoginForm(): ReactElement {
       .post("https://localhost:5001/api/account/login", values)
       .then(function (response) {
         console.log(response);
-        dispatch(login({ ...response.data, loggedIn: true }));
+        dispatch(login(response.data));
+        history.push("/");
       })
       .catch(function (error) {
         setStatus({ success: false });
         setSubmitting(false);
-        setErrors({ submit: "Cannot create this user" });
         console.log(error);
       });
     resetForm();

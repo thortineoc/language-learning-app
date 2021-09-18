@@ -2,21 +2,17 @@ import { Button } from "@material-ui/core";
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import { Business } from "@mui/icons-material";
 
-interface Props {}
-
-function Navbar({}: Props): ReactElement {
+function Navbar(): ReactElement {
   return (
     <header className="navbar">
-      <div className="navbar-logo">
-        <Link to="/">
-          <span className="navbar-title">App</span>
-        </Link>
-      </div>
-      <div className="navbar-group">
-        <Link to="/register">Register</Link>
-        <Link to="/login">Login</Link>
-      </div>
+      <Link to="/" className="navbar-link">
+        <div className="navbar-logo">
+          <Business />
+          <span className="navbar-title">Langcity</span>
+        </div>
+      </Link>
     </header>
   );
 }
