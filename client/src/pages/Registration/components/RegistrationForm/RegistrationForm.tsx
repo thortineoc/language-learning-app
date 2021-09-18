@@ -1,6 +1,6 @@
 import Button from "../../../../shared/Button/Button";
 import { Formik, Form } from "formik";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import * as Yup from "yup";
 import TextFieldWrapper from "../../../../shared/TextFieldWrapper/TextFieldWrapper";
 import "../../../../shared/Styles/Form.css";
@@ -20,26 +20,28 @@ const validationSchema = Yup.object({
   password: Yup.string().required("Required"),
 });
 
-const onSubmit = (
-  values: any,
-  { setSubmitting, resetForm, setErrors, setStatus }: any
-) => {
-  console.log(JSON.stringify(values));
-  axios
-    .post("https://localhost:5001/api/account/register", values)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      setStatus({ success: false });
-      setSubmitting(false);
-      setErrors({ submit: "Cannot create this user" });
-      console.log(error);
-    });
-  resetForm();
-};
-
 function RegistrationForm(): ReactElement {
+  const [error, setError] = useState(null);
+
+  const onSubmit = (
+    values: any,
+    { setSubmitting, resetForm, setErrors, setStatus }: any
+  ) => {
+    console.log(JSON.stringify(values));
+    axios
+      .post("https://localhost:5001/api/account/register", values)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        setStatus({ success: false });
+        setSubmitting(false);
+        setError(error.message);
+        console.log(error);
+      });
+    resetForm();
+  };
+
   return (
     <div className="CustomForm">
       <div className="CustomForm-image"></div>
@@ -71,6 +73,7 @@ function RegistrationForm(): ReactElement {
                       name="password"
                       type="password"
                     />
+                    {error && <span className="error">{error}</span>}
                   </div>
                   <div className="CustomForm-btn-wrapper">
                     <span>

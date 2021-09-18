@@ -1,7 +1,7 @@
 import Button from "../../../../shared/Button/Button";
 import axios from "axios";
 import { Formik, Form } from "formik";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import * as Yup from "yup";
@@ -24,6 +24,7 @@ const validationSchema = Yup.object({
 function LoginForm(): ReactElement {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [error, setError] = useState(null);
 
   const onSubmit: any = (
     values: any,
@@ -40,6 +41,7 @@ function LoginForm(): ReactElement {
       .catch(function (error) {
         setStatus({ success: false });
         setSubmitting(false);
+        setError(error.message);
         console.log(error);
       });
     resetForm();
@@ -71,6 +73,7 @@ function LoginForm(): ReactElement {
                       name="password"
                       type="password"
                     />
+                    {error && <span className="error">{error}</span>}
                   </div>
 
                   <div className="CustomForm-btn-wrapper">

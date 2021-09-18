@@ -98,33 +98,24 @@ export default function MenuListComposition() {
                   >
                     {user && user.role !== "admin" && (
                       <MenuItem onClick={handleClose}>
-                        <Link
-                          style={{ textDecoration: "none", color: "black" }}
-                          to="/creator"
-                        >
+                        <Link className="link" to="/creator">
                           Creator
                         </Link>
                       </MenuItem>
                     )}
                     <MenuItem onClick={handleClose}>
-                      <Link
-                        style={{ textDecoration: "none", color: "black" }}
-                        to="/"
-                      >
+                      <Link className="link" to="/">
                         Courses
                       </Link>
                     </MenuItem>
                     <MenuItem onClick={handleClose}>
-                      <Link
-                        style={{ textDecoration: "none", color: "black" }}
-                        to="/account"
-                      >
+                      <Link className="link" to="/account">
                         My account
                       </Link>
                     </MenuItem>
                     <MenuItem>
                       <Link
-                        style={{ textDecoration: "none", color: "black" }}
+                        className="link"
                         to="/"
                         onClick={() => {
                           setTimeout(() => dispatch(logout()), 0);
