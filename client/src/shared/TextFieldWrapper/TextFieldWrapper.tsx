@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { useField } from "formik";
 import TextField from "@material-ui/core/TextField";
+import "./TextFieldWrapper.css";
 
 interface Props {
   name: string;
@@ -23,7 +24,7 @@ function TextFieldWrapper({ name, ...rest }: Props): ReactElement {
   }
 
   return (
-    <div>
+    <div className="TextFieldWrapper">
       <TextField {...configField} />
     </div>
   );

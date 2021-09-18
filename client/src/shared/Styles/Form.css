@@ -1,4 +1,4 @@
-.LoginForm {
+.CustomForm {
   min-width: 50%;
   height: 500px;
   position: absolute;
@@ -11,13 +11,13 @@
   flex-direction: row;
 }
 
-.LoginForm-image {
+.CustomForm-image {
   width: 50%;
   background-color: lightcoral;
   border-radius: 20px 0 0 20px;
 }
 
-.LoginForm-form {
+.CustomForm-form {
   display: flex;
   height: 500px;
   width: 400px;
@@ -27,18 +27,19 @@
   flex-direction: column;
 }
 
-.LoginForm-title {
+.CustomForm-title {
   font-size: 3rem;
 }
 
-.Login-form-and-btn-wrapper {
+.Custom-form-and-btn-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 350px;
 }
 
-.LoginForm-btn-wrapper {
+.CustomForm-btn-wrapper {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: flex-end;
 }

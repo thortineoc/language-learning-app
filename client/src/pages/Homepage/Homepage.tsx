@@ -2,8 +2,6 @@ import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import "./Homepage.css";
 
-interface Props {}
-
 function Homepage(): ReactElement {
   return (
     <div className="Homepage">

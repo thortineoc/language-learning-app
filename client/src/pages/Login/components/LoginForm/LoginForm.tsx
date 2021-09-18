@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import Button from "../../../../shared/Button/Button";
 import axios from "axios";
 import { Formik, Form } from "formik";
 import React, { ReactElement } from "react";
@@ -7,7 +7,9 @@ import { useHistory } from "react-router";
 import * as Yup from "yup";
 import TextFieldWrapper from "../../../../shared/TextFieldWrapper/TextFieldWrapper";
 import { login } from "../../../../slices/UserSlice";
+import "../../../../shared/Styles/Form.css";
 import "./LoginForm.css";
+import { Link } from "react-router-dom";
 
 const initialValues = {
   email: "",
@@ -44,7 +46,8 @@ function LoginForm(): ReactElement {
   };
 
   return (
-    <div className="LoginForm">
+    <div className="CustomForm">
+      <div className="CustomForm-image"></div>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -54,17 +57,32 @@ function LoginForm(): ReactElement {
         {(formik) => {
           return (
             <Form>
-              <h3>Login</h3>
-              <div className="CreateForm">
-                <TextFieldWrapper label="E-mail *" name="email" type="email" />
-                <TextFieldWrapper
-                  label="Password *"
-                  name="password"
-                  type="password"
-                />
-                <Button type="submit" disabled={formik.isSubmitting}>
-                  submit
-                </Button>
+              <div className="CustomForm-form">
+                <h1 className="CustomForm-title">Login</h1>
+                <div className="Custom-form-and-btn-wrapper">
+                  <div className="CustomForm-form-fields">
+                    <TextFieldWrapper
+                      label="E-mail *"
+                      name="email"
+                      type="email"
+                    />
+                    <TextFieldWrapper
+                      label="Password *"
+                      name="password"
+                      type="password"
+                    />
+                  </div>
+
+                  <div className="CustomForm-btn-wrapper">
+                    <span>
+                      Don't have an account?{" "}
+                      <Link to="/register">Register</Link>
+                    </span>
+                    <Button type="submit" disabled={formik.isSubmitting}>
+                      SUBMIT
+                    </Button>
+                  </div>
+                </div>
               </div>
             </Form>
           );

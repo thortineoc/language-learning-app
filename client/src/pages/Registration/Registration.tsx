@@ -1,9 +1,7 @@
 import React, { ReactElement } from "react";
 import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
 
-interface Props {}
-
-function Registration({}: Props): ReactElement {
+function Registration(): ReactElement {
   return (
     <div>
       <RegistrationForm />
