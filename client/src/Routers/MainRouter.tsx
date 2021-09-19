@@ -29,6 +29,9 @@ function MainRouter(): ReactElement {
         <CoursesCreator />
       </Route>
       <Route path="/">{user ? <CoursesDisplay /> : <Homepage />}</Route>
+      <Route path="*">
+        <ErrorPage />
+      </Route>
     </Switch>
   );
 }
