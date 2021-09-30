@@ -16,19 +16,27 @@ function MainRouter(): ReactElement {
   console.log(user);
   return (
     <Switch>
-      <Route path="/login">
+      <Route exact path="/login">
         <Login />
       </Route>
-      <Route path="/register">
+      <Route exact path="/register">
         <Registration />
       </Route>
-      <Route path="/account">
-        <UserAccount />
+      <GuardedRoute
+        exact
+        path="/account"
+        auth={!!user}
+        component={UserAccount}
+      ></GuardedRoute>
+      <GuardedRoute
+        exact
+        path="/creator"
+        auth={!!user}
+        component={CoursesCreator}
+      ></GuardedRoute>
+      <Route exact path="/">
+        {user ? <CoursesDisplay /> : <Homepage />}
       </Route>
-      <Route path="/creator">
-        <CoursesCreator />
-      </Route>
-      <Route path="/">{user ? <CoursesDisplay /> : <Homepage />}</Route>
       <Route path="*">
         <ErrorPage />
       </Route>

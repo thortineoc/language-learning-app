@@ -96,34 +96,26 @@ export default function MenuListComposition() {
                     id="menu-list-grow"
                     onKeyDown={handleListKeyDown}
                   >
-                    {user && user.role !== "admin" && (
-                      <MenuItem onClick={handleClose}>
-                        <Link className="link" to="/creator">
-                          Creator
-                        </Link>
-                      </MenuItem>
+                    {user && user.role === "admin" && (
+                      <Link className="link" to="/creator">
+                        <MenuItem onClick={handleClose}>Creator</MenuItem>
+                      </Link>
                     )}
-                    <MenuItem onClick={handleClose}>
-                      <Link className="link" to="/">
-                        Courses
-                      </Link>
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <Link className="link" to="/account">
-                        My account
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link
-                        className="link"
-                        to="/"
-                        onClick={() => {
-                          setTimeout(() => dispatch(logout()), 0);
-                        }}
-                      >
-                        Logout
-                      </Link>
-                    </MenuItem>
+                    <Link className="link" to="/">
+                      <MenuItem onClick={handleClose}>Courses</MenuItem>
+                    </Link>
+                    <Link className="link" to="/account">
+                      <MenuItem onClick={handleClose}>My account</MenuItem>
+                    </Link>
+                    <Link
+                      className="link"
+                      to="/"
+                      onClick={() => {
+                        setTimeout(() => dispatch(logout()), 0);
+                      }}
+                    >
+                      <MenuItem>Logout</MenuItem>
+                    </Link>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

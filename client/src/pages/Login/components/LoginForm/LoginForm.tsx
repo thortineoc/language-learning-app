@@ -49,7 +49,11 @@ function LoginForm(): ReactElement {
 
   return (
     <div className="CustomForm">
-      <div className="CustomForm-image"></div>
+      <img
+        className="CustomForm-image"
+        src="assets/images/login.png"
+        alt="buildings"
+      ></img>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

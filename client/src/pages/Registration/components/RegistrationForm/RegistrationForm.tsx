@@ -44,7 +44,12 @@ function RegistrationForm(): ReactElement {
 
   return (
     <div className="CustomForm">
-      <div className="CustomForm-image"></div>
+      <img
+        className="CustomForm-image"
+        src="assets/images/register.png"
+        alt="buildings"
+      ></img>
+
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
