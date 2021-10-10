@@ -9,6 +9,6 @@ namespace API.Models
     public class Language
     {
         public long Id { set; get; }
-        public string name { set; get; }
+        public string Name { set; get; }
     }
 }

@@ -11,14 +11,14 @@ namespace API.Models
     public class Translation
     {
         public long Id { set; get; }
-        public string wordFrom { set; get; }
+        public string WordFrom { set; get; }
 
-        public string wordTo { set; get; }
+        public string WordTo { set; get; }
 
-        public string image { set; get; }
+        public string Image { set; get; }
 
-        public Category category { get; set; }
+        public Category Category { get; set; }
 
-        public long categoryId { get; set; }
+        public long CategoryId { get; set; }
     }
 }

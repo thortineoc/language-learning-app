@@ -11,10 +11,10 @@ namespace API.Models
     {
         public long Id { set; get; }
 
-        public string name { set; get; }
+        public string Name { set; get; }
 
-        public Course course { get; set; }
+        public Course Course { get; set; }
 
-        public long courseId { get; set; }
+        public long CourseId { get; set; }
     }
 }

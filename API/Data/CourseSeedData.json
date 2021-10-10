@@ -1,0 +1,56 @@
+[
+    {
+        "Id": 1,
+        "LanguageFrom":
+        {
+            "Id": 1,
+            "Name": "English"
+        },
+        "LanguageTo":
+        {
+            "Id": 2,
+            "Name": "French"
+        },
+        "Title": "Most popular French words",
+        "Categories":
+        [
+            {
+                "Id": 1,
+                "Name": "Furniture",
+                "Translations":
+                [
+                    {
+                        "Id": 1,
+                        "WordFrom": "chair",
+                        "WordTo": "la chaise",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 2,
+                        "WordFrom": "warderobe",
+                        "WordTo": "l'armoir",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 3,
+                        "WordFrom": "table",
+                        "WordTo": "la table",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 4,
+                        "WordFrom": "desk",
+                        "WordTo": "le bureau",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 5,
+                        "WordFrom": "carpet",
+                        "WordTo": "le tapis",
+                        "Picture": null  
+                    }
+                ]
+            }
+        ]
+    }
+]
