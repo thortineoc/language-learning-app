@@ -2,14 +2,15 @@ import React, { ReactElement } from "react";
 import FadeIn from "react-fade-in";
 import { Link } from "react-router-dom";
 import "./Homepage.css";
+import { FloatingLettersTextBuilder } from "react-animated-text-builders";
 
 function Homepage(): ReactElement {
   return (
     <div className="Homepage">
-      <FadeIn delay={250} transitionDuration={1200}>
-        <h1>
-          Welcome to <b className="Homepage-langcity">LANGCITY</b>
-        </h1>
+      <h1>
+        Welcome to <b className="Homepage-langcity">LANGCITY</b>
+      </h1>
+      <FadeIn transitionDuration={1200}>
         <p className="Homepage-description">
           An app that helps you learning languages while having fun. Level up,
           gain achievements and a lot of knowledge. Enjoy!

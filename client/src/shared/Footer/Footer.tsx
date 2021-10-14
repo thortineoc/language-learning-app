@@ -4,7 +4,7 @@ import "./Footer.css";
 function Footer(): ReactElement {
   return (
     <div className="Footer">
-      <span className="Footer-text">© Angelika Kubicka 2021</span>
+      <span className="Footer-text">2021 © Angelika Kubicka</span>
     </div>
   );
 }
