@@ -51,7 +51,7 @@ function LoginForm(): ReactElement {
     <div className="CustomForm">
       <img
         className="CustomForm-image"
-        src="assets/images/login.png"
+        src="assets/images/cityLogin.jpg"
         alt="buildings"
       ></img>
       <Formik

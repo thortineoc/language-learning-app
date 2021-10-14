@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import MainRouter from "./Routers/MainRouter";
 import Navbar from "./shared/Navbar/Navbar";
+import Footer from "./shared/Footer/Footer";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Router>
         <Navbar />
         <MainRouter />
+        <Footer />
       </Router>
     </div>
   );

@@ -13,7 +13,12 @@ function Navbar(): ReactElement {
     <header className="navbar">
       <Link to="/" className="navbar-link">
         <div className="navbar-logo">
-          <Business />
+          <img
+            src="assets/images/logo.svg"
+            alt="logo"
+            height="50px"
+            width="60px"
+          />
           <span className="navbar-title">Langcity</span>
         </div>
       </Link>

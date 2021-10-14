@@ -46,7 +46,7 @@ function RegistrationForm(): ReactElement {
     <div className="CustomForm">
       <img
         className="CustomForm-image"
-        src="assets/images/register.png"
+        src="assets/images/cityRegister.jpg"
         alt="buildings"
       ></img>
 
