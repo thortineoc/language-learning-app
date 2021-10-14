@@ -30,7 +30,7 @@ namespace API.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<AppUser> Get(long id)
+        public async Task<AppUser> GetUserById(long id)
         {
             return await _context.Users.FindAsync(id);
         }

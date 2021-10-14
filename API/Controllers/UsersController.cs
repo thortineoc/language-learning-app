@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using API.Repositories;
 using API.Models;
 using API.Dtos;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -13,14 +14,16 @@ namespace API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUserData()
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
             var user = await _userRepository.GetAll();
             return Ok(user);
@@ -29,12 +32,11 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUser(long id)
         {
-            var user = await _userRepository.Get(id);
+            var user = await _userRepository.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
             }
-
             return Ok(user);
         }
 

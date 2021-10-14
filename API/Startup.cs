@@ -41,8 +41,6 @@ namespace API
             services.AddControllers();
 
             services.AddScoped<IDataContext>(provider => provider.GetService<DataContext>());
-
-            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

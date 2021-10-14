@@ -7,7 +7,7 @@ namespace API.Repositories
 {
     public interface IUserRepository
     {
-        Task<AppUser> Get(long id);
+        Task<AppUser> GetUserById(long id);
 
         Task<IEnumerable<AppUser>> GetAll();
 
