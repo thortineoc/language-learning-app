@@ -1,4 +1,4 @@
-.Footer {
+.footer {
   background-color: rgb(20, 20, 20);
   color: white;
   position: absolute;
@@ -8,8 +8,8 @@
   display: flex;
   align-items: center;
   height: 50px;
-}
 
-.Footer-text {
-  margin-left: 20px;
+  .footer-text {
+    margin-left: 20px;
+  }
 }

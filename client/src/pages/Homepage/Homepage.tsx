@@ -1,8 +1,7 @@
 import React, { ReactElement } from "react";
 import FadeIn from "react-fade-in";
 import { Link } from "react-router-dom";
-import "./Homepage.css";
-import { FloatingLettersTextBuilder } from "react-animated-text-builders";
+import "./Homepage.scss";
 
 function Homepage(): ReactElement {
   return (

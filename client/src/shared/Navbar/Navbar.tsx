@@ -1,7 +1,6 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
-import "./Navbar.css";
-import { Business } from "@mui/icons-material";
+import "./Navbar.scss";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../slices/UserSlice";
 import MenuListComposition from "../DropdownMenu/DropdownMenu";

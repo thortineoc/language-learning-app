@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import "./Button.css";
+import "./Button.scss";
 
 function Button({ children, ...rest }: any): ReactElement {
   return (

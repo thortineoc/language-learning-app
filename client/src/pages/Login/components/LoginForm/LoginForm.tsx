@@ -7,8 +7,7 @@ import { useHistory } from "react-router";
 import * as Yup from "yup";
 import TextFieldWrapper from "../../../../shared/TextFieldWrapper/TextFieldWrapper";
 import { login } from "../../../../slices/UserSlice";
-import "../../../../shared/Styles/Form.css";
-import "./LoginForm.css";
+import "../../../../shared/Styles/Form.scss";
 import { Link } from "react-router-dom";
 
 const initialValues = {

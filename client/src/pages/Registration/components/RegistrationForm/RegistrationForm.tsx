@@ -3,8 +3,6 @@ import { Formik, Form } from "formik";
 import React, { ReactElement, useState } from "react";
 import * as Yup from "yup";
 import TextFieldWrapper from "../../../../shared/TextFieldWrapper/TextFieldWrapper";
-import "../../../../shared/Styles/Form.css";
-import "./RegistrationForm.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -17,7 +15,14 @@ const initialValues = {
 const validationSchema = Yup.object({
   username: Yup.string().required("Required"),
   email: Yup.string().email("Invalid format").required("Required"),
-  password: Yup.string().required("Required"),
+  password: Yup.string()
+    .required("Required")
+    .min(8, "Password must have minimum 8 characters")
+    .max(128, "Password can have maximum 128 characters")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
+    ),
 });
 
 function RegistrationForm(): ReactElement {
