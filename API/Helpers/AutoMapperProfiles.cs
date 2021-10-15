@@ -13,6 +13,7 @@ namespace API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<UpdateUserDto, AppUser>();
+            CreateMap<RegisterDto, AppUser>();
         }
     }
 }

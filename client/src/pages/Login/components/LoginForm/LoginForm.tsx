@@ -67,9 +67,9 @@ function LoginForm(): ReactElement {
                 <div className="Custom-form-and-btn-wrapper">
                   <div className="CustomForm-form-fields">
                     <TextFieldWrapper
-                      label="E-mail *"
-                      name="email"
-                      type="email"
+                      label="Username *"
+                      name="username"
+                      type="text"
                     />
                     <TextFieldWrapper
                       label="Password *"

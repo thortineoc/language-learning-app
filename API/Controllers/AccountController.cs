@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 using API.Token;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -16,11 +17,14 @@ namespace API.Controllers
     {
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
-        public AccountController(DataContext context, ITokenService tokenService)
+        private readonly IMapper _mapper;
+        public AccountController(DataContext context, ITokenService tokenService, IMapper mapper)
         {
             _tokenService = tokenService;
 
             _context = context;
+
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
@@ -29,16 +33,15 @@ namespace API.Controllers
             if (await EmailExists(registerDto.Email)) return BadRequest("Email is already taken");
             if (await UserNameExists(registerDto.UserName)) return BadRequest("Username is already taken");
 
+            var user = _mapper.Map<AppUser>(registerDto);
+
             using var hmac = new HMACSHA512();
 
-            var user = new AppUser
-            {
-                UserName = registerDto.UserName.ToLower(),
-                Email = registerDto.Email.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key,
-                Role = "user"
-            };
+            user.UserName = registerDto.UserName.ToLower();
+            user.Email = registerDto.Email.ToLower();
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+            user.PasswordSalt = hmac.Key;
+            user.Role = "user";
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -56,9 +59,9 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<AppUserDto>> Login(LoginDto loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == loginDto.Email);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.UserName);
 
-            if (user == null) return Unauthorized("Invalid email");
+            if (user == null) return Unauthorized("Invalid username");
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
@@ -66,7 +69,7 @@ namespace API.Controllers
 
             for (int i = 0; i < computedHash.Length; i++)
             {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
             }
 
             return new AppUserDto
