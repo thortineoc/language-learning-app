@@ -11,12 +11,12 @@ import "../../../../shared/Styles/Form.scss";
 import { Link } from "react-router-dom";
 
 const initialValues = {
-  email: "",
+  username: "",
   password: "",
 };
 
 const validationSchema = Yup.object({
-  email: Yup.string().email("Invalid format").required("Required"),
+  username: Yup.string().required("Required"),
   password: Yup.string().required("Required"),
 });
 
@@ -26,8 +26,8 @@ function LoginForm(): ReactElement {
   const [error, setError] = useState(null);
 
   const onSubmit: any = (
-    values: any,
-    { setSubmitting, resetForm, setErrors, setStatus }: any
+    values: { username: string; password: string },
+    { setSubmitting, resetForm, setStatus }: any
   ) => {
     console.log(JSON.stringify(values));
     axios
@@ -40,8 +40,7 @@ function LoginForm(): ReactElement {
       .catch(function (error) {
         setStatus({ success: false });
         setSubmitting(false);
-        setError(error.message);
-        console.log(error);
+        setError(error.response.data);
       });
     resetForm();
   };

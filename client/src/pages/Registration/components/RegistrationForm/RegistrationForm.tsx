@@ -41,7 +41,7 @@ function RegistrationForm(): ReactElement {
       .catch(function (error) {
         setStatus({ success: false });
         setSubmitting(false);
-        setError(error.message);
+        setError(error.response.data);
         console.log(error);
       });
     resetForm();
