@@ -10,6 +10,7 @@ const initialValues = {
   username: "",
   email: "",
   password: "",
+  confirmPassword: "",
 };
 
 const validationSchema = Yup.object({
@@ -23,13 +24,16 @@ const validationSchema = Yup.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}/,
       "Password must contain at least one uppercase letter, one lowercase letter and one number"
     ),
+  confirmPassword: Yup.string()
+    .required("Required")
+    .oneOf([Yup.ref("password"), null], "Passwords must match"),
 });
 
 function RegistrationForm(): ReactElement {
   const [error, setError] = useState(null);
 
   const onSubmit = (
-    values: any,
+    values: { username: string; email: string; password: string },
     { setSubmitting, resetForm, setErrors, setStatus }: any
   ) => {
     console.log(JSON.stringify(values));
@@ -82,6 +86,11 @@ function RegistrationForm(): ReactElement {
                       label="Password *"
                       name="password"
                       type="password"
+                    />
+                    <TextFieldWrapper
+                      label="Confirm password *"
+                      name="confirmPassword"
+                      type="confirmPassword"
                     />
                     {error && <span className="error">{error}</span>}
                   </div>

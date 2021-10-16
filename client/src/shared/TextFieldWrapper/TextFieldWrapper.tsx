@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { useField } from "formik";
 import TextField from "@material-ui/core/TextField";
-import "./TextFieldWrapper.css";
+import "./TextFieldWrapper.scss";
 
 interface Props {
   name: string;

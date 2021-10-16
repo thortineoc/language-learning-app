@@ -15,7 +15,12 @@ namespace API.Repositories
         }
         public async Task<IEnumerable<Course>> GetAll()
         {
-            return await _context.Courses.ToListAsync();
+            var courses = _context.Courses
+                .Include(course => course.LanguageFrom)
+                .Include(course => course.LanguageTo)
+                .ToListAsync();
+
+            return await courses;
         }
     }
 }

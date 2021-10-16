@@ -13,6 +13,8 @@ namespace API.Models
 
         public string Name { set; get; }
 
+        public ICollection<Translation> Translations { set; get; }
+
         public Course Course { get; set; }
 
         public long CourseId { get; set; }
