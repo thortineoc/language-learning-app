@@ -22,5 +22,17 @@ namespace API.Repositories
 
             return await courses;
         }
+
+        public async Task<Course> GetCourseById(long id)
+        {
+            var course = _context.Courses
+                .Include(course => course.LanguageFrom)
+                .Include(course => course.LanguageTo)
+                .Include(course => course.Categories)
+                .ThenInclude(category => category.Translations)
+                .FirstOrDefaultAsync(course => course.Id == id);
+
+            return await course;
+        }
     }
 }

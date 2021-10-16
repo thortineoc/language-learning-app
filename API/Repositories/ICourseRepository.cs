@@ -9,5 +9,6 @@ namespace API.Repositories
     public interface ICourseRepository
     {
         Task<IEnumerable<Course>> GetAll();
+        Task<Course> GetCourseById(long id);
     }
 }

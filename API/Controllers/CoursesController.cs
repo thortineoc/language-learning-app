@@ -21,9 +21,20 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
         {
-            var course = await _courseRepository.GetAll();
+            var courses = await _courseRepository.GetAll();
+            return Ok(courses);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Course>> GetCourse(long id)
+        {
+            var course = await _courseRepository.GetCourseById(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
             return Ok(course);
         }
     }
