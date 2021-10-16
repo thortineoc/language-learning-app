@@ -1,16 +1,6 @@
 [
     {
         "Id": 1,
-        "LanguageFrom":
-        {
-            "Id": 1,
-            "Name": "English"
-        },
-        "LanguageTo":
-        {
-            "Id": 2,
-            "Name": "French"
-        },
         "Title": "Most popular French words",
         "Categories":
         [
@@ -47,6 +37,125 @@
                         "Id": 5,
                         "WordFrom": "carpet",
                         "WordTo": "le tapis",
+                        "Picture": null  
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Id": 2,
+        "Title": "Esperanto for beginners",
+        "Categories":
+        [
+            {
+                "Id": 2,
+                "Name": "Animals",
+                "Translations":
+                [
+                    {
+                        "Id": 6,
+                        "WordFrom": "dog",
+                        "WordTo": "hundo",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 7,
+                        "WordFrom": "cat",
+                        "WordTo": "kato",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 8,
+                        "WordFrom": "fish",
+                        "WordTo": "fiŝo",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 9,
+                        "WordFrom": "horse",
+                        "WordTo": "ĉevalo",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 10,
+                        "WordFrom": "cow",
+                        "WordTo": "bovino",
+                        "Picture": null  
+                    }
+                ]
+            },
+            {
+                "Id": 3,
+                "Name": "Numbers",
+                "Translations":
+                [
+                    {
+                        "Id": 11,
+                        "WordFrom": "one",
+                        "WordTo": "unu",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 12,
+                        "WordFrom": "du",
+                        "WordTo": "kato",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 13,
+                        "WordFrom": "tri",
+                        "WordTo": "fiŝo",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 14,
+                        "WordFrom": "kvar",
+                        "WordTo": "ĉevalo",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 15,
+                        "WordFrom": "kvin",
+                        "WordTo": "bovino",
+                        "Picture": null  
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Id": 3,
+        "Title": "Cambridge English C1 Advanced",
+        "Categories":
+        [
+            {
+                "Id": 4,
+                "Name": "Feelings",
+                "Translations":
+                [
+                    {
+                        "Id": 16,
+                        "WordFrom": "rozwścieczony",
+                        "WordTo": "enraged",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 17,
+                        "WordFrom": "zakłopotany",
+                        "WordTo": "sheepish",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 18,
+                        "WordFrom": "zadowolony z siebie",
+                        "WordTo": "smug",
+                        "Picture": null  
+                    },
+                    {
+                        "Id": 19,
+                        "WordFrom": "zagrożony",
+                        "WordTo": "threatened",
                         "Picture": null  
                     }
                 ]

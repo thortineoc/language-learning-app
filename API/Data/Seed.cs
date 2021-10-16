@@ -10,12 +10,34 @@ namespace API.Data
 {
     public class Seed
     {
+        public static async Task SeedLanguages(DataContext context)
+        {
+            if (await context.Languages.AnyAsync()) return;
+
+            var languageData = await System.IO.File.ReadAllTextAsync("Data/LanguageSeedData.json");
+            var languages = JsonSerializer.Deserialize<List<Language>>(languageData);
+            foreach (var language in languages)
+            {
+                context.Languages.Add(language);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+
         public static async Task SeedCourses(DataContext context)
         {
             if (await context.Courses.AnyAsync()) return;
 
             var courseData = await System.IO.File.ReadAllTextAsync("Data/CourseSeedData.json");
             var courses = JsonSerializer.Deserialize<List<Course>>(courseData);
+            courses[0].LanguageFrom = context.Languages.FirstOrDefault(x => x.Id == 1);
+            courses[0].LanguageTo = context.Languages.FirstOrDefault(x => x.Id == 2);
+            courses[1].LanguageFrom = context.Languages.FirstOrDefault(x => x.Id == 1);
+            courses[1].LanguageTo = context.Languages.FirstOrDefault(x => x.Id == 3);
+            courses[2].LanguageFrom = context.Languages.FirstOrDefault(x => x.Id == 4);
+            courses[2].LanguageTo = context.Languages.FirstOrDefault(x => x.Id == 1);
+
             foreach (var course in courses)
             {
                 context.Courses.Add(course);

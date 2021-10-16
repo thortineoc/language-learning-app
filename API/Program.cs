@@ -23,6 +23,7 @@ namespace API
             {
                 var context = services.GetRequiredService<DataContext>();
                 await context.Database.MigrateAsync();
+                await Seed.SeedLanguages(context);
                 await Seed.SeedCourses(context);
             }
             catch (Exception ex)
