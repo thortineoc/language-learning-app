@@ -20,6 +20,10 @@ interface Props {
 
 function CourseTile({ data }: Props): ReactElement {
   const n = 12;
+  function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
+  }
+  let num = getRandomInt(12);
   return (
     <div className="CourseTile">
       <Link to={`course/${data.id}`} className="link">
@@ -28,7 +32,14 @@ function CourseTile({ data }: Props): ReactElement {
       <Link to={`course/${data.id}`}>
         <div className="CourseTile-building">
           {[...Array(n)].map((e, i) => (
-            <div className="CourseTile-building-window" key={i}></div>
+            <div
+              className={
+                i * 2 === num || i === num || i * 3 === num
+                  ? "CourseTile-building-window-yellow"
+                  : "CourseTile-building-window-blue"
+              }
+              key={i}
+            ></div>
           ))}
         </div>
       </Link>

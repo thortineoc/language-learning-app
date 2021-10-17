@@ -6,6 +6,39 @@
   margin: 0 10%;
   padding: 1% 5%;
   border-radius: 30px;
+  margin-bottom: 20px;
+
+  .CourseDetails-categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .CourseDetails-subtitle {
+    color: black;
+    font-size: 1.5rem;
+  }
+
+  .Category-symbol {
+    height: 100px;
+    width: 100px;
+    border: 2px solid $bright_blue;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+
+    .Category-symbol-inner {
+      height: 90px;
+      width: 90px;
+      border: 4px solid $dark_blue;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
+  }
 
   .CourseDetails-title-buttons-row {
     display: flex;

@@ -5,6 +5,18 @@ import { useParams } from "react-router";
 import "./CourseDetails.scss";
 import { Link } from "react-router-dom";
 
+interface Translation {
+  id: number;
+  wordFrom: string;
+  wordTo: string;
+}
+
+interface Category {
+  int: number;
+  name: string;
+  translations: Array<Translation>;
+}
+
 interface CourseInfoType {
   id: number;
   title: string;
@@ -16,7 +28,7 @@ interface CourseInfoType {
     id: number;
     name: string;
   };
-  categories: [];
+  categories: Array<Category>;
 }
 
 function CourseDetails(): ReactElement {
@@ -51,6 +63,16 @@ function CourseDetails(): ReactElement {
         <span>
           {`${courseInfo?.languageFrom?.name} - ${courseInfo?.languageTo?.name}`}
         </span>
+      </div>
+      <div className="CourseDetails-container">
+        <span className="CourseDetails-subtitle">Categories</span>
+        <div className="CourseDetails-categories">
+          {courseInfo?.categories.map((category, i) => (
+            <div className="Category-symbol">
+              <div className="Category-symbol-inner">{category.name}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

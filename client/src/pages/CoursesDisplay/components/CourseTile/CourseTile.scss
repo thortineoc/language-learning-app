@@ -18,7 +18,7 @@
     margin: 10px 0;
     width: 120px;
     height: 220px;
-    background-color: $light_gray;
+    background-color: black;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -38,8 +38,12 @@
       cursor: pointer;
     }
 
-    .CourseTile-building-window {
+    .CourseTile-building-window-blue {
       background-color: $dark_blue;
+    }
+
+    .CourseTile-building-window-yellow {
+      background-color: yellow;
     }
   }
 }
