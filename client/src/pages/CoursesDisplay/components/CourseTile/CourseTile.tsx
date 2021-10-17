@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { Link } from "react-router-dom";
 import "./CourseTile.scss";
 
 interface Props {
@@ -22,11 +23,13 @@ function CourseTile({ data }: Props): ReactElement {
   return (
     <div className="CourseTile">
       {data.title}
-      <div className="CourseTile-building">
-        {[...Array(n)].map((e, i) => (
-          <div className="CourseTile-building-window" key={i}></div>
-        ))}
-      </div>
+      <Link to={`course/${data.id}`}>
+        <div className="CourseTile-building">
+          {[...Array(n)].map((e, i) => (
+            <div className="CourseTile-building-window" key={i}></div>
+          ))}
+        </div>
+      </Link>
       {data.languageFrom.name} - {data.languageTo.name}
     </div>
   );

@@ -1,9 +1,8 @@
-@import "../../../shared/Styles/Colors.scss";
+@import "../../../../shared/Styles/Colors.scss";
 
 .CourseTile {
   width: 100%;
   height: 350px;
-  border: 1px solid wheat;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { Switch, Route } from "react-router-dom";
+import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import CoursesCreator from "../pages/CoursesCreator/CoursesCreator";
 import CoursesDisplay from "../pages/CoursesDisplay/CoursesDisplay";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
@@ -14,6 +15,7 @@ import { selectUser } from "../slices/UserSlice";
 function MainRouter(): ReactElement {
   const user = useSelector(selectUser);
   console.log(user);
+
   return (
     <Switch>
       <Route exact path="/login">
@@ -33,6 +35,12 @@ function MainRouter(): ReactElement {
         path="/creator"
         auth={!!user}
         component={CoursesCreator}
+      ></GuardedRoute>
+      <GuardedRoute
+        exact
+        path="/course/:id"
+        auth={!!user}
+        component={CourseDetails}
       ></GuardedRoute>
       <Route exact path="/">
         {user ? <CoursesDisplay /> : <Homepage />}

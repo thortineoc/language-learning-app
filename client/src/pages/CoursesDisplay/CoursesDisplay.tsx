@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { ReactElement, useEffect, useState } from "react";
-import CourseTile from "./components/CourseTile";
+import CourseTile from "./components/CourseTile/CourseTile";
 import "./CoursesDisplay.scss";
 
 function CoursesDisplay(): ReactElement {
@@ -20,8 +20,8 @@ function CoursesDisplay(): ReactElement {
         <h1 className="CoursesDisplay-title">Language courses</h1>
       </div>
       <div className="CoursesDisplay-grid">
-        {courses.map((course) => (
-          <CourseTile data={course} />
+        {courses.map((course, i) => (
+          <CourseTile data={course} key={i} />
         ))}
       </div>
     </div>
