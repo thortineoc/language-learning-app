@@ -18,22 +18,14 @@ interface Props {
 }
 
 function CourseTile({ data }: Props): ReactElement {
+  const n = 12;
   return (
     <div className="CourseTile">
       {data.title}
       <div className="CourseTile-building">
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
-        <div className="CourseTile-building-window"></div>
+        {[...Array(n)].map((e, i) => (
+          <div className="CourseTile-building-window" key={i}></div>
+        ))}
       </div>
       {data.languageFrom.name} - {data.languageTo.name}
     </div>
