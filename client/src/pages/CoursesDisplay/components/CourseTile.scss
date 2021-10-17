@@ -1,0 +1,39 @@
+@import "../../../shared/Styles/Colors.scss";
+
+.CourseTile {
+  width: 100%;
+  height: 350px;
+  border: 1px solid wheat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  .CourseTile-building {
+    margin: 10px 0;
+    width: 120px;
+    height: 220px;
+    background-color: $light_gray;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 15px 15px;
+    grid-template-areas:
+      ". . ."
+      ". . ."
+      ". . ."
+      ". . .";
+    padding: 20px;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+
+    .CourseTile-building-window {
+      background-color: $dark_blue;
+    }
+  }
+}

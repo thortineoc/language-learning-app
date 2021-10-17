@@ -90,7 +90,7 @@ function RegistrationForm(): ReactElement {
                     <TextFieldWrapper
                       label="Confirm password *"
                       name="confirmPassword"
-                      type="confirmPassword"
+                      type="password"
                     />
                     {error && <span className="error">{error}</span>}
                   </div>
