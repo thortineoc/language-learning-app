@@ -4,6 +4,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import "./CourseDetails.scss";
 import { Link } from "react-router-dom";
+import Modal from "../../shared/Modal/Modal";
 
 interface Translation {
   id: number;
@@ -37,6 +38,10 @@ function CourseDetails(): ReactElement {
   const [courseInfo, setCourseInfo] = useState<CourseInfoType | undefined>(
     undefined
   );
+  const [isOpen, setIsOpen] = useState(false);
+  const [translations, setTranslations] = useState<Translation[] | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     axios
@@ -47,6 +52,11 @@ function CourseDetails(): ReactElement {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const showTranslations = (translations: Array<Translation>) => {
+    setIsOpen(true);
+    setTranslations(translations);
+  };
 
   return (
     <div className="CourseDetails">
@@ -64,16 +74,26 @@ function CourseDetails(): ReactElement {
           {`${courseInfo?.languageFrom?.name} - ${courseInfo?.languageTo?.name}`}
         </span>
       </div>
-      <div className="CourseDetails-container">
+      <div className="CourseDetails-container" style={{ marginTop: "20px" }}>
         <span className="CourseDetails-subtitle">Categories</span>
         <div className="CourseDetails-categories">
           {courseInfo?.categories.map((category, i) => (
-            <div className="Category-symbol">
+            <div
+              className="Category-symbol"
+              onClick={() => showTranslations(category.translations)}
+            >
               <div className="Category-symbol-inner">{category.name}</div>
             </div>
           ))}
         </div>
       </div>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        {translations?.map((translation) => (
+          <div>
+            {translation.wordFrom} - {translation.wordTo}
+          </div>
+        ))}
+      </Modal>
     </div>
   );
 }

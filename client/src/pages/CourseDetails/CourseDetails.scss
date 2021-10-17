@@ -4,14 +4,12 @@
 .CourseDetails-container {
   background-color: rgb(44, 44, 44);
   margin: 0 10%;
-  padding: 1% 5%;
+  padding: 1% 3%;
   border-radius: 30px;
-  margin-bottom: 20px;
 
   .CourseDetails-categories {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
   }
 
   .CourseDetails-subtitle {
@@ -20,19 +18,23 @@
   }
 
   .Category-symbol {
-    height: 100px;
-    width: 100px;
-    border: 2px solid $bright_blue;
-    margin: 20px;
+    height: 110px;
+    width: 110px;
+    border: 3px solid $bright_blue;
+    margin: 2%;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
 
+    &:hover {
+      cursor: pointer;
+    }
+
     .Category-symbol-inner {
-      height: 90px;
-      width: 90px;
-      border: 4px solid $dark_blue;
+      height: 100px;
+      width: 100px;
+      border: 5px solid $dark_blue;
       display: flex;
       justify-content: center;
       align-items: center;
