@@ -1,0 +1,42 @@
+@import "../../shared/Styles/Colors.scss";
+@import "../../shared/Button/Button.scss";
+
+.CourseDetails-container {
+  background-color: rgb(44, 44, 44);
+  margin: 0 10%;
+  padding: 1% 5%;
+  border-radius: 30px;
+
+  .CourseDetails-title-buttons-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .CourseDetails-title {
+      color: $bright_blue;
+      font-size: 2rem;
+    }
+
+    .CourseDetails-title-buttons-group {
+      display: flex;
+      min-width: 18%;
+      justify-content: space-between;
+
+      .Button-add {
+        @extend .btn;
+
+        &:hover {
+          background-color: rgb(107, 205, 50);
+        }
+      }
+
+      .Button-return {
+        @extend .btn;
+
+        &:hover {
+          background-color: rgb(205, 50, 63);
+        }
+      }
+    }
+  }
+}

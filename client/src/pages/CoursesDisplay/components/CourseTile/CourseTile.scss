@@ -8,6 +8,12 @@
   align-items: center;
   justify-content: flex-start;
 
+  .CourseTile-title {
+    color: $bright_blue;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
   .CourseTile-building {
     margin: 10px 0;
     width: 120px;

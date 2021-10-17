@@ -22,7 +22,9 @@ function CourseTile({ data }: Props): ReactElement {
   const n = 12;
   return (
     <div className="CourseTile">
-      {data.title}
+      <Link to={`course/${data.id}`} className="link">
+        <span className="CourseTile-title"> {data.title}</span>
+      </Link>
       <Link to={`course/${data.id}`}>
         <div className="CourseTile-building">
           {[...Array(n)].map((e, i) => (
