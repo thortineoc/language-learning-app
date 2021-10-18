@@ -6,11 +6,19 @@ import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  createStyles,
+  Theme,
+  ThemeProvider,
+  createTheme,
+} from "@material-ui/core/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
 import { logout, selectUser } from "../../slices/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { type } from "os";
+import { PaletteType } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,6 +30,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
+const darkTheme = createTheme({
+  palette: {
+    type: "dark" as PaletteType,
+  },
+});
 
 export default function MenuListComposition() {
   const classes = useStyles();
@@ -63,66 +77,71 @@ export default function MenuListComposition() {
   }, [open]);
 
   return (
-    <div className={classes.root}>
-      <div>
-        <Button
-          ref={anchorRef}
-          aria-controls={open ? "menu-list-grow" : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-          style={{ marginRight: "30px" }}
-        >
-          <ExpandMoreIcon fontSize="large" />
-        </Button>
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom",
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="menu-list-grow"
-                    onKeyDown={handleListKeyDown}
-                  >
-                    {user && user.role === "admin" && (
-                      <Link className="link" to="/creator">
-                        <MenuItem onClick={handleClose}>Creator</MenuItem>
-                      </Link>
-                    )}
-                    <Link className="link" to="/">
-                      <MenuItem onClick={handleClose}>Courses</MenuItem>
-                    </Link>
-                    <Link className="link" to="/account">
-                      <MenuItem onClick={handleClose}>My account</MenuItem>
-                    </Link>
-                    <Link
-                      className="link"
-                      to="/"
-                      onClick={() => {
-                        setTimeout(() => dispatch(logout()), 0);
-                      }}
+    <ThemeProvider theme={darkTheme}>
+      <div className={classes.root}>
+        <div>
+          <Button
+            ref={anchorRef}
+            aria-controls={open ? "menu-list-grow" : undefined}
+            aria-haspopup="true"
+            onClick={handleToggle}
+            style={{ marginRight: "30px" }}
+          >
+            <ExpandMoreIcon fontSize="large" />
+          </Button>
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === "bottom" ? "center top" : "center bottom",
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList
+                      autoFocusItem={open}
+                      id="menu-list-grow"
+                      onKeyDown={handleListKeyDown}
                     >
-                      <MenuItem>Logout</MenuItem>
-                    </Link>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
+                      {user && user.role === "admin" && (
+                        <Link className="link-white" to="/creator">
+                          <MenuItem onClick={handleClose}>Creator</MenuItem>
+                        </Link>
+                      )}
+                      <Link className="link-white" to="/courses">
+                        <MenuItem onClick={handleClose}>All courses</MenuItem>
+                      </Link>
+                      <Link className="link-white" to="/">
+                        <MenuItem onClick={handleClose}>My courses</MenuItem>
+                      </Link>
+                      <Link className="link-white" to="/account">
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                      </Link>
+                      <Link
+                        className="link-white"
+                        to="/"
+                        onClick={() => {
+                          setTimeout(() => dispatch(logout()), 0);
+                        }}
+                      >
+                        <MenuItem>Logout</MenuItem>
+                      </Link>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }

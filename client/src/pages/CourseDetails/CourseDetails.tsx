@@ -65,7 +65,7 @@ function CourseDetails(): ReactElement {
           <span className="CourseDetails-title">{courseInfo?.title}</span>
           <div className="CourseDetails-title-buttons-group">
             <Button className="Button-add">Add</Button>
-            <Link to="/" className="link">
+            <Link to="/courses" className="link">
               <Button className="Button-return">Return</Button>
             </Link>
           </div>
@@ -88,11 +88,20 @@ function CourseDetails(): ReactElement {
         </div>
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-        {translations?.map((translation) => (
-          <div>
-            {translation.wordFrom} - {translation.wordTo}
-          </div>
-        ))}
+        <table>
+          <thead>
+            <th className="Table-head">{courseInfo?.languageFrom?.name}</th>
+            <th className="Table-head">{courseInfo?.languageTo?.name}</th>
+          </thead>
+          <tbody>
+            {translations?.map((translation) => (
+              <tr className="Table-row">
+                <td>{translation.wordFrom}</td>
+                <td> {translation.wordTo}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </Modal>
     </div>
   );

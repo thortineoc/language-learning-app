@@ -98,26 +98,26 @@
                     },
                     {
                         "Id": 12,
-                        "WordFrom": "du",
-                        "WordTo": "kato",
+                        "WordFrom": "two",
+                        "WordTo": "du",
                         "Picture": null  
                     },
                     {
                         "Id": 13,
-                        "WordFrom": "tri",
-                        "WordTo": "fiŝo",
+                        "WordFrom": "three",
+                        "WordTo": "tri",
                         "Picture": null  
                     },
                     {
                         "Id": 14,
-                        "WordFrom": "kvar",
-                        "WordTo": "ĉevalo",
+                        "WordFrom": "four",
+                        "WordTo": "kvar",
                         "Picture": null  
                     },
                     {
                         "Id": 15,
-                        "WordFrom": "kvin",
-                        "WordTo": "bovino",
+                        "WordFrom": "five",
+                        "WordTo": "kvin",
                         "Picture": null  
                     }
                 ]

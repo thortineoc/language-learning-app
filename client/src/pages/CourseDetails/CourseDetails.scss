@@ -29,6 +29,7 @@
 
     &:hover {
       cursor: pointer;
+      color: $yellow;
     }
 
     .Category-symbol-inner {
@@ -73,5 +74,21 @@
         }
       }
     }
+  }
+}
+
+.Table-head {
+  width: 300px;
+  color: $navy;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+.Table-row {
+  padding: 5px;
+
+  &:hover {
+    background-color: rgb(59, 59, 59);
+    color: $yellow;
   }
 }
