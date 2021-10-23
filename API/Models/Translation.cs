@@ -10,7 +10,7 @@ namespace API.Models
 
     public class Translation
     {
-        public long Id { set; get; }
+        public int Id { set; get; }
         public string WordFrom { set; get; }
 
         public string WordTo { set; get; }

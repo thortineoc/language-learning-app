@@ -8,7 +8,7 @@ namespace API.Models
 {
     public class Language
     {
-        public long Id { set; get; }
+        public int Id { set; get; }
         public string Name { set; get; }
     }
 }

@@ -8,8 +8,8 @@ namespace API.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
-        private readonly IDataContext _context;
-        public CourseRepository(IDataContext context)
+        private readonly DataContext _context;
+        public CourseRepository(DataContext context)
         {
             _context = context;
         }

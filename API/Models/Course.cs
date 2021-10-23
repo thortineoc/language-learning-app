@@ -7,7 +7,7 @@ namespace API.Models
 {
     public class Course
     {
-        public long Id { set; get; }
+        public int Id { set; get; }
         public Language LanguageFrom { set; get; }
 
         public Language LanguageTo { set; get; }
@@ -15,5 +15,7 @@ namespace API.Models
         public string Title { set; get; }
 
         public ICollection<Category> Categories { set; get; }
+
+        public ICollection<AppUserCourse> UsersInCourse { get; set; }
     }
 }

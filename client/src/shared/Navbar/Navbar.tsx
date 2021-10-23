@@ -18,7 +18,7 @@ function Navbar(): ReactElement {
             height="50px"
             width="60px"
           />
-          <span className="navbar-title">Langcity</span>
+          <span className="navbar-title">LangCity</span>
         </div>
       </Link>
       {user && (

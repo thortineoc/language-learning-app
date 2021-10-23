@@ -30,7 +30,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetUser(long id)
+        public async Task<ActionResult<AppUser>> GetUser(int id)
         {
             var user = await _userRepository.GetUserById(id);
             if (user == null)
@@ -41,14 +41,13 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(long id, UpdateUserDto userDTO)
+        public async Task<IActionResult> PutUser(int id, UpdateUserDto userDTO)
         {
             AppUser user = new()
             {
                 Id = id,
                 UserName = userDTO.UserName,
                 Email = userDTO.Email,
-                Role = userDTO.Role
             };
 
             await _userRepository.Update(user);
@@ -56,7 +55,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(long id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
             await _userRepository.Delete(id);
             return Ok();

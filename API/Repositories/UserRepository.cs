@@ -9,8 +9,8 @@ namespace API.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IDataContext _context;
-        public UserRepository(IDataContext context)
+        private readonly DataContext _context;
+        public UserRepository(DataContext context)
         {
             _context = context;
         }
@@ -45,8 +45,6 @@ namespace API.Repositories
             if (itemToUpdate == null)
                 throw new NullReferenceException();
             if (user.UserName != null) itemToUpdate.UserName = user.UserName;
-            if (user.PasswordHash != null) itemToUpdate.PasswordHash = user.PasswordHash;
-            if (user.PasswordSalt != null) itemToUpdate.PasswordSalt = user.PasswordSalt;
             await _context.SaveChangesAsync();
         }
     }
