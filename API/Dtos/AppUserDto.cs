@@ -2,7 +2,7 @@ namespace API.Dtos
 {
     public class AppUserDto
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         public string UserName { get; set; }
 

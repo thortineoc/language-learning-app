@@ -9,7 +9,7 @@ namespace API.Models
     [Table("Categories")]
     public class Category
     {
-        public long Id { set; get; }
+        public int Id { set; get; }
 
         public string Name { set; get; }
 
@@ -17,6 +17,6 @@ namespace API.Models
 
         public Course Course { get; set; }
 
-        public long CourseId { get; set; }
+        public int CourseId { get; set; }
     }
 }

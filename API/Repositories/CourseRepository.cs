@@ -23,7 +23,7 @@ namespace API.Repositories
             return await courses;
         }
 
-        public async Task<Course> GetCourseById(long id)
+        public async Task<Course> GetCourseById(int id)
         {
             var course = _context.Courses
                 .Include(course => course.LanguageFrom)

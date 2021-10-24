@@ -1,14 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
+using API.Models;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace API
 {
@@ -22,9 +22,11 @@ namespace API
             try
             {
                 var context = services.GetRequiredService<DataContext>();
+                var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
                 await context.Database.MigrateAsync();
                 await Seed.SeedLanguages(context);
                 await Seed.SeedCourses(context);
+                await Seed.SeedRoles(roleManager);
             }
             catch (Exception ex)
             {
@@ -34,7 +36,7 @@ namespace API
             await host.RunAsync();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

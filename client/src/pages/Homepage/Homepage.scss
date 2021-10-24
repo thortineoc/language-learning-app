@@ -1,13 +1,15 @@
+@import "../../shared/Styles/Colors.scss";
+
 .Homepage {
   margin: 10% 0 0 10%;
   font-size: larger;
 
   .Homepage-langcity {
-    color: rgb(40, 62, 185);
+    color: $dark_blue;
   }
 
   .Homepage-description {
-    color: rgb(158, 158, 158);
+    color: $light_gray;
   }
 
   .Homepage-btn-group {
@@ -29,7 +31,7 @@
 
       .Homepage-btn {
         padding: 16px;
-        border: 1px solid rgb(158, 158, 158);
+        border: 1px solid $light_gray;
         border-radius: 3px;
         width: 100px;
         height: 30px;
@@ -38,7 +40,7 @@
         justify-content: center;
 
         &:hover {
-          background-color: rgb(0, 217, 255);
+          background-color: $bright_blue;
           border: none;
         }
       }

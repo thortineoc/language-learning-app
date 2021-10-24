@@ -7,13 +7,13 @@ namespace API.Repositories
 {
     public interface IUserRepository
     {
-        Task<AppUser> GetUserById(long id);
+        Task<AppUser> GetUserById(int id);
 
         Task<IEnumerable<AppUser>> GetAll();
 
         Task Add(AppUser user);
 
-        Task Delete(long id);
+        Task Delete(int id);
 
         Task Update(AppUser user);
     }

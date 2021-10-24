@@ -19,6 +19,6 @@ namespace API.Models
 
         public Category Category { get; set; }
 
-        public long CategoryId { get; set; }
+        public int CategoryId { get; set; }
     }
 }

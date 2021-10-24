@@ -20,7 +20,7 @@ namespace API.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(long id)
+        public async Task Delete(int id)
         {
             var itemToRemove = await _context.Users.FindAsync(id);
             if (itemToRemove == null)
@@ -30,7 +30,7 @@ namespace API.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<AppUser> GetUserById(long id)
+        public async Task<AppUser> GetUserById(int id)
         {
             return await _context.Users.FindAsync(id);
         }
