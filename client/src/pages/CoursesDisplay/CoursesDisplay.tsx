@@ -13,7 +13,7 @@ function CoursesDisplay(): ReactElement {
       .then((res) => setCourses(res.data))
       .catch((err) => console.log(err));
   }, []);
-  
+
   return (
     <div className="CoursesDisplay">
       <div className="CoursesDisplay-header">

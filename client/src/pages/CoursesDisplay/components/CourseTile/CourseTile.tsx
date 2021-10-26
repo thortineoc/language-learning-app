@@ -18,7 +18,7 @@ interface Props {
   };
 }
 
-function CourseTile({ data }: Props | any): ReactElement {
+function CourseTile({ data }: any): ReactElement {
   const n = 12;
 
   function getRandomInt(max: number) {
@@ -29,7 +29,7 @@ function CourseTile({ data }: Props | any): ReactElement {
   return (
     <div className="CourseTile">
       <Link to={`course/${data.id}`} className="link">
-        <span className="CourseTile-title"> {data.title}</span>
+        <span className="CourseTile-title"> {data?.title}</span>
       </Link>
       <Link to={`course/${data.id}`}>
         <div className="CourseTile-building">
@@ -45,7 +45,7 @@ function CourseTile({ data }: Props | any): ReactElement {
           ))}
         </div>
       </Link>
-      {data.languageFrom.name} - {data.languageTo.name}
+      {data?.languageFrom?.name} - {data?.languageTo?.name}
     </div>
   );
 }

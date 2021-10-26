@@ -43,8 +43,8 @@ function MyCourses(): ReactElement {
 
   return (
     <div className="CoursesDisplay-grid">
-      {userCourses?.map((courseWithIds) => (
-        <div>{courseWithIds.course.title}</div>
+      {userCourses?.map((courseWithIds, i) => (
+        <CourseTile data={courseWithIds.course} key={i} />
       ))}
     </div>
   );
