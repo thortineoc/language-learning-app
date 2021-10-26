@@ -27,26 +27,46 @@ namespace API.Repositories
             var userCourse = new AppUserCourse()
             {
                 AppUserId = user.Id,
-                AppUser = user,
                 CourseId = course.Id,
-                Course = course
             };
             if (_context.AppUserCourses.Contains(userCourse)) throw new InvalidOperationException("User already has this course");
 
             _context.AppUserCourses.Add(userCourse);
-
-            var userToUpdate = await _context.Users.FindAsync(user.Id);
-            userToUpdate.UserCourses.Add(userCourse);
-
-            var courseToUpdate = await _context.Courses.FindAsync(course.Id);
-            courseToUpdate.UsersInCourse.Add(userCourse);
+            await _context.SaveChangesAsync();
 
             var appUserCourseDto = new AppUserCourseDto();
             _mapper.Map(userCourse, appUserCourseDto);
-
-            await _context.SaveChangesAsync();
             return await Task.FromResult(appUserCourseDto);
         }
+
+        public async Task<IEnumerable<Course>> GetAllUserCourses(int id)
+        {
+            var userWithCourses = _context.Users
+                .Include(user => user.UserCourses)
+                .ThenInclude(row => row.Course)
+                .First(user => user.Id == id);
+            var coursesList = userWithCourses.UserCourses.Select(row => row.Course).ToList();
+            await _context.SaveChangesAsync();
+            return coursesList;
+        }
+
+
+
+        /*
+                private async Task<IEnumerable<int>> GetAllUserCoursesIds(int id)
+                {
+                    var list = new List<int>();
+                    var result = _context.AppUserCourses.Where(x => x.AppUserId == id);
+
+                    foreach (AppUserCourse info in result)
+                    {
+                        list.Add(info.CourseId);
+                    }
+                    return await Task.FromResult(list);
+                }
+
+               */
+
         /*
         public async Task<IEnumerable<Course>> GetAllUserCourses(int id)
         {
