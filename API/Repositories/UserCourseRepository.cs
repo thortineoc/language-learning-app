@@ -1,6 +1,4 @@
-using System.Reflection.Metadata;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
@@ -29,7 +27,8 @@ namespace API.Repositories
                 AppUserId = user.Id,
                 CourseId = course.Id,
             };
-            if (_context.AppUserCourses.Contains(userCourse)) throw new InvalidOperationException("User already has this course");
+            if (_context.AppUserCourses.Contains(userCourse))
+                throw new InvalidOperationException("User already has this course");
 
             _context.AppUserCourses.Add(userCourse);
             await _context.SaveChangesAsync();
@@ -44,54 +43,13 @@ namespace API.Repositories
             return await _context.Users
                 .Include(x => x.UserCourses)
                 .ThenInclude(x => x.Course)
-                .FirstOrDefaultAsync(x => (int)x.Id == (int)id);
-
-
-
-            /*
-            var userWithCourses = _context.Users
-                .Include(user => user.UserCourses)
-                .ThenInclude(row => row.Course)
-                .First(user => user.Id == id);
-            var coursesList = userWithCourses.UserCourses.Select(row => row.Course).ToList();
-            await _context.SaveChangesAsync();
-            return coursesList;
-            */
+                .ThenInclude(x => x.LanguageFrom)
+                
+                .Include(x => x.UserCourses)
+                .ThenInclude(x => x.Course)
+                .ThenInclude(x => x.LanguageTo)
+                
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
-
-
-
-        /*
-                private async Task<IEnumerable<int>> GetAllUserCoursesIds(int id)
-                {
-                    var list = new List<int>();
-                    var result = _context.AppUserCourses.Where(x => x.AppUserId == id);
-
-                    foreach (AppUserCourse info in result)
-                    {
-                        list.Add(info.CourseId);
-                    }
-                    return await Task.FromResult(list);
-                }
-
-               */
-
-        /*
-        public async Task<IEnumerable<Course>> GetAllUserCourses(int id)
-        {
-            var courses = _context.Courses
-                .Join<Course, AppUserCourse, int, int>(_context.AppUserCourses
-                        .Where(x => x.AppUserId == id),
-                course => course, appUserCourse => appUserCourse.CourseId,
-                (course, appUserCourse) => new {
-                    userId = appUserCourse.AppUserId,
-                    CourseId = course.Id,
-                    CourseTitle = course.Title
-                });
-
-            return await Task.FromResult(courses);
-        }*/
-
     }
 }
-

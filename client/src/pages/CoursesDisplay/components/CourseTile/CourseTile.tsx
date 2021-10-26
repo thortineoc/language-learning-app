@@ -18,11 +18,13 @@ interface Props {
   };
 }
 
-function CourseTile({ data }: Props): ReactElement {
+function CourseTile({ data }: Props | any): ReactElement {
   const n = 12;
+
   function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
   }
+
   let num = getRandomInt(12);
   return (
     <div className="CourseTile">
