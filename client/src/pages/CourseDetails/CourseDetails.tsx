@@ -5,6 +5,8 @@ import { useParams } from "react-router";
 import "./CourseDetails.scss";
 import { Link } from "react-router-dom";
 import Modal from "../../shared/Modal/Modal";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../slices/UserSlice";
 
 interface Translation {
   id: number;
@@ -42,6 +44,7 @@ function CourseDetails(): ReactElement {
   const [translations, setTranslations] = useState<Translation[] | undefined>(
     undefined
   );
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     axios
@@ -58,13 +61,22 @@ function CourseDetails(): ReactElement {
     setTranslations(translations);
   };
 
+  const saveCourse = () => {
+    axios
+      .put(url, { courseId: id, appUserId: user.id })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="CourseDetails">
       <div className="CourseDetails-container">
         <div className="CourseDetails-title-buttons-row">
           <span className="CourseDetails-title">{courseInfo?.title}</span>
           <div className="CourseDetails-title-buttons-group">
-            <Button className="Button-add">Add</Button>
+            <Button className="Button-add" onClick={saveCourse}>
+              Add
+            </Button>
             <Link to="/courses" className="link">
               <Button className="Button-return">Return</Button>
             </Link>
@@ -79,6 +91,7 @@ function CourseDetails(): ReactElement {
         <div className="CourseDetails-categories">
           {courseInfo?.categories.map((category, i) => (
             <div
+              key={i}
               className="Category-symbol"
               onClick={() => showTranslations(category.translations)}
             >
