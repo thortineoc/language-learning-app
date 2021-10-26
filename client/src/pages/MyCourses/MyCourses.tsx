@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../slices/UserSlice";
 import axios from "axios";
 import CourseTile from "../CoursesDisplay/components/CourseTile/CourseTile";
+import { truncateSync } from "fs";
 
 interface CourseInfoType {
   course: {
@@ -44,7 +45,7 @@ function MyCourses(): ReactElement {
   return (
     <div className="CoursesDisplay-grid">
       {userCourses?.map((courseWithIds, i) => (
-        <CourseTile data={courseWithIds.course} key={i} />
+        <CourseTile data={courseWithIds.course} key={i} isMine={true} />
       ))}
     </div>
   );

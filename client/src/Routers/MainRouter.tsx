@@ -7,6 +7,7 @@ import CoursesDisplay from "../pages/CoursesDisplay/CoursesDisplay";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Homepage from "../pages/Homepage/Homepage";
 import Login from "../pages/Login/Login";
+import MyCourseDetails from "../pages/MyCourseDetails/MyCourseDetails";
 import MyCourses from "../pages/MyCourses/MyCourses";
 import Registration from "../pages/Registration/Registration";
 import UserAccount from "../pages/UserAccount/UserAccount";
@@ -48,6 +49,12 @@ function MainRouter(): ReactElement {
         path="/course/:id"
         auth={!!user}
         component={CourseDetails}
+      ></GuardedRoute>
+      <GuardedRoute
+        exact
+        path="/mycourse/:id"
+        auth={!!user}
+        component={MyCourseDetails}
       ></GuardedRoute>
       <Route exact path="/">
         {user ? <MyCourses /> : <Homepage />}

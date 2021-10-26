@@ -2,9 +2,24 @@ import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import "./CourseTile.scss";
 
-interface Props {
-  data: {
+interface Data {
+  id: number;
+  languageFrom: {
     id: number;
+    name: string;
+  };
+  languageTo: {
+    id: number;
+    name: string;
+  };
+  title: string;
+  categories: null;
+}
+
+interface CourseInfoType {
+  course: {
+    id: number;
+    title: string;
     languageFrom: {
       id: number;
       name: string;
@@ -13,25 +28,39 @@ interface Props {
       id: number;
       name: string;
     };
-    title: string;
     categories: null;
+    usersInCourse: [];
   };
 }
 
-function CourseTile({ data }: any): ReactElement {
+function CourseTile({
+  isMine,
+  data,
+}: {
+  isMine: boolean;
+  data: Data;
+}): ReactElement {
   const n = 12;
 
   function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
   }
 
+  console.log(isMine);
+
   let num = getRandomInt(12);
   return (
     <div className="CourseTile">
-      <Link to={`course/${data.id}`} className="link">
+      <Link
+        to={isMine === false ? `course/${data.id}` : `mycourse/${data.id}`}
+        className="link"
+      >
         <span className="CourseTile-title"> {data?.title}</span>
       </Link>
-      <Link to={`course/${data.id}`}>
+      <Link
+        to={isMine === false ? `course/${data.id}` : `mycourse/${data.id}`}
+        className="link"
+      >
         <div className="CourseTile-building">
           {[...Array(n)].map((e, i) => (
             <div

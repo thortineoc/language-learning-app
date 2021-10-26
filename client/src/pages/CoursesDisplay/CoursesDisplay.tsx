@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Console } from "console";
 import React, { ReactElement, useEffect, useState } from "react";
 import CourseTile from "./components/CourseTile/CourseTile";
 import "./CoursesDisplay.scss";
@@ -10,7 +11,10 @@ function CoursesDisplay(): ReactElement {
   useEffect(() => {
     axios
       .get(url)
-      .then((res) => setCourses(res.data))
+      .then((res) => {
+        setCourses(res.data);
+        console.log(res.data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -21,7 +25,7 @@ function CoursesDisplay(): ReactElement {
       </div>
       <div className="CoursesDisplay-grid">
         {courses.map((course, i) => (
-          <CourseTile data={course} key={i} />
+          <CourseTile data={course} key={i} isMine={false} />
         ))}
       </div>
     </div>
