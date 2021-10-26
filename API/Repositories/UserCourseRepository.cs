@@ -39,8 +39,16 @@ namespace API.Repositories
             return await Task.FromResult(appUserCourseDto);
         }
 
-        public async Task<IEnumerable<Course>> GetAllUserCourses(int id)
+        public async Task<AppUser> GetUserWithAllCourses(int id)
         {
+            return await _context.Users
+                .Include(x => x.UserCourses)
+                .ThenInclude(x => x.Course)
+                .FirstOrDefaultAsync(x => (int)x.Id == (int)id);
+
+
+
+            /*
             var userWithCourses = _context.Users
                 .Include(user => user.UserCourses)
                 .ThenInclude(row => row.Course)
@@ -48,6 +56,7 @@ namespace API.Repositories
             var coursesList = userWithCourses.UserCourses.Select(row => row.Course).ToList();
             await _context.SaveChangesAsync();
             return coursesList;
+            */
         }
 
 

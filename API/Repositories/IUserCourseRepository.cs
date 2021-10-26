@@ -8,6 +8,6 @@ namespace API.Repositories
     public interface IUserCourseRepository
     {
         Task<AppUserCourseDto> AddCourseToAppUser(AppUser user, Course course);
-        Task<IEnumerable<Course>> GetAllUserCourses(int id);
+        Task<AppUser> GetUserWithAllCourses(int id);
     }
 }

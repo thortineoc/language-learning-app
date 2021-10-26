@@ -28,10 +28,10 @@ namespace API.Controllers
             _userCourseRepository = userCourseRepository;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<Course>>> GetMyCourses(int id)
         {
-            var courses = await _userCourseRepository.GetAllUserCourses(id);
+            var courses = await _userCourseRepository.GetUserWithAllCourses(id);
             return Ok(courses);
         }
     }
