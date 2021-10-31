@@ -17,27 +17,31 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using API.Repositories.Interfaces;
+using Microsoft.OpenApi.Any;
 
 namespace API.Repositories
 {
     public class SessionRepository : ISessionRepository
     {
         private readonly DataContext _context;
+        private object List;
 
         public SessionRepository(DataContext context)
         {
             _context = context;
         }
 
-        public async Task<IIncludableQueryable<AppUser, ICollection<Translation>>> GetTranslationsFromCategory(int id, int categoryId, int userId)
+        public Task<List<AppUser>> GetTranslationsFromCategory(int courseId, int categoryId, int userId)
         {
             var result = _context.Users
                 .Where(u => u.Id == userId)
-                .Include(u => u.UserCourses)
+                .Include(u => u.UserCourses.Where(x => x.CourseId == courseId))
                 .ThenInclude(x => x.Course)
-                .ThenInclude(c => c.Categories.Where(cat => cat.Id == categoryId))
-                .ThenInclude(c => c.Translations);
-
+                .ThenInclude(c => c.Categories.Where(c => c.Id == categoryId))
+                .ThenInclude(c => c.Translations)
+                .ThenInclude(c => c.TranslationUserProgress)
+                .ToListAsync();
+            
             return result;
         }
 
