@@ -7,6 +7,6 @@ namespace API.Models
     {
         public ICollection<AppUserRole> UserRoles { get; set; }
         public ICollection<AppUserCourse> UserCourses { get; set; }
-
+        public ICollection<TranslationUserProgress> TranslationUserProgress { get; set; }
     }
 }

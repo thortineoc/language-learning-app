@@ -44,12 +44,26 @@ namespace API.Repositories
                 .Include(x => x.UserCourses)
                 .ThenInclude(x => x.Course)
                 .ThenInclude(x => x.LanguageFrom)
-                
+
                 .Include(x => x.UserCourses)
                 .ThenInclude(x => x.Course)
                 .ThenInclude(x => x.LanguageTo)
-                
+
                 .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<AppUserCourse> DeleteCourse(int id, int userId)
+        {
+            var relation = _context.AppUserCourses.First(row => row.AppUserId == userId && row.CourseId == id);
+
+            if (relation == null)
+                throw new NullReferenceException();
+
+            _context.Remove(relation);
+            _context.SaveChanges();
+
+            return await Task.FromResult(relation);
+
         }
     }
 }

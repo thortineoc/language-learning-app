@@ -36,5 +36,13 @@ namespace API.Controllers
             var courses = await _userCourseRepository.GetUserWithAllCourses(User.GetUserId());
             return Ok(courses);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Course>> DeleteMyCourse(int id)
+        {
+            var deleted = await _userCourseRepository.DeleteCourse(id, User.GetUserId());
+            return Ok(deleted);
+
+        }
     }
 }

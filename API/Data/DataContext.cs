@@ -16,6 +16,8 @@ namespace API.Data
         public DbSet<Course> Courses { get; init; }
         public DbSet<Language> Languages { get; init; }
         public DbSet<AppUserCourse> AppUserCourses { get; init; }
+        public DbSet<TranslationUserProgress> TranslationUserProgresses { get; init; }
+        public DbSet<Translation> Translations { get; init; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -46,6 +48,21 @@ namespace API.Data
                 .HasOne(x => x.Course)
                 .WithMany(y => y.UsersInCourse)
                 .HasForeignKey(k => k.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<TranslationUserProgress>()
+            .HasKey(k => new { k.AppUserId, k.TranslationId });
+
+            builder.Entity<TranslationUserProgress>()
+                .HasOne(x => x.AppUser)
+                .WithMany(y => y.TranslationUserProgress)
+                .HasForeignKey(k => k.AppUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<TranslationUserProgress>()
+                .HasOne(x => x.Translation)
+                .WithMany(y => y.TranslationUserProgress)
+                .HasForeignKey(k => k.TranslationId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
