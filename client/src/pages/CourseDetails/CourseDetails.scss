@@ -57,29 +57,13 @@
       display: flex;
       min-width: 18%;
       justify-content: space-between;
-
-      .Button-add {
-        @extend .btn;
-
-        &:hover {
-          background-color: rgb(107, 205, 50);
-        }
-      }
-
-      .Button-return {
-        @extend .btn;
-
-        &:hover {
-          background-color: rgb(205, 50, 63);
-        }
-      }
     }
   }
 }
 
 .Table-head {
   width: 300px;
-  color: $navy;
+  color: $bright_blue;
   text-align: left;
   font-size: 1.2rem;
 }
@@ -90,5 +74,21 @@
   &:hover {
     background-color: rgb(59, 59, 59);
     color: $yellow;
+  }
+}
+
+.Button-add {
+  @extend .btn;
+
+  &:hover {
+    background-color: rgb(107, 205, 50);
+  }
+}
+
+.Button-return {
+  @extend .btn;
+
+  &:hover {
+    background-color: rgb(205, 50, 63);
   }
 }

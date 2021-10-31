@@ -2,12 +2,13 @@ import Button from "../../shared/Button/Button";
 import axios from "axios";
 import React, { ReactElement, useEffect, useState } from "react";
 import { Redirect, useParams } from "react-router";
-import "../CourseDetails/CourseDetails";
+import "../CourseDetails/CourseDetails.scss";
 import { Link } from "react-router-dom";
 import Modal from "../../shared/Modal/Modal";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../slices/UserSlice";
 import DeleteDialog from "./DeleteDialog/DeleteDialog";
+import "./MyCourseDetails.scss";
 
 interface Translation {
   id: number;
@@ -85,9 +86,7 @@ function MyCourseDetails(): ReactElement {
           <span className="CourseDetails-title">{courseInfo?.title}</span>
           <div className="CourseDetails-title-buttons-group">
             <Link className="link" to="/session">
-              <Button className="Button-add" onClick={saveCourse}>
-                Play
-              </Button>
+              <Button className="Button-add">Play</Button>
             </Link>
             <Button
               className="Button-return"
@@ -116,6 +115,11 @@ function MyCourseDetails(): ReactElement {
         </div>
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <div className="button-container">
+          <Link className="link" to="/session">
+            <Button className="Button-add">Play</Button>
+          </Link>
+        </div>
         <table>
           <thead>
             <th className="Table-head">{courseInfo?.languageFrom?.name}</th>
