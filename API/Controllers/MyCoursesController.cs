@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Dtos;
+using API.Extensions;
 using API.Models;
 using API.Repositories;
 using AutoMapper;
@@ -12,7 +13,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    /*[Authorize(Policy = "RequireMember")]*/
+    [Authorize(Policy = "RequireLoggedInUser")]
     public class MyCoursesController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
@@ -29,10 +30,10 @@ namespace API.Controllers
             _userCourseRepository = userCourseRepository;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Course>>> GetMyCourses(int id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Course>>> GetMyCourses()
         {
-            var courses = await _userCourseRepository.GetUserWithAllCourses(id);
+            var courses = await _userCourseRepository.GetUserWithAllCourses(User.GetUserId());
             return Ok(courses);
         }
     }

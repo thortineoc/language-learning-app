@@ -1,16 +1,19 @@
 import axios from "axios";
 import { Console } from "console";
 import React, { ReactElement, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../slices/UserSlice";
 import CourseTile from "./components/CourseTile/CourseTile";
 import "./CoursesDisplay.scss";
 
 function CoursesDisplay(): ReactElement {
   const [courses, setCourses] = useState([]);
   const url = "https://localhost:5001/api/courses";
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     axios
-      .get(url)
+      .get(url, { headers: { Authorization: `Bearer ${user.token}` } })
       .then((res) => {
         setCourses(res.data);
         console.log(res.data);

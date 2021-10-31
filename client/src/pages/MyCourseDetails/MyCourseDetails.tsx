@@ -58,7 +58,7 @@ function MyCourseDetails(): ReactElement {
 
   useEffect(() => {
     axios
-      .get(url)
+      .get(url, { headers: { Authorization: `Bearer ${user.token}` } })
       .then((res) => {
         setCourseInfo(res.data);
         console.log(res.data);

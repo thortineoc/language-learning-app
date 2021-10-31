@@ -48,7 +48,7 @@ function CourseDetails(): ReactElement {
 
   useEffect(() => {
     axios
-      .get(url)
+      .get(url, { headers: { Authorization: `Bearer ${user.token}` } })
       .then((res) => {
         setCourseInfo(res.data);
         console.log(res.data);
@@ -63,7 +63,11 @@ function CourseDetails(): ReactElement {
 
   const saveCourse = () => {
     axios
-      .put(url, { courseId: id, appUserId: user.id })
+      .put(
+        url,
+        { courseId: id, appUserId: user.id },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      )
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };

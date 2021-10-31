@@ -26,15 +26,15 @@ interface CourseInfoType {
 
 function MyCourses(): ReactElement {
   const user = useSelector(selectUser);
-  const id = user.id;
-  const url = `https://localhost:5001/api/mycourses/${id}`;
+  const url = "https://localhost:5001/api/mycourses";
   const [userCourses, setUserCourses] = useState<CourseInfoType[] | undefined>(
     []
   );
+  const token = user.token;
 
   useEffect(() => {
     axios
-      .get(url)
+      .get(url, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
         console.log(res.data.userCourses);
         setUserCourses(res.data.userCourses);
