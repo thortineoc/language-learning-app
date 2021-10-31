@@ -16,23 +16,6 @@ interface Data {
   categories: null;
 }
 
-interface CourseInfoType {
-  course: {
-    id: number;
-    title: string;
-    languageFrom: {
-      id: number;
-      name: string;
-    };
-    languageTo: {
-      id: number;
-      name: string;
-    };
-    categories: null;
-    usersInCourse: [];
-  };
-}
-
 function CourseTile({
   isMine,
   data,
@@ -45,8 +28,6 @@ function CourseTile({
   function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
   }
-
-  console.log(isMine);
 
   let num = getRandomInt(12);
   return (

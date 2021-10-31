@@ -13,7 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Token
 {
-    public class TokenService: ITokenService
+    public class TokenService : ITokenService
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SymmetricSecurityKey _key;
@@ -28,13 +28,12 @@ namespace API.Token
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
             };
 
             var roles = await _userManager.GetRolesAsync(user);
-            
+
             claims.AddRange((roles.Select(role => new Claim(ClaimTypes.Role, role))));
-            
+
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -47,6 +46,6 @@ namespace API.Token
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
-        }       
+        }
     }
 }

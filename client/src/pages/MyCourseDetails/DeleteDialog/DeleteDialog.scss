@@ -1,0 +1,17 @@
+@import "../../../shared/Styles/Colors.scss";
+
+.DeleteDialog {
+  .DeleteDialog-title {
+    font-size: 1.5rem;
+  }
+
+  p {
+    color: $light_gray;
+  }
+
+  .DeleteDialog-button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+  }
+}

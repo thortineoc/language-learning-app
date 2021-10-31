@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace API.Dtos
 {
     public class AppUserDto
@@ -10,6 +12,6 @@ namespace API.Dtos
 
         public string Token { get; set; }
 
-        public string Role { get; set; } = "user";
+        public IList<string> Role { get; set; }
     }
 }

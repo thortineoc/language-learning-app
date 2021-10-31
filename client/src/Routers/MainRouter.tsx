@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import CoursesCreator from "../pages/CoursesCreator/CoursesCreator";
 import CoursesDisplay from "../pages/CoursesDisplay/CoursesDisplay";
+import CourseSession from "../pages/CourseSession/CourseSession";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Homepage from "../pages/Homepage/Homepage";
 import Login from "../pages/Login/Login";
@@ -55,6 +56,12 @@ function MainRouter(): ReactElement {
         path="/mycourse/:id"
         auth={!!user}
         component={MyCourseDetails}
+      ></GuardedRoute>
+      <GuardedRoute
+        exact
+        path="/session"
+        auth={!!user}
+        component={CourseSession}
       ></GuardedRoute>
       <Route exact path="/">
         {user ? <MyCourses /> : <Homepage />}

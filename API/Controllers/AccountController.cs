@@ -59,6 +59,7 @@ namespace API.Controllers
                 UserName = user.UserName,
                 Email = user.Email,
                 Token = await _tokenService.CreateToken(user),
+                Role = await _userManager.GetRolesAsync(user)
             };
         }
 
@@ -79,6 +80,7 @@ namespace API.Controllers
                 UserName = user.UserName,
                 Email = user.Email,
                 Token = await _tokenService.CreateToken(user),
+                Role = await _userManager.GetRolesAsync(user)
             };
         }
 

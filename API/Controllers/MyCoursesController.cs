@@ -5,13 +5,14 @@ using API.Dtos;
 using API.Models;
 using API.Repositories;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
+    /*[Authorize(Policy = "RequireMember")]*/
     public class MyCoursesController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;

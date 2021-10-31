@@ -1,12 +1,13 @@
 import Button from "../../shared/Button/Button";
 import axios from "axios";
 import React, { ReactElement, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { Redirect, useParams } from "react-router";
 import "../CourseDetails/CourseDetails";
 import { Link } from "react-router-dom";
 import Modal from "../../shared/Modal/Modal";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../slices/UserSlice";
+import DeleteDialog from "./DeleteDialog/DeleteDialog";
 
 interface Translation {
   id: number;
@@ -41,10 +42,19 @@ function MyCourseDetails(): ReactElement {
     undefined
   );
   const [isOpen, setIsOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [translations, setTranslations] = useState<Translation[] | undefined>(
     undefined
   );
   const user = useSelector(selectUser);
+
+  const exArr = [1, 2, 3];
+  useEffect((): any => {
+    if (id && !(id in exArr)) {
+      console.log("EEEEEEEEEEEEEEE");
+      <Redirect to="/error" />;
+    }
+  });
 
   useEffect(() => {
     axios
@@ -74,12 +84,17 @@ function MyCourseDetails(): ReactElement {
         <div className="CourseDetails-title-buttons-row">
           <span className="CourseDetails-title">{courseInfo?.title}</span>
           <div className="CourseDetails-title-buttons-group">
-            <Button className="Button-add" onClick={saveCourse}>
-              Play
-            </Button>
-            <Link to="/courses" className="link">
-              <Button className="Button-return">Delete</Button>
+            <Link className="link" to="/session">
+              <Button className="Button-add" onClick={saveCourse}>
+                Play
+              </Button>
             </Link>
+            <Button
+              className="Button-return"
+              onClick={() => setIsDeleteDialogOpen(true)}
+            >
+              Delete
+            </Button>
           </div>
         </div>
         <span>
@@ -115,6 +130,10 @@ function MyCourseDetails(): ReactElement {
             ))}
           </tbody>
         </table>
+      </Modal>
+
+      <Modal isOpen={isDeleteDialogOpen} setIsOpen={setIsDeleteDialogOpen}>
+        <DeleteDialog setIsDeleteDialogOpen={setIsDeleteDialogOpen} />
       </Modal>
     </div>
   );
