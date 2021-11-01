@@ -28,10 +28,31 @@ namespace API.Repositories
                 CourseId = course.Id,
             };
             if (_context.AppUserCourses.Contains(userCourse))
+            {
                 throw new InvalidOperationException("User already has this course");
+            }
 
             _context.AppUserCourses.Add(userCourse);
             await _context.SaveChangesAsync();
+            
+            foreach (var courseCategory in userCourse.Course.Categories)
+            {
+                foreach (var courseCategoryTranslation in courseCategory.Translations)
+                {
+                    var translationUserProgress = new TranslationUserProgress()
+                    {
+                        AppUser = user,
+                        AppUserId = user.Id,
+                        IsLearned = false,
+                        IsToReview = false,
+                        TimesRepeated = 0,
+                        Translation = courseCategoryTranslation,
+                        TranslationId = courseCategoryTranslation.Id,
+                    };
+                    _context.TranslationUserProgresses.Add(translationUserProgress);
+                    await _context.SaveChangesAsync();
+                }
+            }
 
             var appUserCourseDto = new AppUserCourseDto();
             _mapper.Map(userCourse, appUserCourseDto);

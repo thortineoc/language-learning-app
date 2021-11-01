@@ -36,7 +36,6 @@ function MyCourses(): ReactElement {
     axios
       .get(url, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
-        console.log(res.data.userCourses);
         setUserCourses(res.data.userCourses);
       })
       .catch((err) => console.log(err));

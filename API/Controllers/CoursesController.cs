@@ -56,7 +56,7 @@ namespace API.Controllers
                 return NotFound();
             }
             var user = await _userRepository.GetUserById(appUserCourseDto.AppUserId);
-            if (course == null)
+            if (user == null)
             {
                 return NotFound();
             }

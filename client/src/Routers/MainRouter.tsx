@@ -17,7 +17,6 @@ import { selectUser } from "../slices/UserSlice";
 
 function MainRouter(): ReactElement {
   const user = useSelector(selectUser);
-  console.log(user);
 
   return (
     <Switch>

@@ -16,7 +16,6 @@ function CoursesDisplay(): ReactElement {
       .get(url, { headers: { Authorization: `Bearer ${user.token}` } })
       .then((res) => {
         setCourses(res.data);
-        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);

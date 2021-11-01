@@ -237,13 +237,13 @@ namespace API.Data.Migrations
                     b.Property<int>("TranslationId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("isLearned")
+                    b.Property<bool>("IsLearned")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("isToReview")
+                    b.Property<bool>("IsToReview")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("timesRepeated")
+                    b.Property<int>("TimesRepeated")
                         .HasColumnType("integer");
 
                     b.HasKey("AppUserId", "TranslationId");

@@ -62,7 +62,6 @@ function MyCourseDetails(): ReactElement {
       .get(url, { headers: { Authorization: `Bearer ${user.token}` } })
       .then((res) => {
         setCourseInfo(res.data);
-        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -122,12 +121,14 @@ function MyCourseDetails(): ReactElement {
         </div>
         <table>
           <thead>
-            <th className="Table-head">{courseInfo?.languageFrom?.name}</th>
-            <th className="Table-head">{courseInfo?.languageTo?.name}</th>
+            <tr>
+              <th className="Table-head">{courseInfo?.languageFrom?.name}</th>
+              <th className="Table-head">{courseInfo?.languageTo?.name}</th>
+            </tr>
           </thead>
           <tbody>
-            {translations?.map((translation) => (
-              <tr className="Table-row">
+            {translations?.map((translation, index) => (
+              <tr className="Table-row" key={index}>
                 <td>{translation.wordFrom}</td>
                 <td> {translation.wordTo}</td>
               </tr>

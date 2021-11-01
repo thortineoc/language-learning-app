@@ -33,13 +33,13 @@ function CourseTile({
   return (
     <div className="CourseTile">
       <Link
-        to={isMine === false ? `course/${data.id}` : `mycourse/${data.id}`}
+        to={!isMine ? `course/${data.id}` : `mycourse/${data.id}`}
         className="link"
       >
         <span className="CourseTile-title"> {data?.title}</span>
       </Link>
       <Link
-        to={isMine === false ? `course/${data.id}` : `mycourse/${data.id}`}
+        to={!isMine ? `course/${data.id}` : `mycourse/${data.id}`}
         className="link"
       >
         <div className="CourseTile-building">
