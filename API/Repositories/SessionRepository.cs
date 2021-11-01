@@ -24,7 +24,6 @@ namespace API.Repositories
     public class SessionRepository : ISessionRepository
     {
         private readonly DataContext _context;
-        private object List;
 
         public SessionRepository(DataContext context)
         {
@@ -45,5 +44,46 @@ namespace API.Repositories
             return result;
         }
 
+        public async Task<List<string>> GetRandomTranslations(int id)
+        {
+            var words = new List<string>();
+            var randomWords = new List<string>();
+            var course = await _context.Courses
+                .Include(c => c.Categories)
+                .ThenInclude(cat => cat.Translations)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            
+            if (course == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            foreach (var courseCategory in course.Categories)
+            {
+                {
+                    foreach (var translation in courseCategory.Translations)
+                    {
+                        words.Add(translation.WordTo);
+                    }
+                }
+            }
+            
+            var rand = new Random();
+            var numberOfRandomWords = 3;
+            var randomNumber = 0;
+
+            for (int ctr = 0; ctr < numberOfRandomWords; ctr++)
+            {
+                randomNumber = rand.Next(words.Count);
+                var randomWord = words[randomNumber]; 
+                while (randomWords.Contains(randomWord))
+                {
+                    randomNumber = rand.Next(words.Count);
+                    randomWord = words[randomNumber]; 
+                }
+                randomWords.Add(words[randomNumber]);
+            }
+            return randomWords;
+        }
     }
 }

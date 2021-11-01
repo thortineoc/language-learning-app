@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/course/{courseId}/category/{categoryId}")]
     [ApiController]
     [Authorize(Policy = "RequireLoggedInUser")]
     public class SessionController : ControllerBase
@@ -22,11 +21,20 @@ namespace API.Controllers
         {
             _sessionRepository = sessionRepository;
         }
-
+        
+        [Route("api/course/{courseId}/category/{categoryId}")]
         public async Task<ActionResult<IEnumerable<Translation>>> GetCategoryTranslations(int courseId, int categoryId)
         {
             var userId = User.GetUserId();
             var translations = await _sessionRepository.GetTranslationsFromCategory(courseId, categoryId, userId);
+            return Ok(translations);
+        }
+
+        [HttpGet("{id}")]
+        [Route("api/random/{id}")]
+        public async Task<ActionResult<List<string>>> GetRandomTranslations(int id)
+        {
+            var translations = await _sessionRepository.GetRandomTranslations(id);
             return Ok(translations);
         }
     }
