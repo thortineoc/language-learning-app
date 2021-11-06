@@ -72,7 +72,8 @@ namespace API.Repositories
             var numberOfRandomWords = 3;
             var randomNumber = 0;
 
-            for (int ctr = 0; ctr < numberOfRandomWords; ctr++)
+            // + 1 so have one in reserve when good translations is chosen
+            for (int ctr = 0; ctr < numberOfRandomWords + 1; ctr++)
             {
                 randomNumber = rand.Next(words.Count);
                 var randomWord = words[randomNumber]; 

@@ -40,7 +40,7 @@ function LoginForm(): ReactElement {
       .catch(function (error) {
         setStatus({ success: false });
         setSubmitting(false);
-        setError(error.response.data);
+        error && error.response && setError(error.response.data);
       });
     resetForm();
   };

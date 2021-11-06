@@ -1,14 +1,15 @@
 import Button from "../../shared/Button/Button";
 import axios from "axios";
 import React, { ReactElement, useEffect, useState } from "react";
-import { Redirect, useParams } from "react-router";
+import { useParams } from "react-router";
 import "../CourseDetails/CourseDetails.scss";
 import { Link } from "react-router-dom";
 import Modal from "../../shared/Modal/Modal";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../slices/UserSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { login, selectUser } from "../../slices/UserSlice";
 import DeleteDialog from "./DeleteDialog/DeleteDialog";
 import "./MyCourseDetails.scss";
+import { selectSession, setSession } from "../../slices/SessionSlice";
 
 interface Translation {
   id: number;
@@ -17,7 +18,7 @@ interface Translation {
 }
 
 interface Category {
-  int: number;
+  id: number;
   name: string;
   translations: Array<Translation>;
 }
@@ -37,6 +38,7 @@ interface CourseInfoType {
 }
 
 function MyCourseDetails(): ReactElement {
+  const dispatch = useDispatch();
   const { id } = useParams<{ id?: string }>();
   const url = `https://localhost:5001/api/courses/${id}`;
   const [courseInfo, setCourseInfo] = useState<CourseInfoType | undefined>(
@@ -47,15 +49,16 @@ function MyCourseDetails(): ReactElement {
   const [translations, setTranslations] = useState<Translation[] | undefined>(
     undefined
   );
+  const [category, setCategory] = useState(0);
   const user = useSelector(selectUser);
-
+  /*
   const exArr = [1, 2, 3];
   useEffect((): any => {
     if (id && !(id in exArr)) {
       console.log("EEEEEEEEEEEEEEE");
       <Redirect to="/error" />;
     }
-  });
+  });*/
 
   useEffect(() => {
     axios
@@ -66,16 +69,18 @@ function MyCourseDetails(): ReactElement {
       .catch((err) => console.log(err));
   }, []);
 
-  const showTranslations = (translations: Array<Translation>) => {
+  const showTranslations = (
+    translations: Array<Translation>,
+    categoryId: number
+  ) => {
     setIsOpen(true);
     setTranslations(translations);
+    setCategory(categoryId);
   };
 
-  const saveCourse = () => {
-    axios
-      .put(url, { courseId: id, appUserId: user.id })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+  const dispatchActions = () => {
+    dispatch(setSession({ courseId: id, categoryId: category }));
+    dispatch(login({ ...user }));
   };
 
   return (
@@ -106,7 +111,9 @@ function MyCourseDetails(): ReactElement {
             <div
               key={i}
               className="Category-symbol"
-              onClick={() => showTranslations(category.translations)}
+              onClick={() =>
+                showTranslations(category.translations, category.id)
+              }
             >
               <div className="Category-symbol-inner">{category.name}</div>
             </div>
@@ -116,7 +123,9 @@ function MyCourseDetails(): ReactElement {
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <div className="button-container">
           <Link className="link" to="/session">
-            <Button className="Button-add">Play</Button>
+            <Button className="Button-add" onClick={dispatchActions}>
+              Play
+            </Button>
           </Link>
         </div>
         <table>

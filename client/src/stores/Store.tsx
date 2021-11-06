@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import userReducer from "../slices/UserSlice";
+import sessionReducer from "../slices/SessionSlice";
+
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
@@ -8,11 +10,10 @@ const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, userReducer);
-
 const store = configureStore({
   reducer: {
-    user: persistedReducer,
+    user: persistReducer(persistConfig, userReducer),
+    session: persistReducer(persistConfig, sessionReducer),
   },
 });
 

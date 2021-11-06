@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../slices/UserSlice";
 import axios from "axios";
+import { selectSession } from "../../slices/SessionSlice";
 
 interface translationUserProgressType {
   appUserId: number;
@@ -21,9 +22,10 @@ interface allTranslationsType {
 }
 
 function CourseSession(): ReactElement {
+  const { courseId, categoryId } = useSelector(selectSession);
   const user = useSelector(selectUser);
-  const url = `https://localhost:5001/api/course/2/category/2`;
-  const urlToGetRandomWords = `https://localhost:5001/api/random/2`;
+  let url = `https://localhost:5001/api/course/2/category/2`;
+  let urlToGetRandomWords = `https://localhost:5001/api/random/2`;
 
   const [allTranslations, setAllTranslations] = useState<
     allTranslationsType[] | undefined
@@ -32,6 +34,9 @@ function CourseSession(): ReactElement {
     allTranslationsType[] | undefined
   >([]);
   const [randomWords, setRandomWords] = useState<string[] | undefined>([]);
+  const [currentTranslation, setCurrentTranslation] = useState<
+    allTranslationsType | undefined
+  >(undefined);
 
   const numberOfWordsInSession = 4;
 
@@ -54,10 +59,9 @@ function CourseSession(): ReactElement {
       })
       .then((res) => {
         setRandomWords(res.data);
-        console.log(res.data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [url, urlToGetRandomWords, user.token]);
 
   useEffect(() => {
     const arr = [];
@@ -71,18 +75,27 @@ function CourseSession(): ReactElement {
         !allTranslations[i].translationUserProgress[0].isLearned
       ) {
         arr.push(allTranslations[i]);
-        console.log(arr.length);
       }
     }
     setSessionTranslations(arr);
   }, [allTranslations]);
 
+  function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
+  }
+
+  useEffect(() => {
+    let num = getRandomInt(numberOfWordsInSession);
+    if (sessionTranslations && sessionTranslations[num]) {
+      setCurrentTranslation(sessionTranslations[num]);
+      randomWords?.push(sessionTranslations[num].wordTo);
+    }
+  }, [randomWords, sessionTranslations]);
+
   return (
     <div>
-      {sessionTranslations &&
-        sessionTranslations.map((translation) => (
-          <div>{translation.wordFrom}</div>
-        ))}
+      <div>{currentTranslation && currentTranslation.wordFrom}</div>
+      {randomWords && randomWords.map((word) => <div>{word}</div>)}
     </div>
   );
 }
