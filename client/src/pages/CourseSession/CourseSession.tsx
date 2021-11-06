@@ -80,17 +80,42 @@ function CourseSession(): ReactElement {
     setSessionTranslations(arr);
   }, [allTranslations]);
 
-  function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
+  function getRandomInt(max: number | undefined): number {
+    if (max) {
+      return Math.floor(Math.random() * max);
+    } else {
+      return 0;
+    }
+  }
+
+  function shuffle(array: Array<string> | undefined): string[] | undefined {
+    let currentIndex = array?.length,
+      randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = getRandomInt(currentIndex);
+      if (currentIndex && array) {
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex],
+        ];
+      }
+    }
+    return array;
   }
 
   useEffect(() => {
     let num = getRandomInt(numberOfWordsInSession);
     if (sessionTranslations && sessionTranslations[num]) {
       setCurrentTranslation(sessionTranslations[num]);
-      randomWords?.push(sessionTranslations[num].wordTo);
+      if (randomWords?.includes(sessionTranslations[num].wordTo)) {
+      } else {
+        randomWords?.pop();
+        randomWords?.push(sessionTranslations[num].wordTo);
+      }
+      shuffle(randomWords);
     }
-  }, [randomWords, sessionTranslations]);
+  }, [randomWords, sessionTranslations, shuffle]);
 
   return (
     <div>
