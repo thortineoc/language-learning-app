@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../slices/UserSlice";
 import axios from "axios";
 import { selectSession } from "../../slices/SessionSlice";
+import { getRandomInt, shuffle } from "../../helpers/getRandomHelper";
+import "./CourseSession.scss";
 
 interface translationUserProgressType {
   appUserId: number;
@@ -80,30 +82,6 @@ function CourseSession(): ReactElement {
     setSessionTranslations(arr);
   }, [allTranslations]);
 
-  function getRandomInt(max: number | undefined): number {
-    if (max) {
-      return Math.floor(Math.random() * max);
-    } else {
-      return 0;
-    }
-  }
-
-  function shuffle(array: Array<string> | undefined): string[] | undefined {
-    let currentIndex = array?.length,
-      randomIndex;
-    while (currentIndex !== 0) {
-      randomIndex = getRandomInt(currentIndex);
-      if (currentIndex && array) {
-        currentIndex--;
-        [array[currentIndex], array[randomIndex]] = [
-          array[randomIndex],
-          array[currentIndex],
-        ];
-      }
-    }
-    return array;
-  }
-
   useEffect(() => {
     let num = getRandomInt(numberOfWordsInSession);
     if (sessionTranslations && sessionTranslations[num]) {
@@ -118,9 +96,16 @@ function CourseSession(): ReactElement {
   }, [randomWords, sessionTranslations, shuffle]);
 
   return (
-    <div>
-      <div>{currentTranslation && currentTranslation.wordFrom}</div>
-      {randomWords && randomWords.map((word) => <div>{word}</div>)}
+    <div className="session-display">
+      <div className="session-word">
+        {currentTranslation && currentTranslation.wordFrom}
+      </div>
+      <div className="session-translation-group">
+        {randomWords &&
+          randomWords.map((word) => (
+            <div className="session-translation-card">{word}</div>
+          ))}
+      </div>
     </div>
   );
 }

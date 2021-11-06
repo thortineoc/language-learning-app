@@ -1,0 +1,49 @@
+@import "../../shared/Styles/Colors.scss";
+/*
+.session-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid red;
+}*/
+
+.session-word {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $yellow;
+  font-size: 2.5rem;
+}
+
+.session-translation-group {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-column-gap: 250px;
+  grid-row-gap: 60px;
+}
+
+.session-translation-card {
+  width: 250px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px dashed $light_gray;
+  background-color: rgb(58, 58, 58);
+  font-size: 2rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(22, 22, 22);
+  }
+}

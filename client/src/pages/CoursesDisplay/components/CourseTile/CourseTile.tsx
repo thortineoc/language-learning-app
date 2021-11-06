@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
+import { getRandomInt } from "../../../../helpers/getRandomHelper";
 import "./CourseTile.scss";
 
 interface Data {
@@ -24,10 +25,6 @@ function CourseTile({
   data: Data;
 }): ReactElement {
   const n = 12;
-
-  function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-  }
 
   let num = getRandomInt(12);
   return (
