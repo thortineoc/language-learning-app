@@ -1,35 +1,27 @@
 @import "../../shared/Styles/Colors.scss";
-/*
+
 .session-display {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 1px solid red;
-}*/
+}
 
 .session-word {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   color: $yellow;
   font-size: 2.5rem;
 }
 
 .session-translation-group {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 50%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-column-gap: 250px;
   grid-row-gap: 60px;
+  margin: auto;
+  margin-top: 70px;
+  align-items: center;
+  justify-items: center;
+  padding-bottom: 100px;
 }
 
 .session-translation-card {

@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, selectUser } from "../../slices/UserSlice";
 import DeleteDialog from "./DeleteDialog/DeleteDialog";
 import "./MyCourseDetails.scss";
-import { selectSession, setSession } from "../../slices/SessionSlice";
+import { setSession } from "../../slices/SessionSlice";
 
 interface Translation {
   id: number;
@@ -51,14 +51,6 @@ function MyCourseDetails(): ReactElement {
   );
   const [category, setCategory] = useState(0);
   const user = useSelector(selectUser);
-  /*
-  const exArr = [1, 2, 3];
-  useEffect((): any => {
-    if (id && !(id in exArr)) {
-      console.log("EEEEEEEEEEEEEEE");
-      <Redirect to="/error" />;
-    }
-  });*/
 
   useEffect(() => {
     axios

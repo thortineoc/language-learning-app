@@ -43,6 +43,14 @@ function CourseSession(): ReactElement {
 
   const numberOfWordsInSession = 4;
 
+  const checkAnswer = (word: string) => {
+    if (word === currentTranslation?.wordTo) {
+      console.log("OK");
+    } else {
+      console.log("Nope");
+    }
+  };
+
   useEffect(() => {
     setGetTranslationsUrl(
       `https://localhost:5001/api/course/${session.courseId}/category/${session.categoryId}`
@@ -53,28 +61,30 @@ function CourseSession(): ReactElement {
   }, [session]);
 
   useEffect(() => {
-    axios
-      .get(getTranslationsUrl, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      })
-      .then((res) => {
-        console.log(
-          res.data[0].userCourses[0].course.categories[0].translations
-        );
-        setAllTranslations(
-          res.data[0].userCourses[0].course.categories[0].translations
-        );
-      })
-      .catch((err) => console.log(err));
+    if (getRandomWordsUrl !== undefined && getTranslationsUrl !== undefined) {
+      axios
+        .get(getTranslationsUrl, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        })
+        .then((res) => {
+          console.log(
+            res.data[0].userCourses[0].course.categories[0].translations
+          );
+          setAllTranslations(
+            res.data[0].userCourses[0].course.categories[0].translations
+          );
+        })
+        .catch((err) => console.log(err));
 
-    axios
-      .get(getRandomWordsUrl, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      })
-      .then((res) => {
-        setRandomWords(res.data);
-      })
-      .catch((err) => console.log(err));
+      axios
+        .get(getRandomWordsUrl, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        })
+        .then((res) => {
+          setRandomWords(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [getRandomWordsUrl, getTranslationsUrl, user.token]);
 
   useEffect(() => {
@@ -105,7 +115,7 @@ function CourseSession(): ReactElement {
       }
       shuffle(randomWords);
     }
-  }, [randomWords, sessionTranslations, shuffle]);
+  }, [randomWords, sessionTranslations]);
 
   return (
     <div className="session-display">
@@ -115,7 +125,12 @@ function CourseSession(): ReactElement {
       <div className="session-translation-group">
         {randomWords &&
           randomWords.map((word) => (
-            <div className="session-translation-card">{word}</div>
+            <div
+              className="session-translation-card"
+              onClick={() => checkAnswer(word)}
+            >
+              {word}
+            </div>
           ))}
       </div>
     </div>
