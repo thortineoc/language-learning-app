@@ -24,10 +24,8 @@ interface allTranslationsType {
 }
 
 function CourseSession(): ReactElement {
-  const { courseId, categoryId } = useSelector(selectSession);
+  const session = useSelector(selectSession);
   const user = useSelector(selectUser);
-  let url = `https://localhost:5001/api/course/2/category/2`;
-  let urlToGetRandomWords = `https://localhost:5001/api/random/2`;
 
   const [allTranslations, setAllTranslations] = useState<
     allTranslationsType[] | undefined
@@ -40,11 +38,25 @@ function CourseSession(): ReactElement {
     allTranslationsType | undefined
   >(undefined);
 
+  const [getTranslationsUrl, setGetTranslationsUrl] = useState("");
+  const [getRandomWordsUrl, setGetRandomWordsUrl] = useState("");
+
   const numberOfWordsInSession = 4;
 
   useEffect(() => {
+    setGetTranslationsUrl(
+      `https://localhost:5001/api/course/${session.courseId}/category/${session.categoryId}`
+    );
+    setGetRandomWordsUrl(
+      `https://localhost:5001/api/random/${session.courseId}`
+    );
+  }, [session]);
+
+  useEffect(() => {
     axios
-      .get(url, { headers: { Authorization: `Bearer ${user.token}` } })
+      .get(getTranslationsUrl, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      })
       .then((res) => {
         console.log(
           res.data[0].userCourses[0].course.categories[0].translations
@@ -56,14 +68,14 @@ function CourseSession(): ReactElement {
       .catch((err) => console.log(err));
 
     axios
-      .get(urlToGetRandomWords, {
+      .get(getRandomWordsUrl, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => {
         setRandomWords(res.data);
       })
       .catch((err) => console.log(err));
-  }, [url, urlToGetRandomWords, user.token]);
+  }, [getRandomWordsUrl, getTranslationsUrl, user.token]);
 
   useEffect(() => {
     const arr = [];
