@@ -43,6 +43,11 @@ function CourseSession(): ReactElement {
 
   const [started, setStarted] = useState(false);
 
+  const [points, setPoints] = useState(0);
+  const [count, setCount] = useState(1);
+
+  const wordsPerRound = 8;
+  const pointsForGoodAnswer = 10;
   const numberOfWordsInSession = 4;
 
   const setUpSessionStep = () => {
@@ -141,6 +146,12 @@ function CourseSession(): ReactElement {
     <div className="session-display">
       <div onClick={start} className={started ? "start-hidden" : "start"}>
         START
+      </div>
+      <div className="session-info-counter">
+        <div>
+          {currentTranslation && count + " / " + wordsPerRound + " words"}
+        </div>
+        <div>{currentTranslation && points + " points"}</div>
       </div>
       <div className="session-word">
         {currentTranslation && currentTranslation.wordFrom}
