@@ -41,14 +41,33 @@ function CourseSession(): ReactElement {
   const [getTranslationsUrl, setGetTranslationsUrl] = useState("");
   const [getRandomWordsUrl, setGetRandomWordsUrl] = useState("");
 
+  const [display, setDisplay] = useState(0);
+
   const numberOfWordsInSession = 4;
+
+  const setUpSessionStep = () => {
+    let num = getRandomInt(numberOfWordsInSession);
+    if (sessionTranslations && sessionTranslations[num]) {
+      setCurrentTranslation(sessionTranslations[num]);
+      if (randomWords?.includes(sessionTranslations[num].wordTo)) {
+      } else {
+        randomWords?.pop();
+        randomWords?.push(sessionTranslations[num].wordTo);
+      }
+      shuffle(randomWords);
+    }
+  };
+
+  let isCorrect: boolean;
 
   const checkAnswer = (word: string) => {
     if (word === currentTranslation?.wordTo) {
-      console.log("OK");
+      isCorrect = true;
     } else {
-      console.log("Nope");
+      isCorrect = false;
     }
+    setUpSessionStep();
+    console.log("Changed CLICKED");
   };
 
   useEffect(() => {
@@ -88,6 +107,21 @@ function CourseSession(): ReactElement {
   }, [getRandomWordsUrl, getTranslationsUrl, user.token]);
 
   useEffect(() => {
+    console.log("random", randomWords);
+    setDisplay(display + 1);
+    console.log("disp");
+  }, [randomWords]);
+
+  useEffect(() => {
+    if (display === 2) {
+      setUpSessionStep();
+      console.log("Changed");
+    } else {
+      console.log(display);
+    }
+  }, [display]);
+
+  useEffect(() => {
     const arr = [];
     for (let i = 0; i < allTranslations!.length; i++) {
       if (arr.length === numberOfWordsInSession) {
@@ -104,19 +138,6 @@ function CourseSession(): ReactElement {
     setSessionTranslations(arr);
   }, [allTranslations]);
 
-  useEffect(() => {
-    let num = getRandomInt(numberOfWordsInSession);
-    if (sessionTranslations && sessionTranslations[num]) {
-      setCurrentTranslation(sessionTranslations[num]);
-      if (randomWords?.includes(sessionTranslations[num].wordTo)) {
-      } else {
-        randomWords?.pop();
-        randomWords?.push(sessionTranslations[num].wordTo);
-      }
-      shuffle(randomWords);
-    }
-  }, [randomWords, sessionTranslations]);
-
   return (
     <div className="session-display">
       <div className="session-word">
@@ -124,9 +145,15 @@ function CourseSession(): ReactElement {
       </div>
       <div className="session-translation-group">
         {randomWords &&
-          randomWords.map((word) => (
+          display == 2 &&
+          randomWords.map((word, i) => (
             <div
-              className="session-translation-card"
+              key={i}
+              className={
+                isCorrect
+                  ? "session-translation-card  "
+                  : "session-translation-card"
+              }
               onClick={() => checkAnswer(word)}
             >
               {word}
