@@ -64,8 +64,10 @@ function CourseSession(): ReactElement {
   };
 
   const [styles, setStyles] = useState("session-translation-card");
+  const [clicked, setClicked] = useState("");
 
   const checkAnswer = (word: string) => {
+    setClicked(word);
     if (word === currentTranslation?.wordTo) {
       setStyles("session-translation-card correct");
     } else {
@@ -144,7 +146,11 @@ function CourseSession(): ReactElement {
         {randomWords &&
           currentTranslation &&
           randomWords.map((word, i) => (
-            <div key={i} className={styles} onClick={() => checkAnswer(word)}>
+            <div
+              key={i}
+              className={word === clicked ? styles : "session-translation-card"}
+              onClick={() => checkAnswer(word)}
+            >
               {word}
             </div>
           ))}
