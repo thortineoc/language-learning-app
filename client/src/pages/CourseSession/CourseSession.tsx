@@ -54,7 +54,7 @@ function CourseSession(): ReactElement {
         randomWords?.pop();
         randomWords?.push(sessionTranslations[num].wordTo);
       }
-      shuffle(randomWords);
+      setRandomWords(shuffle(randomWords));
     }
   };
 
@@ -63,15 +63,19 @@ function CourseSession(): ReactElement {
     setUpSessionStep();
   };
 
-  let isCorrect: boolean;
+  const [styles, setStyles] = useState("session-translation-card");
 
   const checkAnswer = (word: string) => {
     if (word === currentTranslation?.wordTo) {
-      isCorrect = true;
+      setStyles("session-translation-card correct");
     } else {
-      isCorrect = false;
+      setStyles("session-translation-card wrong");
     }
-    setUpSessionStep();
+    setTimeout(() => {
+      setUpSessionStep();
+      setStyles("session-translation-card");
+    }, 3000);
+
     console.log("Changed CLICKED");
   };
 
@@ -140,15 +144,7 @@ function CourseSession(): ReactElement {
         {randomWords &&
           currentTranslation &&
           randomWords.map((word, i) => (
-            <div
-              key={i}
-              className={
-                isCorrect
-                  ? "session-translation-card  "
-                  : "session-translation-card"
-              }
-              onClick={() => checkAnswer(word)}
-            >
+            <div key={i} className={styles} onClick={() => checkAnswer(word)}>
               {word}
             </div>
           ))}
