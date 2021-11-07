@@ -30,7 +30,15 @@
 .start {
   font-size: 5rem;
   cursor: pointer;
-  padding: 2%;
+  position: absolute;
+  z-index: 1;
+  font-weight: bold;
+  color: $yellow;
+}
+
+.start-img {
+  border-radius: 5%;
+  height: 70vh;
 }
 
 .session-translation-group {

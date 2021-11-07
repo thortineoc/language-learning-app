@@ -159,9 +159,16 @@ function CourseSession(): ReactElement {
     <div className="session-display">
       {overlay && <div className="overlay" />}
       {!started && (
-        <div onClick={start} className="start">
-          START
-        </div>
+        <>
+          <div onClick={start} className="start">
+            START
+          </div>
+          <img
+            src="/assets/images/startSession.jpg"
+            alt="start"
+            className="start-img"
+          />
+        </>
       )}
       {end && (
         <div className="end-container">
@@ -172,42 +179,37 @@ function CourseSession(): ReactElement {
               Go to homepage
             </Link>
             <Link to={`/mycourse/${session.courseId}`} className="end-link">
-              Go back to course
+              Go back to this course
             </Link>
           </div>
         </div>
       )}
-      <div className="session-info-counter">
-        <div>
-          {!end &&
-            currentTranslation &&
-            count + " / " + wordsPerRound + " words"}
-        </div>
-        <div>{!end && currentTranslation && points + " points"}</div>
-      </div>
-      <div className="session-word">
-        {!end && currentTranslation && currentTranslation.wordFrom}
-      </div>
-      <div className="session-translation-group">
-        {!end &&
-          randomWords &&
-          currentTranslation &&
-          randomWords.map((word, i) => (
-            <div
-              key={i}
-              className={
-                word === clicked
-                  ? styles
-                  : word === currentTranslation.wordTo
-                  ? borderStyle
-                  : "session-translation-card"
-              }
-              onClick={() => checkAnswer(word)}
-            >
-              {word}
-            </div>
-          ))}
-      </div>
+      {!end && currentTranslation && randomWords && (
+        <>
+          <div className="session-info-counter">
+            <div>{count + " / " + wordsPerRound + " words"}</div>
+            <div>{points + " points"}</div>
+          </div>
+          <div className="session-word">{currentTranslation.wordFrom}</div>
+          <div className="session-translation-group">
+            {randomWords.map((word, i) => (
+              <div
+                key={i}
+                className={
+                  word === clicked
+                    ? styles
+                    : word === currentTranslation.wordTo
+                    ? borderStyle
+                    : "session-translation-card"
+                }
+                onClick={() => checkAnswer(word)}
+              >
+                {word}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
