@@ -24,10 +24,6 @@
   padding: 2%;
 }
 
-.start-hidden {
-  display: none;
-}
-
 .session-translation-group {
   width: 50%;
   display: grid;
@@ -74,5 +70,31 @@
 
   .was-correct {
     border: 3px solid yellowgreen;
+  }
+}
+
+.end-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 300px;
+}
+
+.end {
+  font-size: 4rem;
+}
+
+.links-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .end-link {
+    color: $light_gray;
+
+    &:hover {
+      color: gray;
+    }
   }
 }

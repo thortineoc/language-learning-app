@@ -5,6 +5,7 @@ import axios from "axios";
 import { selectSession } from "../../slices/SessionSlice";
 import { getRandomInt, shuffle } from "../../helpers/getRandomHelper";
 import "./CourseSession.scss";
+import { Link } from "react-router-dom";
 
 interface translationUserProgressType {
   appUserId: number;
@@ -46,7 +47,9 @@ function CourseSession(): ReactElement {
   const [points, setPoints] = useState(0);
   const [count, setCount] = useState(1);
 
-  const wordsPerRound = 8;
+  const [end, setEnd] = useState(false);
+
+  const wordsPerRound = 5;
   const pointsForGoodAnswer = 10;
   const numberOfWordsInSession = 4;
 
@@ -73,9 +76,16 @@ function CourseSession(): ReactElement {
   const [clicked, setClicked] = useState("");
 
   const checkAnswer = (word: string) => {
+    if (count === wordsPerRound) {
+      setTimeout(() => {
+        setEnd(true);
+      }, 3000);
+    }
+
     setClicked(word);
     if (word === currentTranslation?.wordTo) {
       setStyles("session-translation-card correct");
+      setPoints(points + pointsForGoodAnswer);
     } else {
       setStyles("session-translation-card wrong");
       setBorderStyle("session-translation-card was-correct");
@@ -84,6 +94,7 @@ function CourseSession(): ReactElement {
       setUpSessionStep();
       setStyles("session-translation-card");
       setBorderStyle("session-translation-card");
+      setCount(count + 1);
     }, 3000);
 
     console.log("Changed CLICKED");
@@ -144,20 +155,39 @@ function CourseSession(): ReactElement {
 
   return (
     <div className="session-display">
-      <div onClick={start} className={started ? "start-hidden" : "start"}>
-        START
-      </div>
+      {!started && (
+        <div onClick={start} className="start">
+          START
+        </div>
+      )}
+      {end && (
+        <div className="end-container">
+          <div className="end">SESSION ENDED</div>
+          <div>You gained {points} points!</div>
+          <div className="links-container">
+            <Link to="/" className="end-link">
+              Go to homepage
+            </Link>
+            <Link to={`/mycourse/${session.courseId}`} className="end-link">
+              Go back to course
+            </Link>
+          </div>
+        </div>
+      )}
       <div className="session-info-counter">
         <div>
-          {currentTranslation && count + " / " + wordsPerRound + " words"}
+          {!end &&
+            currentTranslation &&
+            count + " / " + wordsPerRound + " words"}
         </div>
-        <div>{currentTranslation && points + " points"}</div>
+        <div>{!end && currentTranslation && points + " points"}</div>
       </div>
       <div className="session-word">
-        {currentTranslation && currentTranslation.wordFrom}
+        {!end && currentTranslation && currentTranslation.wordFrom}
       </div>
       <div className="session-translation-group">
-        {randomWords &&
+        {!end &&
+          randomWords &&
           currentTranslation &&
           randomWords.map((word, i) => (
             <div
