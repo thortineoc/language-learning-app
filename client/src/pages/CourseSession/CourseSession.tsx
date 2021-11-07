@@ -43,11 +43,11 @@ function CourseSession(): ReactElement {
   const [getRandomWordsUrl, setGetRandomWordsUrl] = useState("");
 
   const [started, setStarted] = useState(false);
+  const [end, setEnd] = useState(false);
+  const [overlay, setOverlay] = useState(false);
 
   const [points, setPoints] = useState(0);
   const [count, setCount] = useState(1);
-
-  const [end, setEnd] = useState(false);
 
   const wordsPerRound = 5;
   const pointsForGoodAnswer = 10;
@@ -90,11 +90,13 @@ function CourseSession(): ReactElement {
       setStyles("session-translation-card wrong");
       setBorderStyle("session-translation-card was-correct");
     }
+    setOverlay(true);
     setTimeout(() => {
       setUpSessionStep();
       setStyles("session-translation-card");
       setBorderStyle("session-translation-card");
       setCount(count + 1);
+      setOverlay(false);
     }, 3000);
 
     console.log("Changed CLICKED");
@@ -155,6 +157,7 @@ function CourseSession(): ReactElement {
 
   return (
     <div className="session-display">
+      {overlay && <div className="overlay" />}
       {!started && (
         <div onClick={start} className="start">
           START
