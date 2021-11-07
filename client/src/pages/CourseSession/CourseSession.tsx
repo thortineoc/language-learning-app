@@ -41,7 +41,7 @@ function CourseSession(): ReactElement {
   const [getTranslationsUrl, setGetTranslationsUrl] = useState("");
   const [getRandomWordsUrl, setGetRandomWordsUrl] = useState("");
 
-  const [display, setDisplay] = useState(0);
+  const [started, setStarted] = useState(false);
 
   const numberOfWordsInSession = 4;
 
@@ -56,6 +56,11 @@ function CourseSession(): ReactElement {
       }
       shuffle(randomWords);
     }
+  };
+
+  const start = () => {
+    setStarted(true);
+    setUpSessionStep();
   };
 
   let isCorrect: boolean;
@@ -107,21 +112,6 @@ function CourseSession(): ReactElement {
   }, [getRandomWordsUrl, getTranslationsUrl, user.token]);
 
   useEffect(() => {
-    console.log("random", randomWords);
-    setDisplay(display + 1);
-    console.log("disp");
-  }, [randomWords]);
-
-  useEffect(() => {
-    if (display === 2) {
-      setUpSessionStep();
-      console.log("Changed");
-    } else {
-      console.log(display);
-    }
-  }, [display]);
-
-  useEffect(() => {
     const arr = [];
     for (let i = 0; i < allTranslations!.length; i++) {
       if (arr.length === numberOfWordsInSession) {
@@ -140,12 +130,15 @@ function CourseSession(): ReactElement {
 
   return (
     <div className="session-display">
+      <div onClick={start} className={started ? "start-hidden" : "start"}>
+        START
+      </div>
       <div className="session-word">
         {currentTranslation && currentTranslation.wordFrom}
       </div>
       <div className="session-translation-group">
         {randomWords &&
-          display == 2 &&
+          currentTranslation &&
           randomWords.map((word, i) => (
             <div
               key={i}

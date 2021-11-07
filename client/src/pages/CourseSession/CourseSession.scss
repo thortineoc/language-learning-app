@@ -11,6 +11,16 @@
   font-size: 2.5rem;
 }
 
+.start {
+  font-size: 5rem;
+  cursor: pointer;
+  padding: 2%;
+}
+
+.start-hidden {
+  display: none;
+}
+
 .session-translation-group {
   width: 50%;
   display: grid;
@@ -41,6 +51,7 @@
 
   .correct {
     background-color: yellowgreen;
+
     &:hover {
       background-color: yellowgreen;
     }
@@ -48,6 +59,7 @@
 
   .wrong {
     background-color: red;
+
     &:hover {
       background-color: red;
     }
