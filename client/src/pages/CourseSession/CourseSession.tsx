@@ -78,12 +78,22 @@ function CourseSession(): ReactElement {
   const [clicked, setClicked] = useState("");
 
   useEffect(() => {
-    console.log("sasas");
-    console.log(sessionTranslations);
+    if (clicked !== "") {
+      setTimeout(() => {
+        setUpSessionStep();
+        setStyles("session-translation-card");
+        setBorderStyle("session-translation-card");
+        setCount(count + 1);
+        setOverlay(false);
+      }, 3000);
+      console.log("sasas");
+      console.log(sessionTranslations);
+    }
   }, [sessionTranslations]);
 
   const checkAnswer = (word: string) => {
     let newSessionArray: allTranslationsType[] | undefined = [];
+    let isSessionArraySet = false;
 
     if (count === wordsPerRound) {
       setTimeout(() => {
@@ -114,8 +124,10 @@ function CourseSession(): ReactElement {
             word.translationUserProgress[0].timesRepeated !==
               repeatUntilLearned && !sessionTranslations?.includes(word)
         );
-        if (nextWordIndex === undefined) {
-          setEnd(true);
+        if (nextWordIndex === -1) {
+          setTimeout(() => {
+            setEnd(true);
+          }, 3000);
         } else {
           if (allTranslations && nextWordIndex) {
             const nextWord = allTranslations[nextWordIndex];
@@ -126,6 +138,7 @@ function CourseSession(): ReactElement {
               newSessionArray.push(nextWord);
               console.log(newSessionArray);
               setSessionTranslations([...newSessionArray]);
+              isSessionArraySet = true;
             }
           }
         }
@@ -140,19 +153,21 @@ function CourseSession(): ReactElement {
       console.log(sessionTranslations);
       //while (sessionTranslations !== newSessionArray) {}
     }
-    setTimeout(() => {
-      if (newSessionArray?.length !== 0) {
-        console.log(sessionTranslations);
-        console.log(newSessionArray);
-        console.log(sessionTranslations === newSessionArray);
-        // while (sessionTranslations !== newSessionArray) {}
-      }
-      setUpSessionStep();
-      setStyles("session-translation-card");
-      setBorderStyle("session-translation-card");
-      setCount(count + 1);
-      setOverlay(false);
-    }, 3000);
+    if (isSessionArraySet === false) {
+      setTimeout(() => {
+        if (newSessionArray?.length !== 0) {
+          console.log(sessionTranslations);
+          console.log(newSessionArray);
+          console.log(sessionTranslations === newSessionArray);
+          // while (sessionTranslations !== newSessionArray) {}
+        }
+        setUpSessionStep();
+        setStyles("session-translation-card");
+        setBorderStyle("session-translation-card");
+        setCount(count + 1);
+        setOverlay(false);
+      }, 3000);
+    }
 
     console.log("Changed CLICKED");
   };
