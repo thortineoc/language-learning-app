@@ -50,7 +50,9 @@ function CourseSession(): ReactElement {
   const [points, setPoints] = useState(0);
   const [count, setCount] = useState(1);
 
-  const wordsPerRound = 20;
+  const [isLastWord, setIsLastWord] = useState(false);
+
+  const wordsPerRound = 25;
   const pointsForGoodAnswer = 10;
   const numberOfDifferentWordsInSession = 2;
   const repeatUntilLearned = 3;
@@ -78,6 +80,7 @@ function CourseSession(): ReactElement {
   const [clicked, setClicked] = useState("");
 
   useEffect(() => {
+    console.log("USEEEEEEEEEEEEE");
     if (clicked !== "") {
       setTimeout(() => {
         setUpSessionStep();
@@ -88,8 +91,33 @@ function CourseSession(): ReactElement {
       }, 3000);
       console.log("sasas");
       console.log(sessionTranslations);
+
+      if (sessionTranslations?.length === 1) {
+        setIsLastWord(true);
+      }
     }
   }, [sessionTranslations]);
+
+  useEffect(() => {
+    console.log(":)))))))))");
+    if (isLastWord === true) {
+      if (sessionTranslations) {
+        console.log(
+          sessionTranslations[0].translationUserProgress[0].timesRepeated
+        );
+      }
+      if (
+        sessionTranslations &&
+        sessionTranslations[0].translationUserProgress[0].timesRepeated ===
+          repeatUntilLearned
+      ) {
+        console.log("End");
+        setTimeout(() => {
+          setEnd(true);
+        }, 3000);
+      }
+    }
+  }, [isLastWord, currentTranslation]);
 
   const checkAnswer = (word: string) => {
     let newSessionArray: allTranslationsType[] | undefined = [];
@@ -125,11 +153,17 @@ function CourseSession(): ReactElement {
               repeatUntilLearned && !sessionTranslations?.includes(word)
         );
         if (nextWordIndex === -1) {
-          setTimeout(() => {
-            setEnd(true);
-          }, 3000);
+          if (allTranslations && nextWordIndex !== undefined) {
+            newSessionArray = sessionTranslations?.filter(
+              (el) => el !== currentTranslation
+            );
+            if (newSessionArray && newSessionArray.length) {
+              setSessionTranslations([...newSessionArray]);
+              isSessionArraySet = true;
+            }
+          }
         } else {
-          if (allTranslations && nextWordIndex) {
+          if (allTranslations && nextWordIndex !== undefined) {
             const nextWord = allTranslations[nextWordIndex];
             newSessionArray = sessionTranslations?.filter(
               (el) => el !== currentTranslation
@@ -240,6 +274,7 @@ function CourseSession(): ReactElement {
       {end && (
         <div className="end-container">
           <div className="end">SESSION ENDED</div>
+          {isLastWord && <div className="end">You finished this course</div>}
           <div>You gained {points} points!</div>
           <div className="links-container">
             <Link to="/" className="end-link">
