@@ -25,6 +25,17 @@ interface allTranslationsType {
   translationUserProgress: translationUserProgressType[];
 }
 
+interface translationResultType {
+  translationId: number;
+  repeated: number;
+}
+
+interface sessionResultType {
+  courseId: number;
+  categoryId: number;
+  translations: translationResultType[];
+}
+
 function CourseSession(): ReactElement {
   const session = useSelector(selectSession);
   const user = useSelector(selectUser);
@@ -51,8 +62,9 @@ function CourseSession(): ReactElement {
   const [count, setCount] = useState(1);
 
   const [isLastWord, setIsLastWord] = useState(false);
+  const [results, setResults] = useState<Map<number, number>>(new Map());
 
-  const wordsPerRound = 25;
+  const wordsPerRound = 10;
   const pointsForGoodAnswer = 10;
   const numberOfDifferentWordsInSession = 2;
   const repeatUntilLearned = 3;
@@ -119,6 +131,14 @@ function CourseSession(): ReactElement {
     }
   }, [isLastWord, currentTranslation]);
 
+  useEffect(() => {
+    if (end) {
+      console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+      const obj = Object.fromEntries(results);
+
+    }
+  }, [results, end]);
+
   const checkAnswer = (word: string) => {
     let newSessionArray: allTranslationsType[] | undefined = [];
     let isSessionArraySet = false;
@@ -134,14 +154,29 @@ function CourseSession(): ReactElement {
       setStyles("session-translation-card correct");
       setPoints(points + pointsForGoodAnswer);
 
+      /*
+      const newTranslationResult = {
+        translationId: currentTranslation.id,
+        repeated: currentTranslation.translationUserProgress[0].timesRepeated,
+      };
+      setResults([...results, newTranslationResult]);
+*/
       const newTranslation = { ...currentTranslation };
       newTranslation.translationUserProgress[0].timesRepeated =
         newTranslation.translationUserProgress[0].timesRepeated + 1;
       setCurrentTranslation(newTranslation);
+
       while (
         currentTranslation.translationUserProgress[0].timesRepeated !==
         newTranslation.translationUserProgress[0].timesRepeated
       ) {}
+
+      const newMap = results?.set(
+        currentTranslation.id,
+        currentTranslation.translationUserProgress[0].timesRepeated
+      );
+      setResults(newMap);
+
       if (
         currentTranslation.translationUserProgress[0].timesRepeated ===
         repeatUntilLearned
