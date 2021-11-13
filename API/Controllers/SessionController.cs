@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "RequireLoggedInUser")]
     public class SessionController : ControllerBase
@@ -21,8 +22,8 @@ namespace API.Controllers
         {
             _sessionRepository = sessionRepository;
         }
-        
-        [Route("api/course/{courseId}/category/{categoryId}")]
+
+        [HttpGet("{courseId}/{categoryId}")]
         public async Task<ActionResult<IEnumerable<Translation>>> GetCategoryTranslations(int courseId, int categoryId)
         {
             var userId = User.GetUserId();
@@ -30,8 +31,15 @@ namespace API.Controllers
             return Ok(translations);
         }
 
+        [HttpPut("{courseId}/{categoryId}")]
+        public async Task<ActionResult<AppUser>> SaveSessionResults(int courseId, int categoryId, UpdateTranslationInfoDto[] body)
+        {
+            var userId = User.GetUserId();
+            var res = await _sessionRepository.SaveSessionProgress(courseId, categoryId, body, userId);
+            return Ok(res);
+        }
+
         [HttpGet("{id}")]
-        [Route("api/random/{id}")]
         public async Task<ActionResult<List<string>>> GetRandomTranslations(int id)
         {
             var translations = await _sessionRepository.GetRandomTranslations(id);

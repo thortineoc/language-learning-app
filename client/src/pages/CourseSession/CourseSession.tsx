@@ -25,17 +25,6 @@ interface allTranslationsType {
   translationUserProgress: translationUserProgressType[];
 }
 
-interface translationResultType {
-  translationId: number;
-  repeated: number;
-}
-
-interface sessionResultType {
-  courseId: number;
-  categoryId: number;
-  translations: translationResultType[];
-}
-
 function CourseSession(): ReactElement {
   const session = useSelector(selectSession);
   const user = useSelector(selectUser);
@@ -64,7 +53,7 @@ function CourseSession(): ReactElement {
   const [isLastWord, setIsLastWord] = useState(false);
   const [results, setResults] = useState<Map<number, number>>(new Map());
 
-  const wordsPerRound = 10;
+  const wordsPerRound = 5;
   const pointsForGoodAnswer = 10;
   const numberOfDifferentWordsInSession = 2;
   const repeatUntilLearned = 3;
@@ -134,8 +123,16 @@ function CourseSession(): ReactElement {
   useEffect(() => {
     if (end) {
       console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-      const obj = Object.fromEntries(results);
-
+      var mappedResult: { translationId: number; repetitions: number }[] = [];
+      results.forEach((val, key) => {
+        mappedResult.push({ translationId: key, repetitions: val });
+      });
+      axios
+        .put(getTranslationsUrl, mappedResult, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
     }
   }, [results, end]);
 
@@ -154,13 +151,6 @@ function CourseSession(): ReactElement {
       setStyles("session-translation-card correct");
       setPoints(points + pointsForGoodAnswer);
 
-      /*
-      const newTranslationResult = {
-        translationId: currentTranslation.id,
-        repeated: currentTranslation.translationUserProgress[0].timesRepeated,
-      };
-      setResults([...results, newTranslationResult]);
-*/
       const newTranslation = { ...currentTranslation };
       newTranslation.translationUserProgress[0].timesRepeated =
         newTranslation.translationUserProgress[0].timesRepeated + 1;
@@ -243,10 +233,10 @@ function CourseSession(): ReactElement {
 
   useEffect(() => {
     setGetTranslationsUrl(
-      `https://localhost:5001/api/course/${session.courseId}/category/${session.categoryId}`
+      `https://localhost:5001/api/session/${session.courseId}/${session.categoryId}`
     );
     setGetRandomWordsUrl(
-      `https://localhost:5001/api/random/${session.courseId}`
+      `https://localhost:5001/api/session/${session.courseId}`
     );
   }, [session]);
 
