@@ -51,8 +51,9 @@ function CourseSession(): ReactElement {
   const [count, setCount] = useState(1);
 
   const [isLastWord, setIsLastWord] = useState(false);
+  const [results, setResults] = useState<Map<number, number>>(new Map());
 
-  const wordsPerRound = 25;
+  const wordsPerRound = 5;
   const pointsForGoodAnswer = 10;
   const numberOfDifferentWordsInSession = 2;
   const repeatUntilLearned = 3;
@@ -119,6 +120,22 @@ function CourseSession(): ReactElement {
     }
   }, [isLastWord, currentTranslation]);
 
+  useEffect(() => {
+    if (end) {
+      console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+      var mappedResult: { translationId: number; repetitions: number }[] = [];
+      results.forEach((val, key) => {
+        mappedResult.push({ translationId: key, repetitions: val });
+      });
+      axios
+        .put(getTranslationsUrl, mappedResult, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    }
+  }, [results, end]);
+
   const checkAnswer = (word: string) => {
     let newSessionArray: allTranslationsType[] | undefined = [];
     let isSessionArraySet = false;
@@ -138,10 +155,18 @@ function CourseSession(): ReactElement {
       newTranslation.translationUserProgress[0].timesRepeated =
         newTranslation.translationUserProgress[0].timesRepeated + 1;
       setCurrentTranslation(newTranslation);
+
       while (
         currentTranslation.translationUserProgress[0].timesRepeated !==
         newTranslation.translationUserProgress[0].timesRepeated
       ) {}
+
+      const newMap = results?.set(
+        currentTranslation.id,
+        currentTranslation.translationUserProgress[0].timesRepeated
+      );
+      setResults(newMap);
+
       if (
         currentTranslation.translationUserProgress[0].timesRepeated ===
         repeatUntilLearned
@@ -208,10 +233,10 @@ function CourseSession(): ReactElement {
 
   useEffect(() => {
     setGetTranslationsUrl(
-      `https://localhost:5001/api/course/${session.courseId}/category/${session.categoryId}`
+      `https://localhost:5001/api/session/${session.courseId}/${session.categoryId}`
     );
     setGetRandomWordsUrl(
-      `https://localhost:5001/api/random/${session.courseId}`
+      `https://localhost:5001/api/session/${session.courseId}`
     );
   }, [session]);
 

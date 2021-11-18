@@ -13,5 +13,7 @@ namespace API.Repositories.Interfaces
         Task<List<AppUser>> GetTranslationsFromCategory(int courseId, int categoryId, int userId);
 
         Task<List<string>> GetRandomTranslations(int id);
+
+        Task<AppUser> SaveSessionProgress(int courseId, int categoryId, UpdateTranslationInfoDto[] body, int userId);
     }
 }

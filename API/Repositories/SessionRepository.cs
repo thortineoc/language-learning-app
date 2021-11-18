@@ -40,8 +40,42 @@ namespace API.Repositories
                 .ThenInclude(c => c.Translations)
                 .ThenInclude(c => c.TranslationUserProgress)
                 .ToListAsync();
-            
+
             return result;
+        }
+
+        public async Task<AppUser> SaveSessionProgress(int courseId, int categoryId, UpdateTranslationInfoDto[] body, int userId)
+        {
+
+            var itemToUpdate = await _context.Users
+                .FindAsync(userId);
+
+            var user = _context.Users
+                .Include(u => u.UserCourses.Where(x => x.CourseId == courseId))
+                .ThenInclude(x => x.Course)
+                .ThenInclude(c => c.Categories.Where(c => c.Id == categoryId))
+                .ThenInclude(c => c.Translations)
+                .ThenInclude(c => c.TranslationUserProgress)
+                .Single(u => u.Id == userId);
+
+            foreach (var pair in body)
+            {
+                var itemToChange = user.UserCourses
+                    .First().Course.Categories
+                    .First().Translations
+                    .Single(t => t.Id == pair.TranslationId).TranslationUserProgress
+                    .First();
+
+                itemToChange.TimesRepeated = pair.Repetitions;
+                if(pair.Repetitions == 3)
+                {
+                    itemToChange.IsLearned = true;
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            
+            return itemToUpdate;
         }
 
         public async Task<List<string>> GetRandomTranslations(int id)
@@ -52,7 +86,7 @@ namespace API.Repositories
                 .Include(c => c.Categories)
                 .ThenInclude(cat => cat.Translations)
                 .FirstOrDefaultAsync(x => x.Id == id);
-            
+
             if (course == null)
             {
                 throw new NullReferenceException();
@@ -67,7 +101,7 @@ namespace API.Repositories
                     }
                 }
             }
-            
+
             var rand = new Random();
             var numberOfRandomWords = 3;
             var randomNumber = 0;
@@ -76,11 +110,11 @@ namespace API.Repositories
             for (int ctr = 0; ctr < numberOfRandomWords + 1; ctr++)
             {
                 randomNumber = rand.Next(words.Count);
-                var randomWord = words[randomNumber]; 
+                var randomWord = words[randomNumber];
                 while (randomWords.Contains(randomWord))
                 {
                     randomNumber = rand.Next(words.Count);
-                    randomWord = words[randomNumber]; 
+                    randomWord = words[randomNumber];
                 }
                 randomWords.Add(words[randomNumber]);
             }
