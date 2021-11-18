@@ -34,7 +34,7 @@ namespace API.Repositories
 
             _context.AppUserCourses.Add(userCourse);
             await _context.SaveChangesAsync();
-            
+
             foreach (var courseCategory in userCourse.Course.Categories)
             {
                 foreach (var courseCategoryTranslation in courseCategory.Translations)
@@ -73,9 +73,22 @@ namespace API.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<AppUserCourse> DeleteCourse(int id, int userId)
+        public async Task<AppUserCourse> DeleteCourse(int courseId, int userId)
         {
-            var relation = _context.AppUserCourses.First(row => row.AppUserId == userId && row.CourseId == id);
+            IQueryable<TranslationUserProgress> translations = _context.TranslationUserProgresses
+                .Include(x => x.Translation)
+                .ThenInclude(x => x.Category)
+                .ThenInclude(x => x.Course)
+                .Where(x => x.AppUserId == userId && x.Translation.Category.CourseId == courseId);
+
+            foreach (var translation in translations)
+            {
+                _context.Remove(translation);
+            }
+            _context.SaveChanges();
+
+            var relation = _context.AppUserCourses
+                .First(row => row.AppUserId == userId && row.CourseId == courseId);
 
             if (relation == null)
                 throw new NullReferenceException();
@@ -83,8 +96,8 @@ namespace API.Repositories
             _context.Remove(relation);
             _context.SaveChanges();
 
-            return await Task.FromResult(relation);
 
+            return await Task.FromResult(relation);
         }
     }
 }
