@@ -47,6 +47,10 @@ function CourseSession(): ReactElement {
   const [end, setEnd] = useState(false);
   const [overlay, setOverlay] = useState(false);
 
+  const [styles, setStyles] = useState("session-translation-card");
+  const [borderStyle, setBorderStyle] = useState("session-translation-card");
+  const [clicked, setClicked] = useState("");
+
   const [points, setPoints] = useState(0);
   const [count, setCount] = useState(1);
 
@@ -74,68 +78,10 @@ function CourseSession(): ReactElement {
   const start = () => {
     setStarted(true);
     setUpSessionStep();
+    console.log(allTranslations);
   };
 
-  const [styles, setStyles] = useState("session-translation-card");
-  const [borderStyle, setBorderStyle] = useState("session-translation-card");
-  const [clicked, setClicked] = useState("");
-
-  useEffect(() => {
-    console.log("USEEEEEEEEEEEEE");
-    if (clicked !== "") {
-      setTimeout(() => {
-        setUpSessionStep();
-        setStyles("session-translation-card");
-        setBorderStyle("session-translation-card");
-        setCount(count + 1);
-        setOverlay(false);
-      }, 3000);
-      console.log("sasas");
-      console.log(sessionTranslations);
-
-      if (sessionTranslations?.length === 1) {
-        setIsLastWord(true);
-      }
-    }
-  }, [sessionTranslations]);
-
-  useEffect(() => {
-    console.log(":)))))))))");
-    if (isLastWord === true) {
-      if (sessionTranslations) {
-        console.log(
-          sessionTranslations[0].translationUserProgress[0].timesRepeated
-        );
-      }
-      if (
-        sessionTranslations &&
-        sessionTranslations[0].translationUserProgress[0].timesRepeated ===
-          repeatUntilLearned
-      ) {
-        console.log("End");
-        setTimeout(() => {
-          setEnd(true);
-        }, 3000);
-      }
-    }
-  }, [isLastWord, currentTranslation]);
-
-  useEffect(() => {
-    if (end) {
-      console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-      var mappedResult: { translationId: number; repetitions: number }[] = [];
-      results.forEach((val, key) => {
-        mappedResult.push({ translationId: key, repetitions: val });
-      });
-      axios
-        .put(getTranslationsUrl, mappedResult, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-    }
-  }, [results, end]);
-
+  // on anwer click
   const checkAnswer = (word: string) => {
     let newSessionArray: allTranslationsType[] | undefined = [];
     let isSessionArraySet = false;
@@ -214,12 +160,6 @@ function CourseSession(): ReactElement {
     }
     if (isSessionArraySet === false) {
       setTimeout(() => {
-        if (newSessionArray?.length !== 0) {
-          console.log(sessionTranslations);
-          console.log(newSessionArray);
-          console.log(sessionTranslations === newSessionArray);
-          // while (sessionTranslations !== newSessionArray) {}
-        }
         setUpSessionStep();
         setStyles("session-translation-card");
         setBorderStyle("session-translation-card");
@@ -227,10 +167,10 @@ function CourseSession(): ReactElement {
         setOverlay(false);
       }, 3000);
     }
-
     console.log("Changed CLICKED");
   };
 
+  // set urls
   useEffect(() => {
     setGetTranslationsUrl(
       `https://localhost:5001/api/session/${session.courseId}/${session.categoryId}`
@@ -240,6 +180,7 @@ function CourseSession(): ReactElement {
     );
   }, [session]);
 
+  // set states - beginning
   useEffect(() => {
     if (getRandomWordsUrl !== undefined && getTranslationsUrl !== undefined) {
       axios
@@ -264,6 +205,7 @@ function CourseSession(): ReactElement {
     }
   }, [getRandomWordsUrl, getTranslationsUrl, user.token]);
 
+  // begin set translations in session from all translations
   useEffect(() => {
     const arr = [];
     for (let i = 0; i < allTranslations!.length; i++) {
@@ -281,19 +223,75 @@ function CourseSession(): ReactElement {
     setSessionTranslations(arr);
   }, [allTranslations]);
 
+  // after a new word was learned
+  useEffect(() => {
+    if (clicked !== "") {
+      setTimeout(() => {
+        setUpSessionStep();
+        setStyles("session-translation-card");
+        setBorderStyle("session-translation-card");
+        setCount(count + 1);
+        setOverlay(false);
+      }, 3000);
+      console.log(sessionTranslations);
+
+      if (sessionTranslations?.length === 1) {
+        setIsLastWord(true);
+      }
+    }
+  }, [sessionTranslations]);
+
+  // for last word in category
+  useEffect(() => {
+    if (isLastWord === true) {
+      if (sessionTranslations) {
+        console.log(
+          sessionTranslations[0].translationUserProgress[0].timesRepeated
+        );
+      }
+      if (
+        sessionTranslations &&
+        sessionTranslations[0].translationUserProgress[0].timesRepeated ===
+          repeatUntilLearned
+      ) {
+        console.log("End");
+        setTimeout(() => {
+          setEnd(true);
+        }, 3000);
+      }
+    }
+  }, [isLastWord, currentTranslation]);
+
+  // put results in backend
+  useEffect(() => {
+    if (end) {
+      var mappedResult: { translationId: number; repetitions: number }[] = [];
+      results.forEach((val, key) => {
+        mappedResult.push({ translationId: key, repetitions: val });
+      });
+      axios
+        .put(getTranslationsUrl, mappedResult, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    }
+  }, [results, end]);
+
   return (
     <div className="session-display">
       {overlay && <div className="overlay" />}
       {!started && (
         <>
-          <div onClick={start} className="start">
-            START
+          <div className="btn-container">
+            <div onClick={start} className="btn">
+              From language - To language (text)
+            </div>
+            <div className="btn">To language - From language (text)</div>
+            <div className="btn">From language - To language (pictures)</div>
+            <div className="btn">To language - From language (pictures)</div>
           </div>
-          <img
-            src="assets/images/startSession.jpg"
-            alt="start"
-            className="start-img"
-          />
+          <img src="assets/images/startSession.jpg" alt="start" height="380" />
         </>
       )}
       {end && (
