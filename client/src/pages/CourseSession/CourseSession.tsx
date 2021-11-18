@@ -61,17 +61,31 @@ function CourseSession(): ReactElement {
   const pointsForGoodAnswer = 10;
   const numberOfDifferentWordsInSession = 2;
   const repeatUntilLearned = 3;
+  const numberOfRandomWords = 4;
 
   const setUpSessionStep = () => {
     let num = getRandomInt(numberOfDifferentWordsInSession);
     if (sessionTranslations && sessionTranslations[num]) {
       setCurrentTranslation(sessionTranslations[num]);
-      if (randomWords?.includes(sessionTranslations[num].wordTo)) {
-      } else {
-        randomWords?.pop();
-        randomWords?.push(sessionTranslations[num].wordTo);
+
+      let tempRandomArr: string[] | undefined = [];
+      let allTranslationsNum: number;
+      for (let i = 0; i < numberOfRandomWords - 1; i++) {
+        if (allTranslations) {
+          allTranslationsNum = getRandomInt(allTranslations.length);
+          let word = allTranslations[allTranslationsNum].wordTo;
+          while (
+            word === sessionTranslations[num].wordTo ||
+            tempRandomArr.includes(word)
+          ) {
+            allTranslationsNum = getRandomInt(allTranslations.length);
+            word = allTranslations[allTranslationsNum].wordTo;
+          }
+          tempRandomArr.push(word);
+        }
       }
-      setRandomWords(shuffle(randomWords));
+      tempRandomArr.push(sessionTranslations[num].wordTo);
+      setRandomWords(shuffle(tempRandomArr));
     }
   };
 
@@ -191,15 +205,6 @@ function CourseSession(): ReactElement {
           setAllTranslations(
             res.data[0].userCourses[0].course.categories[0].translations
           );
-        })
-        .catch((err) => console.log(err));
-
-      axios
-        .get(getRandomWordsUrl, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        })
-        .then((res) => {
-          setRandomWords(res.data);
         })
         .catch((err) => console.log(err));
     }
