@@ -10,40 +10,13 @@ import { login, selectUser } from "../../slices/UserSlice";
 import DeleteDialog from "./DeleteDialog/DeleteDialog";
 import "./MyCourseDetails.scss";
 import { setSession } from "../../slices/SessionSlice";
-
-interface Translation {
-  id: number;
-  wordFrom: string;
-  wordTo: string;
-}
-
-interface Category {
-  id: number;
-  name: string;
-  translations: Array<Translation>;
-}
-
-interface CourseInfoType {
-  id: number;
-  title: string;
-  languageFrom: {
-    id: number;
-    name: string;
-  };
-  languageTo: {
-    id: number;
-    name: string;
-  };
-  categories: Array<Category>;
-}
+import { Course, Translation } from "../../models/CourseModels";
 
 function MyCourseDetails(): ReactElement {
   const dispatch = useDispatch();
   const { id } = useParams<{ id?: string }>();
   const url = `https://localhost:5001/api/courses/${id}`;
-  const [courseInfo, setCourseInfo] = useState<CourseInfoType | undefined>(
-    undefined
-  );
+  const [courseInfo, setCourseInfo] = useState<Course | undefined>(undefined);
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [translations, setTranslations] = useState<Translation[] | undefined>(

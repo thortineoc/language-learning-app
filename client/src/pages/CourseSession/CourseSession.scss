@@ -11,6 +11,12 @@
     div {
       margin: 20px;
       padding: 30px !important;
+      min-width: 150px;
+      background-color: black;
+
+      &:hover {
+        background-color: $yellow;
+      }
     }
   }
 

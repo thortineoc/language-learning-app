@@ -7,39 +7,12 @@ import { Link } from "react-router-dom";
 import Modal from "../../shared/Modal/Modal";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../slices/UserSlice";
-
-interface Translation {
-  id: number;
-  wordFrom: string;
-  wordTo: string;
-}
-
-interface Category {
-  int: number;
-  name: string;
-  translations: Array<Translation>;
-}
-
-interface CourseInfoType {
-  id: number;
-  title: string;
-  languageFrom: {
-    id: number;
-    name: string;
-  };
-  languageTo: {
-    id: number;
-    name: string;
-  };
-  categories: Array<Category>;
-}
+import { Course, Translation } from "../../models/CourseModels";
 
 function CourseDetails(): ReactElement {
   const { id } = useParams<{ id?: string }>();
   const url = `https://localhost:5001/api/courses/${id}`;
-  const [courseInfo, setCourseInfo] = useState<CourseInfoType | undefined>(
-    undefined
-  );
+  const [courseInfo, setCourseInfo] = useState<Course | undefined>(undefined);
   const [isOpen, setIsOpen] = useState(false);
   const [translations, setTranslations] = useState<Translation[] | undefined>(
     undefined
