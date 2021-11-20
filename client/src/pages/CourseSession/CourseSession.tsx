@@ -8,23 +8,7 @@ import "./CourseSession.scss";
 import { Link } from "react-router-dom";
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 import { Course } from "../../models/CourseModels";
-
-interface translationUserProgressType {
-  appUserId: number;
-  translationId: number;
-  timesRepeated: number;
-  isLearned: boolean;
-  isToReview: boolean;
-}
-
-interface allTranslationsType {
-  id: number;
-  wordFrom: string;
-  wordTo: string;
-  image: null;
-  categoryId: number;
-  translationUserProgress: translationUserProgressType[];
-}
+import { allTranslationsType } from "../../models/CourseSession";
 
 function CourseSession(): ReactElement {
   const session = useSelector(selectSession);
@@ -43,6 +27,7 @@ function CourseSession(): ReactElement {
 
   const [getTranslationsUrl, setGetTranslationsUrl] = useState("");
   const [getCourseLanguagesByIdUrl, setGetCourseLanguagesById] = useState("");
+  const [setPointsUrl, setSetPointsUrl] = useState("");
   const [courseInfo, setCourseInfo] = useState<Course | undefined>(undefined);
 
   const [started, setStarted] = useState(false);
@@ -227,6 +212,7 @@ function CourseSession(): ReactElement {
     setGetCourseLanguagesById(
       `https://localhost:5001/api/courses/${session.courseId}`
     );
+    setSetPointsUrl("https://localhost:5001/api/session/");
   }, [session]);
 
   // set states - beginning
@@ -318,10 +304,13 @@ function CourseSession(): ReactElement {
   // put results in backend
   useEffect(() => {
     if (end) {
-      var mappedResult: { translationId: number; repetitions: number }[] = [];
+      let mappedResult: { translationId: number; repetitions: number }[] = [];
       results.forEach((val, key) => {
         mappedResult.push({ translationId: key, repetitions: val });
       });
+
+      let gainedPoints = { Points: points };
+      console.log(gainedPoints);
       axios
         .put(getTranslationsUrl, mappedResult, {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -329,7 +318,7 @@ function CourseSession(): ReactElement {
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
       axios
-        .post(getTranslationsUrl, points, {
+        .post(setPointsUrl, gainedPoints, {
           headers: { Authorization: `Bearer ${user.token}` },
         })
         .then((res) => console.log(res))
