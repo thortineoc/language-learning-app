@@ -8,7 +8,7 @@ import "./CourseSession.scss";
 import { Link } from "react-router-dom";
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 import { Course } from "../../models/CourseModels";
-import { allTranslationsType } from "../../models/CourseSession";
+import { allTranslationsType } from "../../models/SessionModel";
 
 function CourseSession(): ReactElement {
   const session = useSelector(selectSession);

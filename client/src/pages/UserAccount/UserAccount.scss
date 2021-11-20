@@ -1,0 +1,54 @@
+@import "../../shared/Styles/Colors.scss";
+
+.UserAccount-container {
+  background-color: rgb(44, 44, 44);
+  margin: 0 10%;
+  padding: 1% 3%;
+  border-radius: 30px;
+  display: flex;
+
+  .UserAccount-info-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .UserAccount-username {
+      font-size: 2rem;
+    }
+
+    .UserAccount-email {
+      font-size: 0.8rem;
+      color: $light_gray;
+    }
+  }
+
+  .UserAccount-picture {
+    height: 70px;
+    width: 70px;
+    background-color: black;
+    border: 1px solid gray;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 40px;
+
+    span {
+      font-size: 2.2rem;
+      color: $yellow;
+    }
+  }
+
+  .info-row {
+    width: 100%;
+    font-size: 1.2rem;
+
+    .info-title {
+      font-weight: 600;
+    }
+
+    .info-details {
+      color: $bright-blue
+    }
+  }
+}

@@ -40,6 +40,8 @@ namespace API.Repositories
             foreach (var userCourse in user.UserCourses)
             {
                 var course = userCourse.Course;
+                var isFinished = false;
+                
                 CourseInformation courseInfo = new()
                 {
                     Id = course.Id,
