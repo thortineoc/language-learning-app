@@ -71,11 +71,19 @@ namespace API.Repositories
                 {
                     itemToChange.IsLearned = true;
                 }
-
+                
                 await _context.SaveChangesAsync();
             }
             
             return itemToUpdate;
+        }
+
+        public async Task<long> SaveSessionPoints(PointsDto pointsDto, int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            user.Points += pointsDto.Points;
+            await _context.SaveChangesAsync();
+            return user.Points;
         }
 
         public async Task<List<string>> GetRandomTranslations(int id)

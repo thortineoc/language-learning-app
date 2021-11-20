@@ -15,5 +15,6 @@ namespace API.Repositories.Interfaces
         Task<List<string>> GetRandomTranslations(int id);
 
         Task<AppUser> SaveSessionProgress(int courseId, int categoryId, UpdateTranslationInfoDto[] body, int userId);
+        Task<long> SaveSessionPoints(PointsDto pointsDto, int userId);
     }
 }

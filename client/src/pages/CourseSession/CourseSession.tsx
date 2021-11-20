@@ -328,6 +328,12 @@ function CourseSession(): ReactElement {
         })
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
+      axios
+        .post(getTranslationsUrl, points, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
     }
   }, [results, end]);
 
