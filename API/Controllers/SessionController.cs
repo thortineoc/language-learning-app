@@ -40,12 +40,12 @@ namespace API.Controllers
         }
         
         [HttpPost]
-                public async Task<ActionResult<long>> SaveSessionPoints(PointsDto points)
-                {
-                    var userId = User.GetUserId();
-                    var res = await _sessionRepository.SaveSessionPoints(points, userId);
-                    return Ok(res);
-                }
+        public async Task<ActionResult<long>> SaveSessionPoints(PointsDto points) 
+        { 
+            var userId = User.GetUserId();
+            var res = await _sessionRepository.SaveSessionPoints(points, userId); 
+            return Ok(res);
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<List<string>>> GetRandomTranslations(int id)

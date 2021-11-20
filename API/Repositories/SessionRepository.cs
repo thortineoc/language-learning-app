@@ -5,19 +5,8 @@ using System.Threading.Tasks;
 using API.Data;
 using API.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using API.Dtos;
-using API.Extensions;
-using API.Models;
-using API.Repositories;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using API.Repositories.Interfaces;
-using Microsoft.OpenApi.Any;
 
 namespace API.Repositories
 {
