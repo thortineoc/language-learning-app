@@ -57,6 +57,8 @@ function CourseSession(): ReactElement {
   const [isLastWord, setIsLastWord] = useState(false);
   const [results, setResults] = useState<Map<number, number>>(new Map());
 
+  const [fromLearnedTextMode, setFromLearnedTextMode] = useState(false);
+
   const wordsPerRound = 5;
   const pointsForGoodAnswer = 10;
   const numberOfDifferentWordsInSession = 2;
@@ -73,18 +75,35 @@ function CourseSession(): ReactElement {
       for (let i = 0; i < numberOfRandomWords - 1; i++) {
         if (allTranslations) {
           allTranslationsNum = getRandomInt(allTranslations.length);
-          let word = allTranslations[allTranslationsNum].wordTo;
-          while (
-            word === sessionTranslations[num].wordTo ||
-            tempRandomArr.includes(word)
-          ) {
-            allTranslationsNum = getRandomInt(allTranslations.length);
-            word = allTranslations[allTranslationsNum].wordTo;
+          let word = !fromLearnedTextMode
+            ? allTranslations[allTranslationsNum].wordTo
+            : allTranslations[allTranslationsNum].wordFrom;
+          if (!fromLearnedTextMode) {
+            while (
+              word === sessionTranslations[num].wordTo ||
+              tempRandomArr.includes(word)
+            ) {
+              allTranslationsNum = getRandomInt(allTranslations.length);
+              word = allTranslations[allTranslationsNum].wordTo;
+            }
+            tempRandomArr.push(word);
+          } else {
+            while (
+              word === sessionTranslations[num].wordFrom ||
+              tempRandomArr.includes(word)
+            ) {
+              allTranslationsNum = getRandomInt(allTranslations.length);
+              word = allTranslations[allTranslationsNum].wordFrom;
+            }
+            tempRandomArr.push(word);
           }
-          tempRandomArr.push(word);
         }
       }
-      tempRandomArr.push(sessionTranslations[num].wordTo);
+      if (!fromLearnedTextMode) {
+        tempRandomArr.push(sessionTranslations[num].wordTo);
+      } else {
+        tempRandomArr.push(sessionTranslations[num].wordFrom);
+      }
       setRandomWords(shuffle(tempRandomArr));
     }
   };
@@ -94,6 +113,17 @@ function CourseSession(): ReactElement {
     setUpSessionStep();
     console.log(allTranslations);
   };
+
+  const startFromLearnedTextMode = () => {
+    setFromLearnedTextMode(true);
+  };
+
+  useEffect(() => {
+    if (fromLearnedTextMode === true) {
+      console.log("Helo");
+      start();
+    }
+  }, [fromLearnedTextMode]);
 
   // on anwer click
   const checkAnswer = (word: string) => {
@@ -107,7 +137,10 @@ function CourseSession(): ReactElement {
     }
 
     setClicked(word);
-    if (word === currentTranslation?.wordTo) {
+    if (
+      (!fromLearnedTextMode && word === currentTranslation?.wordTo) ||
+      (fromLearnedTextMode && word === currentTranslation?.wordFrom)
+    ) {
       setStyles("session-translation-card correct");
       setPoints(points + pointsForGoodAnswer);
 
@@ -163,6 +196,7 @@ function CourseSession(): ReactElement {
         }
       }
     } else {
+      console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOO");
       setStyles("session-translation-card wrong");
       setBorderStyle("session-translation-card was-correct");
     }
@@ -170,7 +204,6 @@ function CourseSession(): ReactElement {
     if (newSessionArray?.length !== 0) {
       console.log(newSessionArray);
       console.log(sessionTranslations);
-      //while (sessionTranslations !== newSessionArray) {}
     }
     if (isSessionArraySet === false) {
       setTimeout(() => {
@@ -189,9 +222,6 @@ function CourseSession(): ReactElement {
     setGetTranslationsUrl(
       `https://localhost:5001/api/session/${session.courseId}/${session.categoryId}`
     );
-    setGetRandomWordsUrl(
-      `https://localhost:5001/api/session/${session.courseId}`
-    );
   }, [session]);
 
   // set states - beginning
@@ -208,7 +238,7 @@ function CourseSession(): ReactElement {
         })
         .catch((err) => console.log(err));
     }
-  }, [getRandomWordsUrl, getTranslationsUrl, user.token]);
+  }, [getTranslationsUrl, user.token]);
 
   // begin set translations in session from all translations
   useEffect(() => {
@@ -230,6 +260,8 @@ function CourseSession(): ReactElement {
 
   // after a new word was learned
   useEffect(() => {
+    console.log("outside");
+    console.log(sessionTranslations);
     if (clicked !== "") {
       setTimeout(() => {
         setUpSessionStep();
@@ -238,6 +270,7 @@ function CourseSession(): ReactElement {
         setCount(count + 1);
         setOverlay(false);
       }, 3000);
+      console.log("inside");
       console.log(sessionTranslations);
 
       if (sessionTranslations?.length === 1) {
@@ -292,7 +325,9 @@ function CourseSession(): ReactElement {
             <div onClick={start} className="btn">
               From language - To language (text)
             </div>
-            <div className="btn">To language - From language (text)</div>
+            <div className="btn" onClick={startFromLearnedTextMode}>
+              To language - From language (text)
+            </div>
             <div className="btn">From language - To language (pictures)</div>
             <div className="btn">To language - From language (pictures)</div>
           </div>
@@ -320,7 +355,11 @@ function CourseSession(): ReactElement {
             <div>{count + " / " + wordsPerRound + " words"}</div>
             <div>{points + " points"}</div>
           </div>
-          <div className="session-word">{currentTranslation.wordFrom}</div>
+          <div className="session-word">
+            {!fromLearnedTextMode
+              ? currentTranslation.wordFrom
+              : currentTranslation.wordTo}
+          </div>
           <div className="light-bulb-icons">
             {[
               ...Array(
@@ -337,7 +376,10 @@ function CourseSession(): ReactElement {
                 className={
                   word === clicked
                     ? styles
-                    : word === currentTranslation.wordTo
+                    : (!fromLearnedTextMode &&
+                        word === currentTranslation.wordTo) ||
+                      (fromLearnedTextMode &&
+                        word === currentTranslation.wordFrom)
                     ? borderStyle
                     : "session-translation-card"
                 }
@@ -348,6 +390,9 @@ function CourseSession(): ReactElement {
             ))}
           </div>
         </>
+      )}
+      {end && sessionTranslations && sessionTranslations.length === 0 && (
+        <div>You already finished learning word from this category</div>
       )}
     </div>
   );

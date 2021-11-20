@@ -81,7 +81,7 @@
   @extend .btn;
 
   &:hover {
-    background-color: rgb(107, 205, 50);
+    background-color: $green;
   }
 }
 
@@ -89,6 +89,6 @@
   @extend .btn;
 
   &:hover {
-    background-color: rgb(205, 50, 63);
+    background-color: $red;
   }
 }

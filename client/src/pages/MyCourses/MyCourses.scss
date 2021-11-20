@@ -1,0 +1,26 @@
+@import "../../shared/Styles/Colors.scss";
+
+.No-courses-info {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  min-height: 200px;
+
+  .No-courses-info-title {
+    font-size: 3rem;
+  }
+
+  .No-courses-info-link {
+    color: $light_gray;
+    font-size: 1.2rem;
+
+    &:hover {
+      color: gray;
+    }
+  }
+}
