@@ -43,8 +43,9 @@ function MyCourseDetails(): ReactElement {
     setCategory(categoryId);
   };
 
-  const dispatchActions = () => {
-    dispatch(setSession({ courseId: id, categoryId: category }));
+  const dispatchActions = (categoryId: number) => {
+    console.log(categoryId);
+    dispatch(setSession({ courseId: id, categoryId: categoryId }));
     dispatch(login({ ...user }));
   };
 
@@ -55,7 +56,12 @@ function MyCourseDetails(): ReactElement {
           <span className="CourseDetails-title">{courseInfo?.title}</span>
           <div className="CourseDetails-title-buttons-group">
             <Link className="link" to="/session">
-              <Button className="Button-add">Play</Button>
+              <Button
+                className="Button-add"
+                onClick={() => dispatchActions(-1)}
+              >
+                Play
+              </Button>
             </Link>
             <Button
               className="Button-return"
@@ -88,7 +94,10 @@ function MyCourseDetails(): ReactElement {
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <div className="button-container">
           <Link className="link" to="/session">
-            <Button className="Button-add" onClick={dispatchActions}>
+            <Button
+              className="Button-add"
+              onClick={() => dispatchActions(category)}
+            >
               Play
             </Button>
           </Link>

@@ -91,6 +91,9 @@ namespace API.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<long>("Points")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
@@ -119,6 +122,15 @@ namespace API.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("nAllWords")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("nWordsLearned")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("nWordsToReview")
                         .HasColumnType("integer");
 
                     b.HasKey("AppUserId", "CourseId");

@@ -1,3 +1,8 @@
+export interface Language {
+  id: number;
+  name: string;
+}
+
 export interface Translation {
   id: number;
   wordFrom: string;
@@ -13,13 +18,7 @@ export interface Category {
 export interface Course {
   id: number;
   title: string;
-  languageFrom: {
-    id: number;
-    name: string;
-  };
-  languageTo: {
-    id: number;
-    name: string;
-  };
+  languageFrom: Language;
+  languageTo: Language;
   categories: Array<Category>;
 }
