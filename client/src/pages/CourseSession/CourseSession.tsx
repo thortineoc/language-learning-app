@@ -47,95 +47,85 @@ function CourseSession(): ReactElement {
   const [end, setEnd] = useState(false);
   const [overlay, setOverlay] = useState(false);
 
+  const [styles, setStyles] = useState("session-translation-card");
+  const [borderStyle, setBorderStyle] = useState("session-translation-card");
+  const [clicked, setClicked] = useState("");
+
   const [points, setPoints] = useState(0);
   const [count, setCount] = useState(1);
 
   const [isLastWord, setIsLastWord] = useState(false);
   const [results, setResults] = useState<Map<number, number>>(new Map());
 
+  const [fromLearnedTextMode, setFromLearnedTextMode] = useState(false);
+
   const wordsPerRound = 5;
   const pointsForGoodAnswer = 10;
   const numberOfDifferentWordsInSession = 2;
   const repeatUntilLearned = 3;
+  const numberOfRandomWords = 4;
 
   const setUpSessionStep = () => {
     let num = getRandomInt(numberOfDifferentWordsInSession);
     if (sessionTranslations && sessionTranslations[num]) {
       setCurrentTranslation(sessionTranslations[num]);
-      if (randomWords?.includes(sessionTranslations[num].wordTo)) {
-      } else {
-        randomWords?.pop();
-        randomWords?.push(sessionTranslations[num].wordTo);
+
+      let tempRandomArr: string[] | undefined = [];
+      let allTranslationsNum: number;
+      for (let i = 0; i < numberOfRandomWords - 1; i++) {
+        if (allTranslations) {
+          allTranslationsNum = getRandomInt(allTranslations.length);
+          let word = !fromLearnedTextMode
+            ? allTranslations[allTranslationsNum].wordTo
+            : allTranslations[allTranslationsNum].wordFrom;
+          if (!fromLearnedTextMode) {
+            while (
+              word === sessionTranslations[num].wordTo ||
+              tempRandomArr.includes(word)
+            ) {
+              allTranslationsNum = getRandomInt(allTranslations.length);
+              word = allTranslations[allTranslationsNum].wordTo;
+            }
+            tempRandomArr.push(word);
+          } else {
+            while (
+              word === sessionTranslations[num].wordFrom ||
+              tempRandomArr.includes(word)
+            ) {
+              allTranslationsNum = getRandomInt(allTranslations.length);
+              word = allTranslations[allTranslationsNum].wordFrom;
+            }
+            tempRandomArr.push(word);
+          }
+        }
       }
-      setRandomWords(shuffle(randomWords));
+      if (!fromLearnedTextMode) {
+        tempRandomArr.push(sessionTranslations[num].wordTo);
+      } else {
+        tempRandomArr.push(sessionTranslations[num].wordFrom);
+      }
+      setRandomWords(shuffle(tempRandomArr));
     }
   };
 
   const start = () => {
     setStarted(true);
     setUpSessionStep();
+    console.log(allTranslations);
   };
 
-  const [styles, setStyles] = useState("session-translation-card");
-  const [borderStyle, setBorderStyle] = useState("session-translation-card");
-  const [clicked, setClicked] = useState("");
+  const startFromLearnedTextMode = () => {
+    setFromLearnedTextMode(true);
+  };
 
   useEffect(() => {
-    console.log("USEEEEEEEEEEEEE");
-    if (clicked !== "") {
-      setTimeout(() => {
-        setUpSessionStep();
-        setStyles("session-translation-card");
-        setBorderStyle("session-translation-card");
-        setCount(count + 1);
-        setOverlay(false);
-      }, 3000);
-      console.log("sasas");
-      console.log(sessionTranslations);
-
-      if (sessionTranslations?.length === 1) {
-        setIsLastWord(true);
-      }
+    if (fromLearnedTextMode === true) {
+      console.log("Helo");
+      start();
     }
-  }, [sessionTranslations]);
+  }, [fromLearnedTextMode]);
 
-  useEffect(() => {
-    console.log(":)))))))))");
-    if (isLastWord === true) {
-      if (sessionTranslations) {
-        console.log(
-          sessionTranslations[0].translationUserProgress[0].timesRepeated
-        );
-      }
-      if (
-        sessionTranslations &&
-        sessionTranslations[0].translationUserProgress[0].timesRepeated ===
-          repeatUntilLearned
-      ) {
-        console.log("End");
-        setTimeout(() => {
-          setEnd(true);
-        }, 3000);
-      }
-    }
-  }, [isLastWord, currentTranslation]);
-
-  useEffect(() => {
-    if (end) {
-      console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-      var mappedResult: { translationId: number; repetitions: number }[] = [];
-      results.forEach((val, key) => {
-        mappedResult.push({ translationId: key, repetitions: val });
-      });
-      axios
-        .put(getTranslationsUrl, mappedResult, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-    }
-  }, [results, end]);
-
+  // on anwer click
   const checkAnswer = (word: string) => {
     let newSessionArray: allTranslationsType[] | undefined = [];
     let isSessionArraySet = false;
@@ -147,7 +137,10 @@ function CourseSession(): ReactElement {
     }
 
     setClicked(word);
-    if (word === currentTranslation?.wordTo) {
+    if (
+      (!fromLearnedTextMode && word === currentTranslation?.wordTo) ||
+      (fromLearnedTextMode && word === currentTranslation?.wordFrom)
+    ) {
       setStyles("session-translation-card correct");
       setPoints(points + pointsForGoodAnswer);
 
@@ -203,6 +196,7 @@ function CourseSession(): ReactElement {
         }
       }
     } else {
+      console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOO");
       setStyles("session-translation-card wrong");
       setBorderStyle("session-translation-card was-correct");
     }
@@ -210,16 +204,9 @@ function CourseSession(): ReactElement {
     if (newSessionArray?.length !== 0) {
       console.log(newSessionArray);
       console.log(sessionTranslations);
-      //while (sessionTranslations !== newSessionArray) {}
     }
     if (isSessionArraySet === false) {
       setTimeout(() => {
-        if (newSessionArray?.length !== 0) {
-          console.log(sessionTranslations);
-          console.log(newSessionArray);
-          console.log(sessionTranslations === newSessionArray);
-          // while (sessionTranslations !== newSessionArray) {}
-        }
         setUpSessionStep();
         setStyles("session-translation-card");
         setBorderStyle("session-translation-card");
@@ -227,19 +214,17 @@ function CourseSession(): ReactElement {
         setOverlay(false);
       }, 3000);
     }
-
     console.log("Changed CLICKED");
   };
 
+  // set urls
   useEffect(() => {
     setGetTranslationsUrl(
       `https://localhost:5001/api/session/${session.courseId}/${session.categoryId}`
     );
-    setGetRandomWordsUrl(
-      `https://localhost:5001/api/session/${session.courseId}`
-    );
   }, [session]);
 
+  // set states - beginning
   useEffect(() => {
     if (getRandomWordsUrl !== undefined && getTranslationsUrl !== undefined) {
       axios
@@ -252,18 +237,10 @@ function CourseSession(): ReactElement {
           );
         })
         .catch((err) => console.log(err));
-
-      axios
-        .get(getRandomWordsUrl, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        })
-        .then((res) => {
-          setRandomWords(res.data);
-        })
-        .catch((err) => console.log(err));
     }
-  }, [getRandomWordsUrl, getTranslationsUrl, user.token]);
+  }, [getTranslationsUrl, user.token]);
 
+  // begin set translations in session from all translations
   useEffect(() => {
     const arr = [];
     for (let i = 0; i < allTranslations!.length; i++) {
@@ -281,19 +258,80 @@ function CourseSession(): ReactElement {
     setSessionTranslations(arr);
   }, [allTranslations]);
 
+  // after a new word was learned
+  useEffect(() => {
+    console.log("outside");
+    console.log(sessionTranslations);
+    if (clicked !== "") {
+      setTimeout(() => {
+        setUpSessionStep();
+        setStyles("session-translation-card");
+        setBorderStyle("session-translation-card");
+        setCount(count + 1);
+        setOverlay(false);
+      }, 3000);
+      console.log("inside");
+      console.log(sessionTranslations);
+
+      if (sessionTranslations?.length === 1) {
+        setIsLastWord(true);
+      }
+    }
+  }, [sessionTranslations]);
+
+  // for last word in category
+  useEffect(() => {
+    if (isLastWord === true) {
+      if (sessionTranslations) {
+        console.log(
+          sessionTranslations[0].translationUserProgress[0].timesRepeated
+        );
+      }
+      if (
+        sessionTranslations &&
+        sessionTranslations[0].translationUserProgress[0].timesRepeated ===
+          repeatUntilLearned
+      ) {
+        console.log("End");
+        setTimeout(() => {
+          setEnd(true);
+        }, 3000);
+      }
+    }
+  }, [isLastWord, currentTranslation]);
+
+  // put results in backend
+  useEffect(() => {
+    if (end) {
+      var mappedResult: { translationId: number; repetitions: number }[] = [];
+      results.forEach((val, key) => {
+        mappedResult.push({ translationId: key, repetitions: val });
+      });
+      axios
+        .put(getTranslationsUrl, mappedResult, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    }
+  }, [results, end]);
+
   return (
     <div className="session-display">
       {overlay && <div className="overlay" />}
       {!started && (
         <>
-          <div onClick={start} className="start">
-            START
+          <div className="btn-container">
+            <div onClick={start} className="btn">
+              From language - To language (text)
+            </div>
+            <div className="btn" onClick={startFromLearnedTextMode}>
+              To language - From language (text)
+            </div>
+            <div className="btn">From language - To language (pictures)</div>
+            <div className="btn">To language - From language (pictures)</div>
           </div>
-          <img
-            src="assets/images/startSession.jpg"
-            alt="start"
-            className="start-img"
-          />
+          <img src="assets/images/startSession.jpg" alt="start" height="380" />
         </>
       )}
       {end && (
@@ -317,7 +355,11 @@ function CourseSession(): ReactElement {
             <div>{count + " / " + wordsPerRound + " words"}</div>
             <div>{points + " points"}</div>
           </div>
-          <div className="session-word">{currentTranslation.wordFrom}</div>
+          <div className="session-word">
+            {!fromLearnedTextMode
+              ? currentTranslation.wordFrom
+              : currentTranslation.wordTo}
+          </div>
           <div className="light-bulb-icons">
             {[
               ...Array(
@@ -334,7 +376,10 @@ function CourseSession(): ReactElement {
                 className={
                   word === clicked
                     ? styles
-                    : word === currentTranslation.wordTo
+                    : (!fromLearnedTextMode &&
+                        word === currentTranslation.wordTo) ||
+                      (fromLearnedTextMode &&
+                        word === currentTranslation.wordFrom)
                     ? borderStyle
                     : "session-translation-card"
                 }
@@ -345,6 +390,9 @@ function CourseSession(): ReactElement {
             ))}
           </div>
         </>
+      )}
+      {end && sessionTranslations && sessionTranslations.length === 0 && (
+        <div>You already finished learning word from this category</div>
       )}
     </div>
   );

@@ -5,6 +5,15 @@
   flex-direction: column;
   align-items: center;
 
+  .btn-container {
+    display: flex;
+
+    div {
+      margin: 20px;
+      padding: 30px !important;
+    }
+  }
+
   .overlay {
     position: absolute;
     top: 0;
@@ -81,23 +90,23 @@
   }
 
   .correct {
-    background-color: yellowgreen;
+    background-color: $green;
 
     &:hover {
-      background-color: yellowgreen;
+      background-color: $green;
     }
   }
 
   .wrong {
-    background-color: red;
+    background-color: $red;
 
     &:hover {
-      background-color: red;
+      background-color: $red;
     }
   }
 
   .was-correct {
-    border: 3px solid yellowgreen;
+    border: 3px solid $green;
   }
 }
 
