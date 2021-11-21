@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../slices/UserSlice";
 import "./UserAccount.scss";
 import axios from "axios";
-import { allTranslationsType } from "../../models/SessionModel";
 import { appUserInformation } from "../../models/ProgressModel";
+import BusinessIcon from "@material-ui/icons/Business";
+import { Link } from "react-router-dom";
 
 function UserAccount(): ReactElement {
   const user = useSelector(selectUser);
@@ -35,14 +36,28 @@ function UserAccount(): ReactElement {
           <span className="UserAccount-email">{user.email}</span>
         </div>
       </div>
-      <div className="UserAccount-container" style={{ marginTop: "20px" }}>
+      <div
+        className="UserAccount-container columns"
+        style={{ marginTop: "20px" }}
+      >
         <div className="info-row">
           <span className="info-title">Points: </span>
           <span className="info-details">{userInfo && userInfo.points}</span>
         </div>
         <div className="info-row">
           <span className="info-title">My courses: </span>
-          <span className="info-details">{userInfo && userInfo.points}</span>
+          {userInfo &&
+            userInfo.courses.map((course, index) => (
+              <Link to={`mycourse/${course.id}`} className="link">
+                <div className="course-list-item" key={index}>
+                  <BusinessIcon className="business-icon" />
+                  <span className="course-title">{course.name}</span>
+                  <span className="course-languages">
+                    {course.languageFrom + " - " + course.languageTo}
+                  </span>
+                </div>
+              </Link>
+            ))}
         </div>
       </div>
     </div>

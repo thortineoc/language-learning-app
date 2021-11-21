@@ -54,22 +54,22 @@ function MyCourseDetails(): ReactElement {
       <div className="CourseDetails-container">
         <div className="CourseDetails-title-buttons-row">
           <span className="CourseDetails-title">{courseInfo?.title}</span>
-          <div className="CourseDetails-title-buttons-group">
-            <Link className="link" to="/session">
+          {/*<div className="CourseDetails-title-buttons-group">*/}
+          {/*<Link className="link" to="/session">
               <Button
                 className="Button-add"
                 onClick={() => dispatchActions(-1)}
               >
                 Play
               </Button>
-            </Link>
-            <Button
-              className="Button-return"
-              onClick={() => setIsDeleteDialogOpen(true)}
-            >
-              Delete
-            </Button>
-          </div>
+            </Link>/*/}
+          <Button
+            className="Button-return"
+            onClick={() => setIsDeleteDialogOpen(true)}
+          >
+            Delete
+          </Button>
+          {/*</div>*/}
         </div>
         <span>
           {`${courseInfo?.languageFrom?.name} - ${courseInfo?.languageTo?.name}`}

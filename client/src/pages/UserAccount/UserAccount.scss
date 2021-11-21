@@ -41,14 +41,48 @@
 
   .info-row {
     width: 100%;
-    font-size: 1.2rem;
+    margin: 10px;
 
     .info-title {
       font-weight: 600;
+      font-size: 1.2rem;
     }
 
     .info-details {
       color: $bright-blue
     }
+
+    .course-list-item {
+      border-bottom: 1px solid black;
+      display: flex;
+      align-items: center;
+      padding: 20px 10px 10px 10px;
+
+      &:hover {
+        background-color: $dark_gray;
+      }
+
+      .course-title {
+        font-size: 1.1rem;
+        margin: 10px 10px 0 10px;
+        color: #e8e8e8;
+      }
+
+      .course-languages {
+        font-size: 0.9rem;
+        color: $light_gray;
+        margin: 13.5px 10px 0 10px;
+      }
+    }
   }
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+}
+
+.business-icon {
+  color: black !important;
+  font-size: 2.5rem !important;
 }

@@ -1,5 +1,6 @@
 export interface courseInformation {
   id: number;
+  name: string;
   languageFrom: string;
   languageTo: string;
   isFinished: boolean;
