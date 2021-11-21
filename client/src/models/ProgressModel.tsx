@@ -12,3 +12,16 @@ export interface appUserInformation {
   points: number;
   courses: Array<courseInformation>;
 }
+
+export interface translationUserProgress {
+  userId: number;
+  translationId: number;
+  isLearned: boolean;
+  isToReview: boolean;
+  timesRepeated: number;
+}
+
+export interface wordsStats {
+  allWords: number;
+  learnedWords: number;
+}

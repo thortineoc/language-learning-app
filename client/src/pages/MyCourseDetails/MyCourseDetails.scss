@@ -1,5 +1,11 @@
+@import "../../shared/Styles/Colors.scss";
+
 .button-container {
   margin-bottom: 20px;
   display: flex;
   justify-content: flex-end;
+}
+
+.icon {
+  color: $yellow;
 }

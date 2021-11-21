@@ -380,7 +380,7 @@ function CourseSession(): ReactElement {
                 currentTranslation.translationUserProgress[0].timesRepeated
               ),
             ].map(() => (
-              <EmojiObjectsIcon color="primary" />
+              <EmojiObjectsIcon />
             ))}
           </div>
           <div className="session-translation-group">

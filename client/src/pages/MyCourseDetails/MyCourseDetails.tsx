@@ -11,12 +11,16 @@ import DeleteDialog from "./DeleteDialog/DeleteDialog";
 import "./MyCourseDetails.scss";
 import { setSession } from "../../slices/SessionSlice";
 import { Course, Translation } from "../../models/CourseModels";
+import { wordsStats } from "../../models/ProgressModel";
+import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 
 function MyCourseDetails(): ReactElement {
   const dispatch = useDispatch();
   const { id } = useParams<{ id?: string }>();
   const url = `https://localhost:5001/api/courses/${id}`;
+  const progressUrl = `https://localhost:5001/api/progress/${id}`;
   const [courseInfo, setCourseInfo] = useState<Course | undefined>(undefined);
+  const [progress, setProgress] = useState<wordsStats | undefined>(undefined);
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [translations, setTranslations] = useState<Translation[] | undefined>(
@@ -30,6 +34,13 @@ function MyCourseDetails(): ReactElement {
       .get(url, { headers: { Authorization: `Bearer ${user.token}` } })
       .then((res) => {
         setCourseInfo(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get(progressUrl, { headers: { Authorization: `Bearer ${user.token}` } })
+      .then((res) => {
+        setProgress(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -90,6 +101,9 @@ function MyCourseDetails(): ReactElement {
             </div>
           ))}
         </div>
+        <div>
+          Learned {progress?.learnedWords} / {progress?.allWords}
+        </div>
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <div className="button-container">
@@ -114,6 +128,9 @@ function MyCourseDetails(): ReactElement {
               <tr className="Table-row" key={index}>
                 <td>{translation.wordFrom}</td>
                 <td> {translation.wordTo}</td>
+                <td>
+                  <EmojiObjectsIcon className="icon" />
+                </td>
               </tr>
             ))}
           </tbody>

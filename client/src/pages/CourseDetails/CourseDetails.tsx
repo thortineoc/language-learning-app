@@ -79,8 +79,10 @@ function CourseDetails(): ReactElement {
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <table>
           <thead>
-            <th className="Table-head">{courseInfo?.languageFrom?.name}</th>
-            <th className="Table-head">{courseInfo?.languageTo?.name}</th>
+            <tr>
+              <th className="Table-head">{courseInfo?.languageFrom?.name}</th>
+              <th className="Table-head">{courseInfo?.languageTo?.name}</th>
+            </tr>
           </thead>
           <tbody>
             {translations?.map((translation) => (
