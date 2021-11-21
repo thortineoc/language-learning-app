@@ -45,7 +45,9 @@ function UserAccount(): ReactElement {
           <span className="info-details">{userInfo && userInfo.points}</span>
         </div>
         <div className="info-row">
-          <span className="info-title">My courses: </span>
+          <div className="info-title" style={{ marginBottom: "15px" }}>
+            My courses:{" "}
+          </div>
           {userInfo &&
             userInfo.courses.map((course, index) => (
               <Link to={`mycourse/${course.id}`} className="link">

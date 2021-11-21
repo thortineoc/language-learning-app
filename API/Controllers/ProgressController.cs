@@ -26,5 +26,13 @@ namespace API.Controllers
             var res = await _progressRepository.GetUserProgress(userId); 
             return Ok(res);
         }
+        
+        [HttpGet("{courseId}")]
+        public async Task<ActionResult<CourseStats>> GetCourseStatistics(int courseId) 
+        { 
+            var userId = User.GetUserId();
+            var res = await _progressRepository.GetCourseStats(userId, courseId); 
+            return Ok(res);
+        }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Dtos;
 using API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace API.Repositories
 {
@@ -45,6 +47,7 @@ namespace API.Repositories
                 CourseInformation courseInfo = new()
                 {
                     Id = course.Id,
+                    Name = course.Title,
                     LanguageFrom = course.LanguageFrom.Name,
                     LanguageTo = course.LanguageTo.Name,
                     IsFinished = false
@@ -63,5 +66,41 @@ namespace API.Repositories
             return result;
         }
 
+        public async Task<CourseStats> GetCourseStats(int userId, int courseId)
+        {
+            var userCourse = await _context.AppUserCourses
+                .Include(x => x.Course)
+                .ThenInclude(x => x.Categories)
+                .ThenInclude(x => x.Translations)
+                .ThenInclude(x => x.TranslationUserProgress)
+                .Where(x => x.AppUserId == userId && x.CourseId == courseId)
+                .FirstOrDefaultAsync();
+
+            var wordsSum = 0;
+            var learnedWordsSum = 0;
+
+            foreach (var category in userCourse.Course.Categories)
+            {
+                foreach (var translation in category.Translations)
+                {
+                    wordsSum++;
+                    foreach (var progress in translation.TranslationUserProgress)
+                    {
+                        if (progress.IsLearned)
+                        {
+                            learnedWordsSum++;
+                        }
+                    }
+                }
+            }
+
+            CourseStats result = new()
+            {
+                AllWords = wordsSum,
+                LearnedWords = learnedWordsSum
+            };
+
+            return result;
+        }
     }
 }
