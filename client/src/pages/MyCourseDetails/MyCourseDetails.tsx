@@ -12,7 +12,7 @@ import "./MyCourseDetails.scss";
 import { setSession } from "../../slices/SessionSlice";
 import { Course, Translation } from "../../models/CourseModels";
 import { wordsStats } from "../../models/ProgressModel";
-import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 function MyCourseDetails(): ReactElement {
   const dispatch = useDispatch();
@@ -101,7 +101,18 @@ function MyCourseDetails(): ReactElement {
             </div>
           ))}
         </div>
-        <div>
+        <span className="CourseDetails-subtitle">Progress</span>
+        <ProgressBar
+          completed={
+            progress
+              ? Math.ceil((progress.learnedWords / progress.allWords) * 100)
+              : 0
+          }
+          bgColor="#539c28"
+          margin="25px 0 5px 25px"
+          width="80%"
+        />
+        <div className="learned-caption">
           Learned {progress?.learnedWords} / {progress?.allWords}
         </div>
       </div>
@@ -128,9 +139,9 @@ function MyCourseDetails(): ReactElement {
               <tr className="Table-row" key={index}>
                 <td>{translation.wordFrom}</td>
                 <td> {translation.wordTo}</td>
-                <td>
+                {/*<td>
                   <EmojiObjectsIcon className="icon" />
-                </td>
+                </td>*/}
               </tr>
             ))}
           </tbody>

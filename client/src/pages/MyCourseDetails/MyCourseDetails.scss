@@ -9,3 +9,12 @@
 .icon {
   color: $yellow;
 }
+
+.learned-caption {
+  width: 81%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.8rem;
+  margin-bottom: 35px;
+}
