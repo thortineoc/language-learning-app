@@ -5,19 +5,8 @@ using System.Threading.Tasks;
 using API.Data;
 using API.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using API.Dtos;
-using API.Extensions;
-using API.Models;
-using API.Repositories;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using API.Repositories.Interfaces;
-using Microsoft.OpenApi.Any;
 
 namespace API.Repositories
 {
@@ -71,11 +60,19 @@ namespace API.Repositories
                 {
                     itemToChange.IsLearned = true;
                 }
-
+                
                 await _context.SaveChangesAsync();
             }
             
             return itemToUpdate;
+        }
+
+        public async Task<long> SaveSessionPoints(PointsDto pointsDto, int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            user.Points += pointsDto.Points;
+            await _context.SaveChangesAsync();
+            return user.Points;
         }
 
         public async Task<List<string>> GetRandomTranslations(int id)

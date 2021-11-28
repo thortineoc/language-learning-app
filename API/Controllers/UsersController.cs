@@ -21,7 +21,7 @@ namespace API.Controllers
             _userRepository = userRepository;
             _mapper = mapper;
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {

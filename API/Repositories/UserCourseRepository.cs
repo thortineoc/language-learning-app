@@ -96,7 +96,6 @@ namespace API.Repositories
             _context.Remove(relation);
             _context.SaveChanges();
 
-
             return await Task.FromResult(relation);
         }
     }

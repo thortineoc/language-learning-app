@@ -11,6 +11,11 @@ namespace API.Models
         public int AppUserId { get; set; }
         public Course Course { get; set; }
         public int CourseId { get; set; }
-
+        
+        public int nAllWords { get; set; }
+        
+        public int nWordsLearned { get; set; }
+        
+        public int nWordsToReview { get; set; }
     }
 }

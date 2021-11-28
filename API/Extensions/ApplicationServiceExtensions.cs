@@ -18,6 +18,7 @@ namespace API.Extensions
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IUserCourseRepository, UserCourseRepository>();
             services.AddScoped<ISessionRepository, SessionRepository>();
+            services.AddScoped<IProgressRepository, ProgressRepository>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(opt =>
                 opt.UseNpgsql(config.GetConnectionString("DefaultConnection"))

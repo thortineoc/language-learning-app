@@ -7,23 +7,8 @@ import { getRandomInt, shuffle } from "../../helpers/getRandomHelper";
 import "./CourseSession.scss";
 import { Link } from "react-router-dom";
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
-
-interface translationUserProgressType {
-  appUserId: number;
-  translationId: number;
-  timesRepeated: number;
-  isLearned: boolean;
-  isToReview: boolean;
-}
-
-interface allTranslationsType {
-  id: number;
-  wordFrom: string;
-  wordTo: string;
-  image: null;
-  categoryId: number;
-  translationUserProgress: translationUserProgressType[];
-}
+import { Course } from "../../models/CourseModels";
+import { allTranslationsType } from "../../models/SessionModel";
 
 function CourseSession(): ReactElement {
   const session = useSelector(selectSession);
@@ -41,7 +26,9 @@ function CourseSession(): ReactElement {
   >(undefined);
 
   const [getTranslationsUrl, setGetTranslationsUrl] = useState("");
-  const [getRandomWordsUrl, setGetRandomWordsUrl] = useState("");
+  const [getCourseLanguagesByIdUrl, setGetCourseLanguagesById] = useState("");
+  const [setPointsUrl, setSetPointsUrl] = useState("");
+  const [courseInfo, setCourseInfo] = useState<Course | undefined>(undefined);
 
   const [started, setStarted] = useState(false);
   const [end, setEnd] = useState(false);
@@ -222,11 +209,15 @@ function CourseSession(): ReactElement {
     setGetTranslationsUrl(
       `https://localhost:5001/api/session/${session.courseId}/${session.categoryId}`
     );
+    setGetCourseLanguagesById(
+      `https://localhost:5001/api/courses/${session.courseId}`
+    );
+    setSetPointsUrl("https://localhost:5001/api/session/");
   }, [session]);
 
   // set states - beginning
   useEffect(() => {
-    if (getRandomWordsUrl !== undefined && getTranslationsUrl !== undefined) {
+    if (getTranslationsUrl !== undefined && getCourseLanguagesByIdUrl) {
       axios
         .get(getTranslationsUrl, {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -235,6 +226,16 @@ function CourseSession(): ReactElement {
           setAllTranslations(
             res.data[0].userCourses[0].course.categories[0].translations
           );
+        })
+        .catch((err) => console.log(err));
+
+      axios
+        .get(getCourseLanguagesByIdUrl, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        })
+        .then((res) => {
+          setCourseInfo(res.data);
+          console.log(res.data);
         })
         .catch((err) => console.log(err));
     }
@@ -303,12 +304,21 @@ function CourseSession(): ReactElement {
   // put results in backend
   useEffect(() => {
     if (end) {
-      var mappedResult: { translationId: number; repetitions: number }[] = [];
+      let mappedResult: { translationId: number; repetitions: number }[] = [];
       results.forEach((val, key) => {
         mappedResult.push({ translationId: key, repetitions: val });
       });
+
+      let gainedPoints = { Points: points };
+      console.log(gainedPoints);
       axios
         .put(getTranslationsUrl, mappedResult, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+      axios
+        .post(setPointsUrl, gainedPoints, {
           headers: { Authorization: `Bearer ${user.token}` },
         })
         .then((res) => console.log(res))
@@ -323,13 +333,17 @@ function CourseSession(): ReactElement {
         <>
           <div className="btn-container">
             <div onClick={start} className="btn">
-              From language - To language (text)
+              {courseInfo &&
+                courseInfo.languageFrom.name +
+                  " - " +
+                  courseInfo.languageTo.name}
             </div>
             <div className="btn" onClick={startFromLearnedTextMode}>
-              To language - From language (text)
+              {courseInfo &&
+                courseInfo.languageTo.name +
+                  " - " +
+                  courseInfo.languageFrom.name}
             </div>
-            <div className="btn">From language - To language (pictures)</div>
-            <div className="btn">To language - From language (pictures)</div>
           </div>
           <img src="assets/images/startSession.jpg" alt="start" height="380" />
         </>
@@ -366,7 +380,7 @@ function CourseSession(): ReactElement {
                 currentTranslation.translationUserProgress[0].timesRepeated
               ),
             ].map(() => (
-              <EmojiObjectsIcon color="primary" />
+              <EmojiObjectsIcon />
             ))}
           </div>
           <div className="session-translation-group">

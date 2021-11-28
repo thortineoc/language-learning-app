@@ -44,5 +44,7 @@ namespace API.Controllers
             return Ok(deleted);
 
         }
+        
+        // TODO: HttpGet user,courses and tr-user-progr
     }
 }
