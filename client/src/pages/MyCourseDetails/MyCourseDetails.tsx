@@ -118,12 +118,24 @@ function MyCourseDetails(): ReactElement {
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <div className="button-container">
-          <Link className="link" to="/session">
+          <Link
+            className="link"
+            style={{ marginRight: "50px" }}
+            to="/session/learn"
+          >
             <Button
               className="Button-add"
               onClick={() => dispatchActions(category)}
             >
-              Play
+              Learn
+            </Button>
+          </Link>
+          <Link className="link" to="/session/review">
+            <Button
+              className="Button-add"
+              onClick={() => dispatchActions(category)}
+            >
+              Review
             </Button>
           </Link>
         </div>

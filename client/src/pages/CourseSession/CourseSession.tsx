@@ -332,13 +332,13 @@ function CourseSession(): ReactElement {
       {!started && (
         <>
           <div className="btn-container">
-            <div onClick={start} className="btn">
+            <div onClick={start} className="btn btn-learn">
               {courseInfo &&
                 courseInfo.languageFrom.name +
                   " - " +
                   courseInfo.languageTo.name}
             </div>
-            <div className="btn" onClick={startFromLearnedTextMode}>
+            <div className="btn btn-learn" onClick={startFromLearnedTextMode}>
               {courseInfo &&
                 courseInfo.languageTo.name +
                   " - " +
