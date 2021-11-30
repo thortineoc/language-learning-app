@@ -32,43 +32,43 @@ function MainRouter(): ReactElement {
         path="/courses"
         auth={!!user}
         component={CoursesDisplay}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
         path="/account"
         auth={!!user}
         component={UserAccount}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
         path="/creator"
         auth={!!user}
         component={CoursesCreator}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
         path="/course/:id"
         auth={!!user}
         component={CourseDetails}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
         path="/mycourse/:id"
         auth={!!user}
         component={MyCourseDetails}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
         path="/session/learn"
         auth={!!user}
         component={CourseSession}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
         path="/session/review"
         auth={!!user}
         component={ReviewSession}
-      ></GuardedRoute>
+      />
       <Route exact path="/">
         {user ? <MyCourses /> : <Homepage />}
       </Route>

@@ -16,7 +16,7 @@ function CourseSession(): ReactElement {
 
   const [allTranslations, setAllTranslations] = useState<
     allTranslationsType[] | undefined
-  >([]);
+  >(undefined);
   const [sessionTranslations, setSessionTranslations] = useState<
     allTranslationsType[] | undefined
   >([]);
@@ -45,6 +45,8 @@ function CourseSession(): ReactElement {
   const [results, setResults] = useState<Map<number, number>>(new Map());
 
   const [fromLearnedTextMode, setFromLearnedTextMode] = useState(false);
+  const [empty, setEmpty] = useState(false);
+  const [isLastWordInCategory, setIsLastWordInCategory] = useState(false);
 
   const wordsPerRound = 5;
   const pointsForGoodAnswer = 10;
@@ -53,45 +55,50 @@ function CourseSession(): ReactElement {
   const numberOfRandomWords = 4;
 
   const setUpSessionStep = () => {
-    let num = getRandomInt(numberOfDifferentWordsInSession);
-    if (sessionTranslations && sessionTranslations[num]) {
-      setCurrentTranslation(sessionTranslations[num]);
-
-      let tempRandomArr: string[] | undefined = [];
-      let allTranslationsNum: number;
-      for (let i = 0; i < numberOfRandomWords - 1; i++) {
-        if (allTranslations) {
-          allTranslationsNum = getRandomInt(allTranslations.length);
-          let word = !fromLearnedTextMode
-            ? allTranslations[allTranslationsNum].wordTo
-            : allTranslations[allTranslationsNum].wordFrom;
-          if (!fromLearnedTextMode) {
-            while (
-              word === sessionTranslations[num].wordTo ||
-              tempRandomArr.includes(word)
-            ) {
-              allTranslationsNum = getRandomInt(allTranslations.length);
-              word = allTranslations[allTranslationsNum].wordTo;
+    if (sessionTranslations) {
+      let num = getRandomInt(numberOfDifferentWordsInSession);
+      if (sessionTranslations.length < numberOfDifferentWordsInSession) {
+        console.log("Sessssss");
+        num = getRandomInt(sessionTranslations.length);
+      }
+      if (sessionTranslations[num]) {
+        setCurrentTranslation(sessionTranslations[num]);
+        let tempRandomArr: string[] | undefined = [];
+        let allTranslationsNum: number;
+        for (let i = 0; i < numberOfRandomWords - 1; i++) {
+          if (allTranslations) {
+            allTranslationsNum = getRandomInt(allTranslations.length);
+            let word = !fromLearnedTextMode
+              ? allTranslations[allTranslationsNum].wordTo
+              : allTranslations[allTranslationsNum].wordFrom;
+            if (!fromLearnedTextMode) {
+              while (
+                word === sessionTranslations[num].wordTo ||
+                tempRandomArr.includes(word)
+              ) {
+                allTranslationsNum = getRandomInt(allTranslations.length);
+                word = allTranslations[allTranslationsNum].wordTo;
+              }
+              tempRandomArr.push(word);
+            } else {
+              while (
+                word === sessionTranslations[num].wordFrom ||
+                tempRandomArr.includes(word)
+              ) {
+                allTranslationsNum = getRandomInt(allTranslations.length);
+                word = allTranslations[allTranslationsNum].wordFrom;
+              }
+              tempRandomArr.push(word);
             }
-            tempRandomArr.push(word);
-          } else {
-            while (
-              word === sessionTranslations[num].wordFrom ||
-              tempRandomArr.includes(word)
-            ) {
-              allTranslationsNum = getRandomInt(allTranslations.length);
-              word = allTranslations[allTranslationsNum].wordFrom;
-            }
-            tempRandomArr.push(word);
           }
         }
+        if (!fromLearnedTextMode) {
+          tempRandomArr.push(sessionTranslations[num].wordTo);
+        } else {
+          tempRandomArr.push(sessionTranslations[num].wordFrom);
+        }
+        setRandomWords(shuffle(tempRandomArr));
       }
-      if (!fromLearnedTextMode) {
-        tempRandomArr.push(sessionTranslations[num].wordTo);
-      } else {
-        tempRandomArr.push(sessionTranslations[num].wordFrom);
-      }
-      setRandomWords(shuffle(tempRandomArr));
     }
   };
 
@@ -106,7 +113,7 @@ function CourseSession(): ReactElement {
   };
 
   useEffect(() => {
-    if (fromLearnedTextMode === true) {
+    if (fromLearnedTextMode) {
       console.log("Helo");
       start();
     }
@@ -165,6 +172,13 @@ function CourseSession(): ReactElement {
             if (newSessionArray && newSessionArray.length) {
               setSessionTranslations([...newSessionArray]);
               isSessionArraySet = true;
+            } else {
+              console.log("NOZNLE");
+              setTimeout(() => {
+                setIsLastWordInCategory(true);
+                setIsLastWord(true);
+                setEnd(true);
+              }, 3000);
             }
           }
         } else {
@@ -183,7 +197,6 @@ function CourseSession(): ReactElement {
         }
       }
     } else {
-      console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOO");
       setStyles("session-translation-card wrong");
       setBorderStyle("session-translation-card was-correct");
     }
@@ -192,7 +205,7 @@ function CourseSession(): ReactElement {
       console.log(newSessionArray);
       console.log(sessionTranslations);
     }
-    if (isSessionArraySet === false) {
+    if (!isSessionArraySet) {
       setTimeout(() => {
         setUpSessionStep();
         setStyles("session-translation-card");
@@ -243,56 +256,72 @@ function CourseSession(): ReactElement {
 
   // begin set translations in session from all translations
   useEffect(() => {
-    const arr = [];
-    for (let i = 0; i < allTranslations!.length; i++) {
-      if (arr.length === numberOfDifferentWordsInSession) {
-        break;
+    if (allTranslations !== undefined) {
+      const arr = [];
+      for (let i = 0; i < allTranslations!.length; i++) {
+        if (arr.length === numberOfDifferentWordsInSession) {
+          break;
+        }
+        if (
+          allTranslations &&
+          allTranslations[i] &&
+          !allTranslations[i].translationUserProgress[0].isLearned
+        ) {
+          arr.push(allTranslations[i]);
+        }
       }
-      if (
-        allTranslations &&
-        allTranslations[i] &&
-        !allTranslations[i].translationUserProgress[0].isLearned
-      ) {
-        arr.push(allTranslations[i]);
+      if (arr.length === 0) {
+        setEmpty(true);
+      } else {
+        setSessionTranslations(arr);
       }
     }
-    setSessionTranslations(arr);
   }, [allTranslations]);
 
   // after a new word was learned
   useEffect(() => {
-    console.log("outside");
-    console.log(sessionTranslations);
-    if (clicked !== "") {
-      setTimeout(() => {
-        setUpSessionStep();
-        setStyles("session-translation-card");
-        setBorderStyle("session-translation-card");
-        setCount(count + 1);
-        setOverlay(false);
-      }, 3000);
-      console.log("inside");
+    if (allTranslations) {
+      console.log("outside");
       console.log(sessionTranslations);
+      if (clicked !== "") {
+        setTimeout(() => {
+          setUpSessionStep();
+          setStyles("session-translation-card");
+          setBorderStyle("session-translation-card");
+          setCount(count + 1);
+          setOverlay(false);
+        }, 3000);
+        console.log("inside");
+        console.log(sessionTranslations);
 
-      if (sessionTranslations?.length === 1) {
-        setIsLastWord(true);
+        let allLearned = true;
+        for (let i = 0; i < allTranslations?.length; i++) {
+          if (!allTranslations[i].translationUserProgress[0].isLearned) {
+            allLearned = false;
+            break;
+          }
+        }
+        if (sessionTranslations?.length === 1) {
+          setIsLastWord(allLearned);
+        }
       }
     }
   }, [sessionTranslations]);
 
   // for last word in category
   useEffect(() => {
-    if (isLastWord === true) {
-      if (sessionTranslations) {
-        console.log(
-          sessionTranslations[0].translationUserProgress[0].timesRepeated
-        );
-      }
+    if (isLastWord) {
       if (
         sessionTranslations &&
         sessionTranslations[0].translationUserProgress[0].timesRepeated ===
           repeatUntilLearned
       ) {
+        if (sessionTranslations?.length) {
+          setIsLastWordInCategory(false);
+        } else {
+          setIsLastWordInCategory(true);
+        }
+
         console.log("End");
         setTimeout(() => {
           setEnd(true);
@@ -332,7 +361,7 @@ function CourseSession(): ReactElement {
       {!started && (
         <>
           <div className="btn-container">
-            <div onClick={start} className="btn btn-learn">
+            <div className="btn btn-learn" onClick={start}>
               {courseInfo &&
                 courseInfo.languageFrom.name +
                   " - " +
@@ -345,13 +374,31 @@ function CourseSession(): ReactElement {
                   courseInfo.languageFrom.name}
             </div>
           </div>
-          <img src="assets/images/startSession.jpg" alt="start" height="380" />
+          {!empty && (
+            <img
+              src={"/assets/images/startSession.jpg"}
+              alt="start"
+              height="380"
+            />
+          )}
         </>
+      )}
+      {empty && (
+        <div className="info-box">
+          <span className="info-title">
+            You've already finished this category
+          </span>
+          <Link to="/session/review" className="page-link">
+            Review it!
+          </Link>
+        </div>
       )}
       {end && (
         <div className="end-container">
           <div className="end">SESSION ENDED</div>
-          {isLastWord && <div className="end">You finished this course</div>}
+          {end && isLastWordInCategory && (
+            <div className="end">You finished this category</div>
+          )}
           <div>You gained {points} points!</div>
           <div className="links-container">
             <Link to="/" className="end-link">
@@ -404,9 +451,6 @@ function CourseSession(): ReactElement {
             ))}
           </div>
         </>
-      )}
-      {end && sessionTranslations && sessionTranslations.length === 0 && (
-        <div>You already finished learning word from this category</div>
       )}
     </div>
   );

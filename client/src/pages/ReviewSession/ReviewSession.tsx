@@ -42,6 +42,7 @@ function ReviewSession(): ReactElement {
   const [fromLearnedTextMode, setFromLearnedTextMode] = useState(false);
 
   const [clickToStart, setClickToStart] = useState(false);
+  const [empty, setEmpty] = useState(false);
 
   const wordsPerRound = 10;
   const pointsForGoodAnswer = 2;
@@ -49,8 +50,15 @@ function ReviewSession(): ReactElement {
 
   const checkAnswer = (word: string) => {
     if (count === wordsPerRound) {
+      let gainedPoints = { Points: points };
       setTimeout(() => {
         setEnd(true);
+        axios
+          .post(setPointsUrl, gainedPoints, {
+            headers: { Authorization: `Bearer ${user.token}` },
+          })
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
       }, 3000);
     }
 
@@ -114,10 +122,11 @@ function ReviewSession(): ReactElement {
         })
         .catch((err) => console.log(err));
     }
-  }, [getTranslationsUrl, user.token, clickToStart]);
+  }, [getTranslationsUrl, clickToStart]);
 
   useEffect(() => {
-    if (allTranslations) {
+    console.log(allTranslations);
+    if (allTranslations?.length !== 0) {
       const arr = [];
       for (let i = 0; i < allTranslations!.length; i++) {
         if (
@@ -128,7 +137,11 @@ function ReviewSession(): ReactElement {
           arr.push(allTranslations[i]);
         }
       }
-      setSessionTranslations(arr);
+      if (arr.length === 0) {
+        setEmpty(true);
+      } else {
+        setSessionTranslations(arr);
+      }
     }
   }, [allTranslations]);
 
@@ -213,7 +226,23 @@ function ReviewSession(): ReactElement {
                   courseInfo.languageFrom.name}
             </div>
           </div>
-          <img src="assets/images/startSession.jpg" alt="start" height="380" />
+          {empty && (
+            <div className="info-box">
+              <span className="info-title">
+                You don't have anything to review yet.
+              </span>
+              <Link to="/session/learn" className="page-link">
+                Learn something new first!
+              </Link>
+            </div>
+          )}
+          {!empty && (
+            <img
+              src={"/assets/images/startSession.jpg"}
+              alt="start"
+              height="380"
+            />
+          )}
         </>
       )}
       {end && (
