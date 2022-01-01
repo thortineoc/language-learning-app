@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 
 namespace API.Models
 {
@@ -17,5 +18,6 @@ namespace API.Models
         public Category Category { get; set; }
         public int CategoryId { get; set; }
         public ICollection<TranslationUserProgress> TranslationUserProgress { get; set; }
+       
     }
 }

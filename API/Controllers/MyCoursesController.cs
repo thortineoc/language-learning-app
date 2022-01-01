@@ -37,6 +37,14 @@ namespace API.Controllers
             return Ok(courses);
         }
 
+        /*
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<MyCourseDto>>> GetMyCourseDetails(int courseId)
+        {
+            var courses = await _userCourseRepository.GetMyCourseDto(courseId, User.GetUserId());
+            return Ok(courses);
+        }*/
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<Course>> DeleteMyCourse(int id)
         {
@@ -44,7 +52,7 @@ namespace API.Controllers
             return Ok(deleted);
 
         }
-        
+
         // TODO: HttpGet user,courses and tr-user-progr
     }
 }
