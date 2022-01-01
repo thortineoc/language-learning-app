@@ -22,6 +22,7 @@ export interface translationUserProgress {
 }
 
 export interface wordsStats {
-  allWords: number;
-  learnedWords: number;
+  learnedWordsSum: number;
+  allWordsSum: number;
+  learnedWordsIds: Array<number>;
 }

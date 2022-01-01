@@ -10,7 +10,5 @@ namespace API.Repositories
         Task<AppUserCourseDto> AddCourseToAppUser(AppUser user, Course course);
         Task<AppUser> GetUserWithAllCourses(int id);
         Task<AppUserCourse> DeleteCourse(int id, int userId);
-
-        //Task<MyCourseDto> GetMyCourseDto(int courseId, int userId);
     }
 }
