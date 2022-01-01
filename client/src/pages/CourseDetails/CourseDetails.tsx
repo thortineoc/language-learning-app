@@ -1,6 +1,11 @@
 import Button from "../../shared/Button/Button";
 import axios from "axios";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, {
+  ReactElement,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 import { useParams } from "react-router";
 import "./CourseDetails.scss";
 import { Link } from "react-router-dom";
@@ -8,6 +13,7 @@ import Modal from "../../shared/Modal/Modal";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../slices/UserSlice";
 import { Course, Translation } from "../../models/CourseModels";
+import { Snackbar, Alert } from "@mui/material";
 
 function CourseDetails(): ReactElement {
   const { id } = useParams<{ id?: string }>();
@@ -18,6 +24,8 @@ function CourseDetails(): ReactElement {
     undefined
   );
   const user = useSelector(selectUser);
+  const [toastrSuccess, setToastrSuccess] = useState(false);
+  const [toastrFail, setToastrFail] = useState(false);
 
   useEffect(() => {
     axios
@@ -40,10 +48,34 @@ function CourseDetails(): ReactElement {
         { courseId: id, appUserId: user.id },
         { headers: { Authorization: `Bearer ${user.token}` } }
       )
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => setToastrSuccess(true))
+      .catch((err) => {
+        console.log(err);
+        setToastrFail(true);
+      });
   };
 
+  const handleToastSuccessClose = (
+    event: SyntheticEvent<Element, Event>,
+    reason?: any
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setToastrSuccess(false);
+  };
+
+  const handleToastFailClose = (
+    event: SyntheticEvent<Element, Event>,
+    reason?: any
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setToastrFail(false);
+  };
+
+  // @ts-ignore
   return (
     <div className="CourseDetails">
       <div className="CourseDetails-container">
@@ -53,6 +85,34 @@ function CourseDetails(): ReactElement {
             <Button className="Button-add" onClick={saveCourse}>
               Add
             </Button>
+            <Snackbar
+              open={toastrSuccess}
+              autoHideDuration={6000}
+              onClose={handleToastSuccessClose}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            >
+              <Alert
+                onClose={handleToastSuccessClose}
+                severity="success"
+                sx={{ width: "100%" }}
+              >
+                Course added successfully!
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={toastrFail}
+              autoHideDuration={6000}
+              onClose={handleToastFailClose}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            >
+              <Alert
+                onClose={handleToastFailClose}
+                severity="error"
+                sx={{ width: "100%" }}
+              >
+                Cannot add this course again!
+              </Alert>
+            </Snackbar>
             <Link to="/courses" className="link">
               <Button className="Button-return">Return</Button>
             </Link>
