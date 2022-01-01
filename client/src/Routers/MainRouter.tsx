@@ -14,6 +14,7 @@ import Registration from "../pages/Registration/Registration";
 import UserAccount from "../pages/UserAccount/UserAccount";
 import GuardedRoute from "../shared/GuardedRoute/GuardedRoute";
 import { selectUser } from "../slices/UserSlice";
+import ReviewSession from "../pages/ReviewSession/ReviewSession";
 
 function MainRouter(): ReactElement {
   const user = useSelector(selectUser);
@@ -31,37 +32,43 @@ function MainRouter(): ReactElement {
         path="/courses"
         auth={!!user}
         component={CoursesDisplay}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
         path="/account"
         auth={!!user}
         component={UserAccount}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
         path="/creator"
         auth={!!user}
         component={CoursesCreator}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
         path="/course/:id"
         auth={!!user}
         component={CourseDetails}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
         path="/mycourse/:id"
         auth={!!user}
         component={MyCourseDetails}
-      ></GuardedRoute>
+      />
       <GuardedRoute
         exact
-        path="/session"
+        path="/session/learn"
         auth={!!user}
         component={CourseSession}
-      ></GuardedRoute>
+      />
+      <GuardedRoute
+        exact
+        path="/session/review"
+        auth={!!user}
+        component={ReviewSession}
+      />
       <Route exact path="/">
         {user ? <MyCourses /> : <Homepage />}
       </Route>

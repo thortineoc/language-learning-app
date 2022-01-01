@@ -11,3 +11,15 @@
   text-decoration: none;
   color: white;
 }
+
+.page-title {
+  font-size: 4.5rem;
+}
+
+.page-link {
+  color: rgb(158, 158, 158);
+
+  &:hover {
+    color: gray;
+  }
+}

@@ -5,8 +5,8 @@ import "./ErrorPage.scss";
 function ErrorPage(): ReactElement {
   return (
     <div className="ErrorPage">
-      <h1 className="ErrorPage-title">Not found</h1>
-      <Link className="ErrorPage-link" to="/">
+      <h1 className="page-title">Not found</h1>
+      <Link className="page-link" to="/">
         Go back to the homepage
       </Link>
     </div>

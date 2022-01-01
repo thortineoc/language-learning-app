@@ -8,14 +8,38 @@
   .btn-container {
     display: flex;
 
-    div {
-      margin: 20px;
+    %btn-item {
+      margin: 20px 50px;
       padding: 30px !important;
       min-width: 150px;
       background-color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      &:hover {
+        border: 2px solid black;
+      }
+    }
+
+    .btn-learn {
+      @extend %btn-item;
+      border: 2px solid $yellow;
 
       &:hover {
         background-color: $yellow;
+
+      }
+    }
+
+    .btn-review {
+      @extend %btn-item;
+      border: 2px solid $bright_blue;
+
+      &:hover {
+        background-color: $bright_blue;
       }
     }
   }
@@ -141,3 +165,16 @@
     }
   }
 }
+
+.info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  min-height: 150px;
+
+  .info-title {
+    font-size: 2.5rem;
+  }
+}
+

@@ -13,7 +13,7 @@ function Navbar(): ReactElement {
       <Link to="/" className="navbar-link">
         <div className="navbar-logo">
           <img
-            src="assets/images/logo.svg"
+            src={"assets/images/logo.svg"}
             alt="logo"
             height="50px"
             width="60px"

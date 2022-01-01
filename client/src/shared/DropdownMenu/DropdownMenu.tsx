@@ -17,7 +17,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
 import { logout, selectUser } from "../../slices/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { type } from "os";
 import { PaletteType } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
