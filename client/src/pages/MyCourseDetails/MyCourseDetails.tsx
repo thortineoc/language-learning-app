@@ -13,6 +13,7 @@ import { setSession } from "../../slices/SessionSlice";
 import { Course, Translation } from "../../models/CourseModels";
 import { wordsStats } from "../../models/ProgressModel";
 import ProgressBar from "@ramonak/react-progress-bar";
+import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 
 function MyCourseDetails(): ReactElement {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function MyCourseDetails(): ReactElement {
       .get(progressUrl, { headers: { Authorization: `Bearer ${user.token}` } })
       .then((res) => {
         setProgress(res.data);
+        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -105,7 +107,9 @@ function MyCourseDetails(): ReactElement {
         <ProgressBar
           completed={
             progress
-              ? Math.ceil((progress.learnedWords / progress.allWords) * 100)
+              ? Math.ceil(
+                  (progress.learnedWordsSum / progress.allWordsSum) * 100
+                )
               : 0
           }
           bgColor="#539c28"
@@ -113,17 +117,29 @@ function MyCourseDetails(): ReactElement {
           width="80%"
         />
         <div className="learned-caption">
-          Learned {progress?.learnedWords} / {progress?.allWords}
+          Learned {progress?.learnedWordsSum} / {progress?.allWordsSum}
         </div>
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <div className="button-container">
-          <Link className="link" to="/session">
+          <Link
+            className="link"
+            style={{ marginRight: "50px" }}
+            to="/session/learn"
+          >
             <Button
               className="Button-add"
               onClick={() => dispatchActions(category)}
             >
-              Play
+              Learn
+            </Button>
+          </Link>
+          <Link className="link" to="/session/review">
+            <Button
+              className="Button-add"
+              onClick={() => dispatchActions(category)}
+            >
+              Review
             </Button>
           </Link>
         </div>
@@ -135,19 +151,23 @@ function MyCourseDetails(): ReactElement {
             </tr>
           </thead>
           <tbody>
-            {translations?.map((translation, index) => (
-              <tr className="Table-row" key={index}>
-                <td>{translation.wordFrom}</td>
-                <td> {translation.wordTo}</td>
-                {/*<td>
-                  <EmojiObjectsIcon className="icon" />
-                </td>*/}
-              </tr>
-            ))}
+            {translations &&
+              progress &&
+              progress.learnedWordsIds &&
+              translations.map((translation, index) => (
+                <tr className="Table-row" key={index}>
+                  <td>{translation.wordFrom}</td>
+                  <td> {translation.wordTo}</td>
+                  {progress.learnedWordsIds.includes(translation.id) && (
+                    <td>
+                      <EmojiObjectsIcon className="icon" />
+                    </td>
+                  )}
+                </tr>
+              ))}
           </tbody>
         </table>
       </Modal>
-
       <Modal isOpen={isDeleteDialogOpen} setIsOpen={setIsDeleteDialogOpen}>
         <DeleteDialog setIsDeleteDialogOpen={setIsDeleteDialogOpen} />
       </Modal>

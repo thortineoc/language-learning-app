@@ -8,16 +8,4 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  .ErrorPage-title {
-    font-size: 4.5rem;
-  }
-
-  .ErrorPage-link {
-    color: $light_gray;
-
-    &:hover {
-      color: gray;
-    }
-  }
 }

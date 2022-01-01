@@ -78,6 +78,7 @@ namespace API.Repositories
 
             var wordsSum = 0;
             var learnedWordsSum = 0;
+            var learnedWordsList = new List<int>();
 
             foreach (var category in userCourse.Course.Categories)
             {
@@ -89,6 +90,7 @@ namespace API.Repositories
                         if (progress.IsLearned)
                         {
                             learnedWordsSum++;
+                            learnedWordsList.Add(progress.TranslationId);
                         }
                     }
                 }
@@ -96,8 +98,9 @@ namespace API.Repositories
 
             CourseStats result = new()
             {
-                AllWords = wordsSum,
-                LearnedWords = learnedWordsSum
+                AllWordsSum = wordsSum,
+                LearnedWordsSum = learnedWordsSum,
+                LearnedWordsIds = learnedWordsList
             };
 
             return result;
