@@ -28,8 +28,12 @@ function DeleteDialog({ setIsDeleteDialogOpen }: any): ReactElement {
       </span>
       <p>Your progress is going to be cleaned</p>
       <div className="DeleteDialog-button-group">
-        <Button onClick={onDelete}>Yes</Button>
-        <Button onClick={() => setIsDeleteDialogOpen(false)}>No</Button>
+        <Button onClick={onDelete} className="yes-btn">
+          Yes
+        </Button>
+        <Button onClick={() => setIsDeleteDialogOpen(false)} className="no-btn">
+          No
+        </Button>
       </div>
     </div>
   );

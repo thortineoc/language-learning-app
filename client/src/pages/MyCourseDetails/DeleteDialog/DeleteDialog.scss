@@ -13,5 +13,13 @@
     display: flex;
     justify-content: space-around;
     margin-top: 40px;
+
+    .yes-btn {
+      color: $green;
+    }
+
+    .no-btn {
+      color: $red;
+    }
   }
 }
