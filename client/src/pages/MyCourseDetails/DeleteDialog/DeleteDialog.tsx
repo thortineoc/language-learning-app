@@ -6,7 +6,10 @@ import Button from "../../../shared/Button/Button";
 import { selectUser } from "../../../slices/UserSlice";
 import "./DeleteDialog.scss";
 
-function DeleteDialog({ setIsDeleteDialogOpen }: any): ReactElement {
+function DeleteDialog({
+  setIsDeleteDialogOpen,
+  setIsToastr,
+}: any): ReactElement {
   const { id } = useParams<{ id?: string }>();
   const url = `https://localhost:5001/api/mycourses/${id}`;
   const user = useSelector(selectUser);
@@ -16,6 +19,7 @@ function DeleteDialog({ setIsDeleteDialogOpen }: any): ReactElement {
       .delete(url, { headers: { Authorization: `Bearer ${user.token}` } })
       .then((res) => {
         console.log(res.data.userCourses);
+        setIsToastr(true);
       })
       .catch((err) => console.log(err));
     setIsDeleteDialogOpen(false);

@@ -1,7 +1,12 @@
 import Button from "../../shared/Button/Button";
 import axios from "axios";
-import React, { ReactElement, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import React, {
+  ReactElement,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
+import { Redirect, useParams } from "react-router";
 import "../CourseDetails/CourseDetails.scss";
 import { Link } from "react-router-dom";
 import Modal from "../../shared/Modal/Modal";
@@ -14,6 +19,7 @@ import { Course, Translation } from "../../models/CourseModels";
 import { wordsStats } from "../../models/ProgressModel";
 import ProgressBar from "@ramonak/react-progress-bar";
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
+import { Alert, Snackbar } from "@mui/material";
 
 function MyCourseDetails(): ReactElement {
   const dispatch = useDispatch();
@@ -28,6 +34,7 @@ function MyCourseDetails(): ReactElement {
     undefined
   );
   const [category, setCategory] = useState(0);
+  const [isToastr, setIsToastr] = useState(false);
   const user = useSelector(selectUser);
 
   useEffect(() => {
@@ -61,6 +68,25 @@ function MyCourseDetails(): ReactElement {
     dispatch(setSession({ courseId: id, categoryId: categoryId }));
     dispatch(login({ ...user }));
   };
+
+  const handleToastSuccessClose = (
+    event: SyntheticEvent<Element, Event>,
+    reason?: any
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setIsToastr(false);
+  };
+
+  useEffect(() => {
+    if (isToastr) {
+      console.log("AAAAAAAAAAAAAAAA");
+      setTimeout(() => {
+        return <Redirect to="/" />;
+      }, 5000);
+    }
+  }, [isToastr]);
 
   return (
     <div className="CourseDetails">
@@ -169,8 +195,25 @@ function MyCourseDetails(): ReactElement {
         </table>
       </Modal>
       <Modal isOpen={isDeleteDialogOpen} setIsOpen={setIsDeleteDialogOpen}>
-        <DeleteDialog setIsDeleteDialogOpen={setIsDeleteDialogOpen} />
+        <DeleteDialog
+          setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+          setIsToastr={setIsToastr}
+        />
       </Modal>
+      <Snackbar
+        open={isToastr}
+        autoHideDuration={6000}
+        onClose={handleToastSuccessClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleToastSuccessClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Course deleted successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

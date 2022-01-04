@@ -1,4 +1,5 @@
 @import "../../../shared/Styles/Colors.scss";
+@import "../../../shared/Button/Button.scss";
 
 .DeleteDialog {
   .DeleteDialog-title {
@@ -15,11 +16,21 @@
     margin-top: 40px;
 
     .yes-btn {
+      @extend .btn;
       color: $green;
+
+      &:hover {
+        background-color: $green;
+      }
     }
 
     .no-btn {
+      @extend .btn;
       color: $red;
+
+      &:hover {
+        background-color: $red;
+      }
     }
   }
 }
