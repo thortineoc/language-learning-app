@@ -59,6 +59,7 @@ function CoursesDisplay(): ReactElement {
             style={{ backgroundColor: "white", borderRadius: 3 }}
             sx={{ width: 250 }}
             size="small"
+            label="Title"
             onChange={(event) => setSearchTerm(event.target.value)}
             InputProps={{
               endAdornment: (
@@ -75,7 +76,11 @@ function CoursesDisplay(): ReactElement {
             sx={{ width: 250 }}
             size="small"
             renderInput={(params) => (
-              <TextField {...params} placeholder="Language from..." />
+              <TextField
+                {...params}
+                placeholder="Choose base language"
+                label="Base language"
+              />
             )}
             style={{ backgroundColor: "white", borderRadius: 3 }}
             onChange={(event, newValue) => {
@@ -89,9 +94,13 @@ function CoursesDisplay(): ReactElement {
             sx={{ width: 250 }}
             size="small"
             renderInput={(params) => (
-              <TextField {...params} placeholder="Language to learn" />
+              <TextField
+                {...params}
+                label="Language to learn"
+                placeholder="Choose language to learn"
+              />
             )}
-            style={{ backgroundColor: "white", borderRadius: 3 }}
+            style={{ backgroundColor: "white", borderRadius: 3, color: "red" }}
             onChange={(event, newValue) => {
               setChosenLanguageTo(newValue);
             }}
@@ -113,14 +122,12 @@ function CoursesDisplay(): ReactElement {
             if (chosenLanguageFrom === "" || chosenLanguageFrom === null) {
               return val;
             }
-            console.log(val);
             if (val.languageFrom.name === chosenLanguageFrom) return val;
           })
           .filter((val: Course) => {
             if (chosenLanguageTo === "" || chosenLanguageTo === null) {
               return val;
             }
-            console.log(val);
             if (val.languageTo.name === chosenLanguageTo) return val;
           })
           .map((course, i) => (
