@@ -14,6 +14,10 @@ function CoursesDisplay(): ReactElement {
   const user = useSelector(selectUser);
   const [languagesFrom, setLanguagesFrom] = useState<Array<string>>([]);
   const [languagesTo, setLanguagesTo] = useState<Array<string>>([]);
+  const [chosenLanguageFrom, setChosenLanguageFrom] = useState<string | null>(
+    ""
+  );
+  const [chosenLanguageTo, setChosenLanguageTo] = useState<string | null>("");
 
   useEffect(() => {
     axios
@@ -74,6 +78,9 @@ function CoursesDisplay(): ReactElement {
               <TextField {...params} placeholder="Language from..." />
             )}
             style={{ backgroundColor: "white", borderRadius: 3 }}
+            onChange={(event, newValue) => {
+              setChosenLanguageFrom(newValue);
+            }}
           />
           <Autocomplete
             disablePortal
@@ -85,12 +92,15 @@ function CoursesDisplay(): ReactElement {
               <TextField {...params} placeholder="Language to learn" />
             )}
             style={{ backgroundColor: "white", borderRadius: 3 }}
+            onChange={(event, newValue) => {
+              setChosenLanguageTo(newValue);
+            }}
           />
         </div>
       </div>
       <div className="CoursesDisplay-grid">
         {courses
-          .filter((val: any) => {
+          .filter((val: Course) => {
             if (searchTerm === "") {
               return val;
             } else if (
@@ -98,6 +108,20 @@ function CoursesDisplay(): ReactElement {
             ) {
               return val;
             }
+          })
+          .filter((val: Course) => {
+            if (chosenLanguageFrom === "" || chosenLanguageFrom === null) {
+              return val;
+            }
+            console.log(val);
+            if (val.languageFrom.name === chosenLanguageFrom) return val;
+          })
+          .filter((val: Course) => {
+            if (chosenLanguageTo === "" || chosenLanguageTo === null) {
+              return val;
+            }
+            console.log(val);
+            if (val.languageTo.name === chosenLanguageTo) return val;
           })
           .map((course, i) => (
             <CourseTile data={course} key={i} isMine={false} />
