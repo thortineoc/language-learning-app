@@ -1,13 +1,12 @@
 import axios from "axios";
-import { Console } from "console";
 import React, { ReactElement, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../slices/UserSlice";
 import CourseTile from "./components/CourseTile/CourseTile";
 import "./CoursesDisplay.scss";
-import TextFieldWrapper from "../../shared/TextFieldWrapper/TextFieldWrapper";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, InputAdornment, TextField } from "@mui/material";
 import { Course } from "../../models/CourseModels";
+import { Search } from "@material-ui/icons";
 
 function CoursesDisplay(): ReactElement {
   const [courses, setCourses] = useState([]);
@@ -50,30 +49,44 @@ function CoursesDisplay(): ReactElement {
     <div className="CoursesDisplay">
       <div className="CoursesDisplay-header">
         <h1 className="CoursesDisplay-title">Language courses</h1>
-        <input
-          type="text"
-          placeholder="Search by title..."
-          className="SearchBar"
-          onChange={(event) => setSearchTerm(event.target.value)}
-        />
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={languagesFrom}
-          sx={{ width: 300 }}
-          renderInput={(params) => (
-            <TextField {...params} label="Language from" />
-          )}
-        />
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={languagesTo}
-          sx={{ width: 300 }}
-          renderInput={(params) => (
-            <TextField {...params} label="Language to learn" />
-          )}
-        />
+        <div className="search-bars-container">
+          <TextField
+            placeholder="Search by title..."
+            style={{ backgroundColor: "white", borderRadius: 3 }}
+            sx={{ width: 250 }}
+            size="small"
+            onChange={(event) => setSearchTerm(event.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={languagesFrom}
+            sx={{ width: 250 }}
+            size="small"
+            renderInput={(params) => (
+              <TextField {...params} placeholder="Language from..." />
+            )}
+            style={{ backgroundColor: "white", borderRadius: 3 }}
+          />
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={languagesTo}
+            sx={{ width: 250 }}
+            size="small"
+            renderInput={(params) => (
+              <TextField {...params} placeholder="Language to learn" />
+            )}
+            style={{ backgroundColor: "white", borderRadius: 3 }}
+          />
+        </div>
       </div>
       <div className="CoursesDisplay-grid">
         {courses
