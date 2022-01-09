@@ -36,14 +36,18 @@
       opacity: 1;
       transform: scale(1.05);
       cursor: pointer;
+
+
+      .CourseTile-building-window-blue {
+        transition: all 1s ease;
+        background-color: $yellow;
+      }
     }
 
     .CourseTile-building-window-blue {
+      transition: all 1s ease;
       background-color: $dark_blue;
-    }
 
-    .CourseTile-building-window-yellow {
-      background-color: $yellow;
     }
   }
 }

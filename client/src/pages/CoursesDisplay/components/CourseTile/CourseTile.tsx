@@ -41,14 +41,7 @@ function CourseTile({
       >
         <div className="CourseTile-building">
           {[...Array(n)].map((e, i) => (
-            <div
-              className={
-                i * 2 === num || i === num || i * 3 === num
-                  ? "CourseTile-building-window-yellow"
-                  : "CourseTile-building-window-blue"
-              }
-              key={i}
-            ></div>
+            <div className="CourseTile-building-window-blue" key={i}></div>
           ))}
         </div>
       </Link>
