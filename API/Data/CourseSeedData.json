@@ -12,32 +12,164 @@
                     {
                         "Id": 1,
                         "WordFrom": "chair",
-                        "WordTo": "la chaise",
-                        "Picture": null  
+                        "WordTo": "la chaise"
                     },
                     {
                         "Id": 2,
                         "WordFrom": "warderobe",
-                        "WordTo": "l'armoir",
-                        "Picture": null  
+                        "WordTo": "l'armoir" 
                     },
                     {
                         "Id": 3,
                         "WordFrom": "table",
-                        "WordTo": "la table",
-                        "Picture": null  
+                        "WordTo": "la table" 
                     },
                     {
                         "Id": 4,
                         "WordFrom": "desk",
-                        "WordTo": "le bureau",
-                        "Picture": null  
+                        "WordTo": "le bureau"
                     },
                     {
                         "Id": 5,
                         "WordFrom": "carpet",
-                        "WordTo": "le tapis",
-                        "Picture": null  
+                        "WordTo": "le tapis"
+                    },
+                    {
+                        "Id": 6,
+                        "WordFrom": "curtain",
+                        "WordTo": "le rideau"
+                    },
+                    {
+                        "Id": 7,
+                        "WordFrom": "bed",
+                        "WordTo": "le lit"
+                    },
+                    {
+                        "Id": 8,
+                        "WordFrom": "couch",
+                        "WordTo": "le canapé"
+                    },
+                    {
+                        "Id": 9,
+                        "WordFrom": "shelf",
+                        "WordTo": "l'étagère"
+                    },
+                    {
+                        "Id": 10,
+                        "WordFrom": "lamp",
+                        "WordTo": "la lampe"
+                    }
+                ]
+            },
+            {
+                "Id": 2,
+                "Name": "Food",
+                "Translations": [
+                    {
+                        "Id": 11,
+                        "WordFrom": "bread",
+                        "WordTo": "le pain"
+                    },
+                    {
+                        "Id": 12,
+                        "WordFrom": "cheese",
+                        "WordTo": "le fromage"
+                    },
+                    {
+                        "Id": 13,
+                        "WordFrom": "meat",
+                        "WordTo": "la viande"
+                    },
+                    {
+                        "Id": 14,
+                        "WordFrom": "ham",
+                        "WordTo": "le jambon"
+                    },
+                    {
+                        "Id": 15,
+                        "WordFrom": "salad",
+                        "WordTo": "la salade"
+                    },
+                    {
+                        "Id": 16,
+                        "WordFrom": "cucumber",
+                        "WordTo": "le concombre"
+                    },
+                    {
+                        "Id": 17,
+                        "WordFrom": "carrot",
+                        "WordTo": "la carotte"
+                    },
+                    {
+                        "Id": 18,
+                        "WordFrom": "mushroom",
+                        "WordTo": "le champignon"
+                    },
+                    {
+                        "Id": 19,
+                        "WordFrom": "tomato",
+                        "WordTo": "le tomate"
+                    },
+                    {
+                        "Id": 20,
+                        "WordFrom": "butter",
+                        "WordTo": "le beurre"
+                    }, 
+                    {
+                        "Id": 21,
+                        "WordFrom": "milk",
+                        "WordTo": "le lait"
+                    },
+                    {
+                        "Id": 22,
+                        "WordFrom": "raspberry",
+                        "WordTo": "la framboise"
+                    },
+                    {
+                        "Id": 23,
+                        "WordFrom": "strawberry",
+                        "WordTo": "la fraise"
+                    },
+                    {
+                        "Id": 24,
+                        "WordFrom": "apple",
+                        "WordTo": "la pomme"
+                    }
+                ]
+            },
+            {
+                "Id": 3,
+                "Name": "Sports",
+                "Translations": [
+                    {
+                        "Id": 25,
+                        "WordFrom": "soccer",
+                        "WordTo": "le football"
+                    },
+                    {
+                        "Id": 26,
+                        "WordFrom": "basketball",
+                        "WordTo": "le basket"
+                    },
+                    {
+                        "Id": 27,
+                        "WordFrom": "swimming",
+                        "WordTo": "la natation"
+                    },
+                    {
+                        "Id": 28,
+                        "WordFrom": "boxing",
+                        "WordTo": "la boxe"
+                    },
+                    {
+                        "Id": 29,
+                        "WordFrom": "skiing",
+                        "WordTo": "le ski"
+                    },
+                    {
+                        "Id": 30,
+                        "WordFrom": "tennis",
+                        "WordTo": "le tennis"
                     }
                 ]
             }
@@ -49,76 +181,66 @@
         "Categories":
         [
             {
-                "Id": 2,
+                "Id": 4,
                 "Name": "Animals",
                 "Translations":
                 [
                     {
-                        "Id": 6,
+                        "Id": 31,
                         "WordFrom": "dog",
-                        "WordTo": "hundo",
-                        "Picture": null  
+                        "WordTo": "hundo"
                     },
                     {
-                        "Id": 7,
+                        "Id": 32,
                         "WordFrom": "cat",
-                        "WordTo": "kato",
-                        "Picture": null  
+                        "WordTo": "kato"
                     },
                     {
-                        "Id": 8,
+                        "Id": 33,
                         "WordFrom": "fish",
-                        "WordTo": "fiŝo",
-                        "Picture": null  
+                        "WordTo": "fiŝo" 
                     },
                     {
-                        "Id": 9,
+                        "Id": 34,
                         "WordFrom": "horse",
-                        "WordTo": "ĉevalo",
-                        "Picture": null  
+                        "WordTo": "ĉevalo"
                     },
                     {
-                        "Id": 10,
+                        "Id": 35,
                         "WordFrom": "cow",
-                        "WordTo": "bovino",
-                        "Picture": null  
+                        "WordTo": "bovino"
                     }
                 ]
             },
             {
-                "Id": 3,
+                "Id": 5,
                 "Name": "Numbers",
                 "Translations":
                 [
                     {
-                        "Id": 11,
+                        "Id": 36,
                         "WordFrom": "one",
-                        "WordTo": "unu",
-                        "Picture": null  
+                        "WordTo": "unu" 
                     },
                     {
-                        "Id": 12,
+                        "Id": 37,
                         "WordFrom": "two",
-                        "WordTo": "du",
-                        "Picture": null  
+                        "WordTo": "du"
                     },
                     {
-                        "Id": 13,
+                        "Id": 38,
                         "WordFrom": "three",
-                        "WordTo": "tri",
-                        "Picture": null  
+                        "WordTo": "tri"
                     },
                     {
-                        "Id": 14,
+                        "Id": 39,
                         "WordFrom": "four",
-                        "WordTo": "kvar",
-                        "Picture": null  
+                        "WordTo": "kvar" 
                     },
                     {
-                        "Id": 15,
+                        "Id": 40,
                         "WordFrom": "five",
-                        "WordTo": "kvin",
-                        "Picture": null  
+                        "WordTo": "kvin" 
                     }
                 ]
             }
@@ -130,33 +252,113 @@
         "Categories":
         [
             {
-                "Id": 4,
+                "Id": 6,
                 "Name": "Feelings",
                 "Translations":
                 [
                     {
-                        "Id": 16,
+                        "Id": 41,
                         "WordFrom": "rozwścieczony",
-                        "WordTo": "enraged",
-                        "Picture": null  
+                        "WordTo": "enraged"
                     },
                     {
-                        "Id": 17,
+                        "Id": 42,
                         "WordFrom": "zakłopotany",
-                        "WordTo": "sheepish",
-                        "Picture": null  
+                        "WordTo": "sheepish"
                     },
                     {
-                        "Id": 18,
+                        "Id": 43,
                         "WordFrom": "zadowolony z siebie",
-                        "WordTo": "smug",
-                        "Picture": null  
+                        "WordTo": "smug"
                     },
                     {
-                        "Id": 19,
+                        "Id": 44,
                         "WordFrom": "zagrożony",
-                        "WordTo": "threatened",
-                        "Picture": null  
+                        "WordTo": "threatened"  
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Id": 4,
+        "Title": "Italian for a trip",
+        "Categories":
+        [
+            {
+                "Id": 7,
+                "Name": "Basic",
+                "Translations":
+                [
+                    {
+                        "Id": 45,
+                        "WordFrom": "yes",
+                        "WordTo": "si"
+                    },
+                    {
+                        "Id": 46,
+                        "WordFrom": "no",
+                        "WordTo": "no"
+                    },
+                    {
+                        "Id": 47,
+                        "WordFrom": "thank you",
+                        "WordTo": "grazie",
+                        "Picture": null
+                    },
+                    {
+                        "Id": 48,
+                        "WordFrom": "you're welcome",
+                        "WordTo": "prego"
+                    },
+                    {
+                        "Id": 49,
+                        "WordFrom": "please",
+                        "WordTo": "per favore"
+                    },
+                    {
+                        "Id": 50,
+                        "WordFrom": "excuse me",
+                        "WordTo": "mi scusi"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Id": 5,
+        "Title": "German A2",
+        "Categories":
+        [
+            {
+                "Id": 8,
+                "Name": "Time",
+                "Translations":
+                [
+                    {
+                        "Id": 51,
+                        "WordFrom": "dzisiaj",
+                        "WordTo": "heute"
+                    },
+                    {
+                        "Id": 52,
+                        "WordFrom": "wczoraj",
+                        "WordTo": "gestern"
+                    },
+                    {
+                        "Id": 53,
+                        "WordFrom": "jutro",
+                        "WordTo": "morgen"
+                    },
+                    {
+                        "Id": 54,
+                        "WordFrom": "zawsze",
+                        "WordTo": "immer"
+                    },
+                    {
+                        "Id": 55,
+                        "WordFrom": "zazwyczaj",
+                        "WordTo": "gewöhnlich"
                     }
                 ]
             }

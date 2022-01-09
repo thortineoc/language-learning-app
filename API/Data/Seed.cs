@@ -53,6 +53,10 @@ namespace API.Data
             courses[1].LanguageTo = context.Languages.FirstOrDefault(x => x.Id == 3);
             courses[2].LanguageFrom = context.Languages.FirstOrDefault(x => x.Id == 4);
             courses[2].LanguageTo = context.Languages.FirstOrDefault(x => x.Id == 1);
+            courses[3].LanguageFrom = context.Languages.FirstOrDefault(x => x.Id == 1);
+            courses[3].LanguageTo = context.Languages.FirstOrDefault(x => x.Id == 5);
+            courses[4].LanguageFrom = context.Languages.FirstOrDefault(x => x.Id == 4);
+            courses[4].LanguageTo = context.Languages.FirstOrDefault(x => x.Id == 6);
 
             foreach (var course in courses)
             {
