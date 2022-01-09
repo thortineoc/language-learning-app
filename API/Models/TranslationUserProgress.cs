@@ -15,12 +15,9 @@ namespace API.Models
         {
             TimesRepeated = 0;
             IsLearned = false;
-            IsToReview = false;
         }
         
         public int TimesRepeated { get; set; }
         public bool IsLearned { get; set; }
-        public bool IsToReview { get; set; }
-       
     }
 }

@@ -124,15 +124,6 @@ namespace API.Data.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("nAllWords")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("nWordsLearned")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("nWordsToReview")
-                        .HasColumnType("integer");
-
                     b.HasKey("AppUserId", "CourseId");
 
                     b.HasIndex("CourseId");
@@ -225,9 +216,6 @@ namespace API.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("text");
-
                     b.Property<string>("WordFrom")
                         .HasColumnType("text");
 
@@ -250,9 +238,6 @@ namespace API.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsLearned")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsToReview")
                         .HasColumnType("boolean");
 
                     b.Property<int>("TimesRepeated")

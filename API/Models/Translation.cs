@@ -14,7 +14,6 @@ namespace API.Models
         public int Id { set; get; }
         public string WordFrom { set; get; }
         public string WordTo { set; get; }
-        public string Image { set; get; }
         public Category Category { get; set; }
         public int CategoryId { get; set; }
         public ICollection<TranslationUserProgress> TranslationUserProgress { get; set; }

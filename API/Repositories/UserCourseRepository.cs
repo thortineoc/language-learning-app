@@ -44,7 +44,6 @@ namespace API.Repositories
                         AppUser = user,
                         AppUserId = user.Id,
                         IsLearned = false,
-                        IsToReview = false,
                         TimesRepeated = 0,
                         Translation = courseCategoryTranslation,
                         TranslationId = courseCategoryTranslation.Id,

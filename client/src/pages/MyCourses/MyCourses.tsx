@@ -49,15 +49,33 @@ function MyCourses(): ReactElement {
     }
   }, [userCourses]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <>
       <div className="CoursesDisplay-header">
         <h1 className="CoursesDisplay-title">My courses</h1>
+        <input
+          type="text"
+          placeholder="Search..."
+          className="SearchBar"
+          onChange={(event) => setSearchTerm(event.target.value)}
+        />
       </div>
       <div className="CoursesDisplay-grid">
-        {userCourses?.map((courseWithIds, i) => (
-          <CourseTile data={courseWithIds.course} key={i} isMine={true} />
-        ))}
+        {userCourses
+          ?.filter((val: any) => {
+            if (searchTerm === "") {
+              return val;
+            } else if (
+              val.course.title.toLowerCase().includes(searchTerm.toLowerCase())
+            ) {
+              return val;
+            }
+          })
+          ?.map((courseWithIds, i) => (
+            <CourseTile data={courseWithIds.course} key={i} isMine={true} />
+          ))}
         {isLoaded && userCourses && userCourses.length === 0 && (
           <div className="No-courses-info">
             <div className="No-courses-info-title">
