@@ -50,8 +50,8 @@ function CourseSession(): ReactElement {
 
   const wordsPerRound = 5;
   const pointsForGoodAnswer = 10;
-  const numberOfDifferentWordsInSession = 2;
-  const repeatUntilLearned = 3;
+  const numberOfDifferentWordsInSession = 4;
+  const repeatUntilLearned = 5;
   const numberOfRandomWords = 4;
 
   const setUpSessionStep = () => {

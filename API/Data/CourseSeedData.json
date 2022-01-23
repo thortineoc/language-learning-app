@@ -172,6 +172,16 @@
                         "WordTo": "le tennis"
                     }
                 ]
+            },
+            {
+                "Id": 4,
+                "Name": "Hobby",
+                "Translations": []
+            },
+            {
+                "Id": 5,
+                "Name": "Family",
+                "Translations": []
             }
         ]
     },
@@ -181,7 +191,7 @@
         "Categories":
         [
             {
-                "Id": 4,
+                "Id": 6,
                 "Name": "Animals",
                 "Translations":
                 [
@@ -213,7 +223,7 @@
                 ]
             },
             {
-                "Id": 5,
+                "Id": 7,
                 "Name": "Numbers",
                 "Translations":
                 [
@@ -252,7 +262,7 @@
         "Categories":
         [
             {
-                "Id": 6,
+                "Id": 8,
                 "Name": "Feelings",
                 "Translations":
                 [
@@ -286,7 +296,7 @@
         "Categories":
         [
             {
-                "Id": 7,
+                "Id": 9,
                 "Name": "Basic",
                 "Translations":
                 [
@@ -331,7 +341,7 @@
         "Categories":
         [
             {
-                "Id": 8,
+                "Id": 10,
                 "Name": "Time",
                 "Translations":
                 [

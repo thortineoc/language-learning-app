@@ -56,7 +56,7 @@ namespace API.Repositories
                     .First();
 
                 itemToChange.TimesRepeated = pair.Repetitions;
-                if(pair.Repetitions == 3)
+                if(pair.Repetitions == 5)
                 {
                     itemToChange.IsLearned = true;
                 }
